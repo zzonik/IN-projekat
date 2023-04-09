@@ -27,75 +27,39 @@ public class Knjiga {
     private Set<Zanr> zanrovi = new HashSet<>();
     private Double ocena;
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Long id) { this.id = id; }
 
-    public String getNaslov() {
-        return naslov;
-    }
+    public String getNaslov() { return naslov; }
 
-    public void setNaslov(String naslov) {
-        this.naslov = naslov;
-    }
+    public void setNaslov(String naslov) { this.naslov = naslov; }
 
-    public Object getNaslovnaFotografija() {
-        return naslovnaFotografija;
-    }
+    public Object getNaslovnaFotografija() { return naslovnaFotografija; }
 
-    public void setNaslovnaFotografija(Object naslovnaFotografija) {
-        this.naslovnaFotografija = naslovnaFotografija;
-    }
+    public void setNaslovnaFotografija(Object naslovnaFotografija) { this.naslovnaFotografija = naslovnaFotografija; }
 
-    public String getISBN() {
-        return ISBN;
-    }
+    public String getISBN() { return ISBN; }
 
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
-    }
+    public void setISBN(String ISBN) { this.ISBN = ISBN; }
 
-    public Date getDatumObjavljivanja() {
-        return datumObjavljivanja;
-    }
+    public Date getDatumObjavljivanja() { return datumObjavljivanja; }
 
-    public void setDatumObjavljivanja(Date datumObjavljivanja) {
-        this.datumObjavljivanja = datumObjavljivanja;
-    }
+    public void setDatumObjavljivanja(Date datumObjavljivanja) { this.datumObjavljivanja = datumObjavljivanja; }
 
-    public int getBrojStrana() {
-        return brojStrana;
-    }
+    public int getBrojStrana() { return brojStrana; }
 
-    public void setBrojStrana(int brojStrana) {
-        this.brojStrana = brojStrana;
-    }
+    public void setBrojStrana(int brojStrana) { this.brojStrana = brojStrana; }
 
-    public String getOpis() {
-        return opis;
-    }
+    public String getOpis() { return opis; }
 
-    public void setOpis(String opis) {
-        this.opis = opis;
-    }
+    public void setOpis(String opis) { this.opis = opis; }
 
-    public Set<Zanr> getZanrovi() {
-        return zanrovi;
-    }
+    public Set<Zanr> getZanrovi() { return zanrovi; }
 
-    public void setZanrovi(Set<Zanr> zanrovi) {
-        this.zanrovi = zanrovi;
-    }
+    public void setZanrovi(Set<Zanr> zanrovi) { this.zanrovi = zanrovi; }
 
-    public Double getOcena() {
-        return ocena;
-    }
+    public Double getOcena() { return ocena; }
 
-    public void setOcena(Double ocena) {
-        this.ocena = ocena;
-    }
+    public void setOcena(Double ocena) { this.ocena = ocena; }
 }

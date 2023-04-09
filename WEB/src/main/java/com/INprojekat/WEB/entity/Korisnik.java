@@ -25,84 +25,44 @@ public class Korisnik {
     private String opis;
     private Uloga uloga;
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Long id) { this.id = id; }
 
-    public String getIme() {
-        return ime;
-    }
+    public String getIme() { return ime; }
 
-    public void setIme(String ime) {
-        this.ime = ime;
-    }
+    public void setIme(String ime) { this.ime = ime; }
 
-    public String getPrezime() {
-        return prezime;
-    }
+    public String getPrezime() { return prezime; }
 
-    public void setPrezime(String prezime) {
-        this.prezime = prezime;
-    }
+    public void setPrezime(String prezime) { this.prezime = prezime; }
 
-    public String getKorisnickoIme() {
-        return korisnickoIme;
-    }
+    public String getKorisnickoIme() { return korisnickoIme; }
 
-    public void setKorisnickoIme(String korisnickoIme) {
-        this.korisnickoIme = korisnickoIme;
-    }
+    public void setKorisnickoIme(String korisnickoIme) { this.korisnickoIme = korisnickoIme; }
 
-    public String getMail() {
-        return mail;
-    }
+    public String getMail() { return mail; }
 
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
+    public void setMail(String mail) { this.mail = mail; }
 
-    public String getLozinka() {
-        return lozinka;
-    }
+    public String getLozinka() { return lozinka; }
 
-    public void setLozinka(String lozinka) {
-        this.lozinka = lozinka;
-    }
+    public void setLozinka(String lozinka) { this.lozinka = lozinka; }
 
-    public Date getDatumRodjenja() {
-        return datumRodjenja;
-    }
+    public Date getDatumRodjenja() { return datumRodjenja; }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
-        this.datumRodjenja = datumRodjenja;
-    }
+    public void setDatumRodjenja(Date datumRodjenja) { this.datumRodjenja = datumRodjenja; }
 
-    public Object getProfilnaSlika() {
-        return profilnaSlika;
-    }
+    public Object getProfilnaSlika() { return profilnaSlika; }
 
-    public void setProfilnaSlika(Object profilnaSlika) {
-        this.profilnaSlika = profilnaSlika;
-    }
+    public void setProfilnaSlika(Object profilnaSlika) { this.profilnaSlika = profilnaSlika; }
 
-    public String getOpis() {
-        return opis;
-    }
+    public String getOpis() { return opis; }
 
-    public void setOpis(String opis) {
-        this.opis = opis;
-    }
+    public void setOpis(String opis) { this.opis = opis; }
 
-    public Uloga getUloga() {
-        return uloga;
-    }
+    public Uloga getUloga() { return uloga; }
 
-    public void setUloga(Uloga uloga) {
-        this.uloga = uloga;
-    }
+    public void setUloga(Uloga uloga) { this.uloga = uloga; }
 }
 
