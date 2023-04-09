@@ -1,9 +1,6 @@
 package com.INprojekat.WEB.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.awt.image.BufferedImage;
 import java.util.Date;
@@ -28,7 +25,7 @@ public class Korisnik {
     private String opis;
     private Uloga uloga;
 
-    @OneToMany(mappedBy = "korisnik")
+    @OneToMany(mappedBy = "korisnik",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Recenzija> recenzije = new HashSet<>();
 
     public Long getId() { return id; }

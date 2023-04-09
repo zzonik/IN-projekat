@@ -1,5 +1,6 @@
 package com.INprojekat.WEB.entity;
 
+
 import jakarta.persistence.*;
 
 @Entity
