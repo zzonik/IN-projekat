@@ -1,13 +1,13 @@
 package com.INprojekat.WEB.entity;
 
 public class Zanr {
-    private String zanr_knjige;
+    private String naziv;
 
     public void setZanr(String zanr) {
-        this.zanr_knjige = zanr;
+        this.naziv = zanr;
     }
 
     public String getZanr_knjige() {
-        return zanr_knjige;
+        return naziv;
     }
 }
