@@ -1,6 +1,11 @@
 package com.INprojekat.WEB.entity;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class Recenzija {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ocena;
     private String tekst;
     private String datum;

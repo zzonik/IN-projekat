@@ -1,7 +1,15 @@
 package com.INprojekat.WEB.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 enum Status {na_cekanju,odobren,odbijen}
+@Entity
 public class ZANA {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String email;
     private String telefon;
     private String poruka;

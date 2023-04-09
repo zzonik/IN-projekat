@@ -1,6 +1,15 @@
 package com.INprojekat.WEB.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Polica {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String Naziv;
     private boolean primarna;
     private Stavka_Police s_police;
