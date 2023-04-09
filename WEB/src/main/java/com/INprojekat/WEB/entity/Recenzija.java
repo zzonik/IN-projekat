@@ -1,11 +1,11 @@
 package com.INprojekat.WEB.entity;
 
-public class Rezencija {
+public class Recenzija {
     private double ocena;
 
     private String tekst;
 
     private String datum_recenzije;
 
-    private
+    private Korisnik korisnik;
 }
