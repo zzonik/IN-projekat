@@ -10,6 +10,7 @@ enum Status {na_cekanju,odobren,odbijen}
 public class ZANA {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String email;
     private String telefon;
     private String poruka;

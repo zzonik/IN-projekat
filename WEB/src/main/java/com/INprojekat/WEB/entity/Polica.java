@@ -10,6 +10,7 @@ public class Polica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String Naziv;
     private boolean primarna;
     private Stavka_Police s_police;

@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 public class Stavka_Police {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Recenzija recenzija;
 
     private Knjiga knjiga;
