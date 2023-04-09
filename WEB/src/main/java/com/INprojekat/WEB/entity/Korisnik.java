@@ -3,9 +3,12 @@ package com.INprojekat.WEB.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import java.awt.image.BufferedImage;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 enum Uloga {CITALAC, AUTOR, ADMINISTRATOR};
 @Entity
@@ -24,6 +27,9 @@ public class Korisnik {
     private Object profilnaSlika; // potrebna doradnja
     private String opis;
     private Uloga uloga;
+
+    @OneToMany(mappedBy = "korisnik")
+    private Set<Recenzija> recenzije = new HashSet<>();
 
     public Long getId() { return id; }
 

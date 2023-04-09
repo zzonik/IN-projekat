@@ -2,17 +2,20 @@ package com.INprojekat.WEB.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Autor {
     @Id
     private Long id;
     private boolean aktivnost;
-    @OneToMany(mappedBy = "autor")
-    private List<Knjiga> knjige;
+    @ManyToMany(mappedBy = "autori")
+    private Set<Knjiga> knjige = new HashSet<>();
 
     public Long getId() { return id; }
 
@@ -22,7 +25,7 @@ public class Autor {
 
     public void setAktivnost(boolean aktivnost) { this.aktivnost = aktivnost; }
 
-    public List<Knjiga> getKnjige() { return knjige; }
+    public Set<Knjiga> getKnjige() { return knjige; }
 
-    public void setKnjige(List<Knjiga> knjige) { this.knjige = knjige; }
+    public void setKnjige(Set<Knjiga> knjige) { this.knjige = knjige; }
 }

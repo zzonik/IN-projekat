@@ -20,12 +20,18 @@ public class Knjiga {
     private Date datumObjavljivanja;
     private int brojStrana;
     private String opis;
+    private Double ocena;
     @ManyToMany
     @JoinTable(name = "knjiga-zanr",
             joinColumns = @JoinColumn(name = "knjiga_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "zanr_id", referencedColumnName = "id"))
     private Set<Zanr> zanrovi = new HashSet<>();
-    private Double ocena;
+
+    @ManyToMany
+    @JoinTable(name = "knjiga-autor",
+            joinColumns = @JoinColumn(name = "knjiga_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "autor_id", referencedColumnName = "id"))
+    private Set<Zanr> autori = new HashSet<>();
 
     public Long getId() { return id; }
 

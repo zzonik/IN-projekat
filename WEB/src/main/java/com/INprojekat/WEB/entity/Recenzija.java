@@ -1,9 +1,6 @@
 package com.INprojekat.WEB.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Recenzija {
@@ -13,6 +10,7 @@ public class Recenzija {
     private int ocena;
     private String tekst;
     private String datum;
+    @ManyToOne
     private Korisnik korisnik;
 
     public int getOcena() { return ocena; }
