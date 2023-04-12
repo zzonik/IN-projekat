@@ -1,4 +1,7 @@
 package com.INprojekat.WEB.repository;
 
-public class PolicaRepository {
+import com.INprojekat.WEB.entity.Polica;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PolicaRepository extends JpaRepository<Polica, Long> {
 }

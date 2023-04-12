@@ -1,4 +1,7 @@
 package com.INprojekat.WEB.repository;
 
-public class KorisnikRepository {
+import com.INprojekat.WEB.entity.Korisnik;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface KorisnikRepository extends JpaRepository<Korisnik, Long> {
 }

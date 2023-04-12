@@ -1,4 +1,7 @@
 package com.INprojekat.WEB.repository;
 
-public class ZANARepository {
+import com.INprojekat.WEB.entity.ZANA;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ZANARepository extends JpaRepository<ZANA, Long> {
 }
