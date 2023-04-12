@@ -1,19 +1,23 @@
 package com.INprojekat.WEB.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-public class Polica {
+public class Polica implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private String Naziv;
+    @Column
     private boolean primarna;
-    private Stavka_Police s_police;
+    @OneToMany
+    private Set<Recenzija> Stavka_Police = new HashSet<>();
 
     public String getNaziv() { return Naziv; }
 
@@ -23,7 +27,11 @@ public class Polica {
 
     public void setPrimarna(boolean primarna) { this.primarna = primarna; }
 
-    public Stavka_Police getS_police() { return s_police; }
+    public Long getId() { return id; }
 
-    public void setS_police(Stavka_Police s_police) { this.s_police = s_police; }
+    public void setId(Long id) { this.id = id; }
+
+    public Set<Recenzija> getStavka_Police() { return Stavka_Police; }
+
+    public void setStavka_Police(Set<Recenzija> stavka_Police) { Stavka_Police = stavka_Police; }
 }

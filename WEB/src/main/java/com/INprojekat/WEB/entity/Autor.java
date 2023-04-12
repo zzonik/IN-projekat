@@ -1,20 +1,19 @@
 package com.INprojekat.WEB.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Autor {
+public class Autor implements Serializable {
     @Id
     private Long id;
+    @Column
     private boolean aktivnost;
-    @ManyToMany(mappedBy = "autori")
+    @OneToMany(mappedBy = "autor")
     private Set<Knjiga> knjige = new HashSet<>();
 
     public Long getId() { return id; }

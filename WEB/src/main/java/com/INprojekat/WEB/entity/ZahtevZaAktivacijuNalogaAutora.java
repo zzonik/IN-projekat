@@ -1,20 +1,25 @@
 package com.INprojekat.WEB.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.io.Serializable;
+import java.util.Date;
 
 enum Status {na_cekanju,odobren,odbijen}
 @Entity
-public class ZANA {
+public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private String email;
+    @Column
     private String telefon;
+    @Column
     private String poruka;
-    private String datum;
+    @Column
+    private Date datum;
+    @Column
     private Status status;
 
     public String getEmail() { return email; }
@@ -29,9 +34,9 @@ public class ZANA {
 
     public void setPoruka(String poruka) { this.poruka = poruka; }
 
-    public String getDatum() { return datum; }
+    public Date getDatum() { return datum; }
 
-    public void setDatum(String datum) { this.datum = datum; }
+    public void setDatum(Date datum) { this.datum = datum; }
 
     public Status getStatus() { return status; }
 

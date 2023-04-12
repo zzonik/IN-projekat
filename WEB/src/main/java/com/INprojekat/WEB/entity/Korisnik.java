@@ -3,13 +3,14 @@ package com.INprojekat.WEB.entity;
 import jakarta.persistence.*;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 enum Uloga {CITALAC, AUTOR, ADMINISTRATOR};
 @Entity
-public class Korisnik {
+public class Korisnik implements Serializable {
     @Id
     private Long id;
     @Column
@@ -18,11 +19,17 @@ public class Korisnik {
     private String prezime;
     @Column
     private String korisnickoIme;
+    @Column
     private String mail;
+    @Column
     private String lozinka;
+    @Column
     private Date datumRodjenja;
-    private Object profilnaSlika; // potrebna doradnja
+
+    //private Object profilnaSlika; // potrebna doradnja
+    @Column
     private String opis;
+    @Column
     private Uloga uloga;
 
     @OneToMany(mappedBy = "korisnik",cascade = CascadeType.ALL, orphanRemoval = true)
@@ -56,9 +63,9 @@ public class Korisnik {
 
     public void setDatumRodjenja(Date datumRodjenja) { this.datumRodjenja = datumRodjenja; }
 
-    public Object getProfilnaSlika() { return profilnaSlika; }
-
-    public void setProfilnaSlika(Object profilnaSlika) { this.profilnaSlika = profilnaSlika; }
+//    public Object getProfilnaSlika() { return profilnaSlika; }
+//
+//    public void setProfilnaSlika(Object profilnaSlika) { this.profilnaSlika = profilnaSlika; }
 
     public String getOpis() { return opis; }
 

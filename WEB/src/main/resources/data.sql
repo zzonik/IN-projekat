@@ -1,0 +1,1 @@
+INSERT INTO ZANR VALUES (1, 'Drama');

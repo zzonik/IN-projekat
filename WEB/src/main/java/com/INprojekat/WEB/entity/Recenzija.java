@@ -3,16 +3,25 @@ package com.INprojekat.WEB.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.Date;
+
 @Entity
-public class Recenzija {
+public class Recenzija implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private int ocena;
+    @Column
     private String tekst;
-    private String datum;
+    @Column
+    private Date datum;
     @ManyToOne
     private Korisnik korisnik;
+
+    @ManyToOne
+    private Knjiga knjiga;
 
     public int getOcena() { return ocena; }
 
@@ -22,9 +31,9 @@ public class Recenzija {
 
     public void setTekst(String tekst) { this.tekst = tekst; }
 
-    public String getDatum() { return datum; }
+    public Date getDatum() { return datum; }
 
-    public void setDatum(String datum) { this.datum = datum; }
+    public void setDatum(Date datum) { this.datum = datum; }
 
     public Korisnik getKorisnik() { return korisnik; }
 
