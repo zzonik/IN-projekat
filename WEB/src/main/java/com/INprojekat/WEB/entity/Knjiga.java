@@ -13,7 +13,9 @@ public class Knjiga implements Serializable {
     private Long id;
     @Column
     private String naslov;
-    //private Object naslovnaFotografija; // potrebna doradnja
+    @Lob
+    @Column(name = "IMAGE")
+    private byte[] naslovnaFotografija;
     @Column
     private String ISBN;
     @Column
@@ -47,9 +49,9 @@ public class Knjiga implements Serializable {
 
     public void setNaslov(String naslov) { this.naslov = naslov; }
 
-//    public Object getNaslovnaFotografija() { return naslovnaFotografija; }
-//
-//    public void setNaslovnaFotografija(Object naslovnaFotografija) { this.naslovnaFotografija = naslovnaFotografija; }
+    public byte[] getNaslovnaFotografija() { return naslovnaFotografija; }
+
+    public void setNaslovnaFotografija(byte[] naslovnaFotografija) { this.naslovnaFotografija = naslovnaFotografija; }
 
     public String getISBN() { return ISBN; }
 
