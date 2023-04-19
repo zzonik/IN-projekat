@@ -13,7 +13,7 @@ public class Autor implements Serializable {
     private Long id;
     @Column
     private boolean aktivnost;
-    @OneToMany(mappedBy = "autor")
+    @ManyToMany(mappedBy = "autori")
     private Set<Knjiga> knjige = new HashSet<>();
 
     public Long getId() { return id; }

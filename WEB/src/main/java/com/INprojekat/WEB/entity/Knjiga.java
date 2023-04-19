@@ -13,9 +13,8 @@ public class Knjiga implements Serializable {
     private Long id;
     @Column
     private String naslov;
-    @Lob
     @Column(name = "IMAGE")
-    private byte[] naslovnaFotografija;
+    private String naslovnaFotografija;
     @Column
     private String ISBN;
     @Column
@@ -38,8 +37,11 @@ public class Knjiga implements Serializable {
     @OneToMany(mappedBy = "knjiga")
     private Set<Recenzija> recenzije = new HashSet<>();
 
-    @ManyToOne
-    private Autor autor;
+    @ManyToMany
+    @JoinTable(name = "knjiga-autor",
+            joinColumns = @JoinColumn(name = "knjiga_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "autor_id", referencedColumnName = "id"))
+    private Set<Zanr> autori = new HashSet<>();
 
     public Long getId() { return id; }
 
@@ -49,9 +51,9 @@ public class Knjiga implements Serializable {
 
     public void setNaslov(String naslov) { this.naslov = naslov; }
 
-    public byte[] getNaslovnaFotografija() { return naslovnaFotografija; }
+    public String getNaslovnaFotografija() { return naslovnaFotografija; }
 
-    public void setNaslovnaFotografija(byte[] naslovnaFotografija) { this.naslovnaFotografija = naslovnaFotografija; }
+    public void setNaslovnaFotografija(String naslovnaFotografija) { this.naslovnaFotografija = naslovnaFotografija; }
 
     public String getISBN() { return ISBN; }
 
@@ -81,7 +83,11 @@ public class Knjiga implements Serializable {
 
     public void setStavka_polica(Set<StavkaPolice> stavka_polica) { this.stavka_polica = stavka_polica; }
 
-    public Autor getAutor() { return autor; }
+    public Set<Recenzija> getRecenzije() { return recenzije; }
 
-    public void setAutor(Autor autor) { this.autor = autor; }
+    public void setRecenzije(Set<Recenzija> recenzije) { this.recenzije = recenzije; }
+
+    public Set<Zanr> getAutori() { return autori; }
+
+    public void setAutori(Set<Zanr> autori) { this.autori = autori; }
 }

@@ -25,9 +25,8 @@ public class Korisnik implements Serializable {
     private String lozinka;
     @Column
     private Date datumRodjenja;
-    @Lob
     @Column(name = "IMAGE")
-    private byte[] profilnaSlika;
+    private String profilnaSlika;
     @Column
     private String opis;
     @Column
@@ -64,9 +63,9 @@ public class Korisnik implements Serializable {
 
     public void setDatumRodjenja(Date datumRodjenja) { this.datumRodjenja = datumRodjenja; }
 
-    public byte[] getProfilnaSlika() { return profilnaSlika; }
+    public String getProfilnaSlika() { return profilnaSlika; }
 
-    public void setProfilnaSlika(byte[] profilnaSlika) { this.profilnaSlika = profilnaSlika; }
+    public void setProfilnaSlika(String profilnaSlika) { this.profilnaSlika = profilnaSlika; }
 
     public String getOpis() { return opis; }
 

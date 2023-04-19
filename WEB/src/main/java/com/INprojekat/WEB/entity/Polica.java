@@ -13,15 +13,15 @@ public class Polica implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private String Naziv;
+    private String naziv;
     @Column
     private boolean primarna;
     @OneToMany
     private Set<Recenzija> Stavka_Police = new HashSet<>();
 
-    public String getNaziv() { return Naziv; }
+    public String getNaziv() { return naziv; }
 
-    public void setNaziv(String naziv) { Naziv = naziv; }
+    public void setNaziv(String naziv) { naziv = naziv; }
 
     public boolean isPrimarna() { return primarna; }
 
