@@ -7,6 +7,7 @@ import java.util.Date;
 
 enum Status {na_cekanju,odobren,odbijen}
 @Entity
+@Table (name = "ZAHTEV")
 public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +22,9 @@ public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
     private Date datum;
     @Column
     private Status status;
+
+    @OneToOne
+    private Autor autor;
 
     public String getEmail() { return email; }
 

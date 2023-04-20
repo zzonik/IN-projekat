@@ -8,13 +8,19 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Autor implements Serializable {
+public class Autor extends Korisnik {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column
     private boolean aktivnost;
-    @ManyToMany(mappedBy = "autori")
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Knjiga> knjige = new HashSet<>();
+
+    @OneToOne
+    private ZahtevZaAktivacijuNalogaAutora Zahtev_za_aktivaciju;
 
     public Long getId() { return id; }
 

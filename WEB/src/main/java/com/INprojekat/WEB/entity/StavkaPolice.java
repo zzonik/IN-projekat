@@ -5,18 +5,18 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table(name = "STAVKE")
 public class StavkaPolice implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+    @JoinColumn(name="recenzija_id")
     private Recenzija recenzija;
 
     @ManyToOne
+    @JoinColumn(name="knjiga_id")
     private Knjiga knjiga;
-
-    @ManyToOne
-    private Polica polica;
 
     public Recenzija getRecenzija() { return recenzija; }
 

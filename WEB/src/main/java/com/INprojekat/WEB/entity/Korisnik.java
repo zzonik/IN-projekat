@@ -10,20 +10,22 @@ import java.util.Set;
 
 enum Uloga {CITALAC, AUTOR, ADMINISTRATOR};
 @Entity
-public class Korisnik implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Korisnik {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String ime;
     @Column
     private String prezime;
-    @Column
+    @Column(name="username")
     private String korisnickoIme;
     @Column
     private String mail;
     @Column
     private String lozinka;
-    @Column
+    @Column(name = "date")
     private Date datumRodjenja;
     @Column(name = "IMAGE")
     private String profilnaSlika;
@@ -34,6 +36,9 @@ public class Korisnik implements Serializable {
 
     @OneToMany(mappedBy = "korisnik",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Recenzija> recenzije = new HashSet<>();
+
+    @OneToMany(mappedBy = "korisnik",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Polica> police = new HashSet<>();
 
     public Long getId() { return id; }
 

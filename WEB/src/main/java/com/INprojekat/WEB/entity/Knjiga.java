@@ -10,6 +10,7 @@ import java.util.Set;
 @Entity
 public class Knjiga implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String naslov;
@@ -17,16 +18,16 @@ public class Knjiga implements Serializable {
     private String naslovnaFotografija;
     @Column
     private String ISBN;
-    @Column
+    @Column(name = "date")
     private Date datumObjavljivanja;
-    @Column
+    @Column(name = "pages")
     private int brojStrana;
     @Column
     private String opis;
     @Column
     private Double ocena;
     @ManyToMany
-    @JoinTable(name = "knjiga-zanr",
+    @JoinTable(name = "knjigazanr",
             joinColumns = @JoinColumn(name = "knjiga_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "zanr_id", referencedColumnName = "id"))
     private Set<Zanr> zanrovi = new HashSet<>();
@@ -38,7 +39,7 @@ public class Knjiga implements Serializable {
     private Set<Recenzija> recenzije = new HashSet<>();
 
     @ManyToMany
-    @JoinTable(name = "knjiga-autor",
+    @JoinTable(name = "knjigaautor",
             joinColumns = @JoinColumn(name = "knjiga_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "autor_id", referencedColumnName = "id"))
     private Set<Zanr> autori = new HashSet<>();

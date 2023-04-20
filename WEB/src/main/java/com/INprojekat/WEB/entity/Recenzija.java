@@ -18,6 +18,7 @@ public class Recenzija implements Serializable {
     @Column
     private Date datum;
     @ManyToOne
+    @JoinColumn(name="korisnik_id")
     private Korisnik korisnik;
 
     @ManyToOne

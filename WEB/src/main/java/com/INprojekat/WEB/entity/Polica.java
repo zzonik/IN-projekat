@@ -19,6 +19,10 @@ public class Polica implements Serializable {
     @OneToMany
     private Set<Recenzija> Stavka_Police = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name="korisnik_id")
+    private Korisnik korisnik;
+
     public String getNaziv() { return naziv; }
 
     public void setNaziv(String naziv) { naziv = naziv; }
