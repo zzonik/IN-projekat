@@ -8,9 +8,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-enum Uloga {CITALAC, AUTOR, ADMINISTRATOR};
+;
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED )
 public class Korisnik {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

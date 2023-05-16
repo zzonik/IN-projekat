@@ -38,4 +38,12 @@ public class Polica implements Serializable {
     public Set<Recenzija> getStavka_Police() { return Stavka_Police; }
 
     public void setStavka_Police(Set<Recenzija> stavka_Police) { Stavka_Police = stavka_Police; }
+
+    public Korisnik getKorisnik() {
+        return korisnik;
+    }
+
+    public void setKorisnik(Korisnik korisnik) {
+        this.korisnik = korisnik;
+    }
 }

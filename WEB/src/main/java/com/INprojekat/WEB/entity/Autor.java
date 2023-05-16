@@ -16,7 +16,7 @@ public class Autor extends Korisnik {
     @ManyToMany(mappedBy = "autori")
     private Set<Knjiga> knjige = new HashSet<>();
 
-    public boolean isAktivnost() { return aktivnost; }
+    public boolean getAktivnost() { return aktivnost; }
 
     public void setAktivnost(boolean aktivnost) { this.aktivnost = aktivnost; }
 

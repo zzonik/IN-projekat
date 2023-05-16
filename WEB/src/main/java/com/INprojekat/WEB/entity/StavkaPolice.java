@@ -29,4 +29,20 @@ public class StavkaPolice implements Serializable {
     public Knjiga getKnjiga() { return knjiga; }
 
     public void setKnjiga(Knjiga knjiga) { this.knjiga = knjiga; }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Polica getPolica() {
+        return polica;
+    }
+
+    public void setPolica(Polica polica) {
+        this.polica = polica;
+    }
 }

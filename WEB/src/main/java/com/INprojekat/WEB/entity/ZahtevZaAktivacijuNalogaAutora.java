@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-enum Status {na_cekanju,odobren,odbijen}
 @Entity
 @Table(name = "ZAHTEV")
 public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
@@ -46,4 +45,20 @@ public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
     public Status getStatus() { return status; }
 
     public void setStatus(Status status) { this.status = status; }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Korisnik getKorisnik() {
+        return korisnik;
+    }
+
+    public void setKorisnik(Korisnik korisnik) {
+        this.korisnik = korisnik;
+    }
 }

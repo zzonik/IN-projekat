@@ -17,6 +17,22 @@ public class Zanr implements Serializable {
     @ManyToMany(mappedBy = "zanrovi")
     private Set<Knjiga> knjige = new HashSet<>();
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Set<Knjiga> getKnjige() {
+        return knjige;
+    }
+
+    public void setKnjige(Set<Knjiga> knjige) {
+        this.knjige = knjige;
+    }
+
     public void setNaziv(String zanr) { this.naziv = zanr; }
 
     public String getNaziv() { return naziv; }

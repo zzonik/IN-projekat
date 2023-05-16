@@ -22,6 +22,7 @@ public class Recenzija implements Serializable {
     private Korisnik korisnik;
 
     @ManyToOne
+    @JoinColumn(name="knjiga_id")
     private Knjiga knjiga;
 
     public int getOcena() { return ocena; }
@@ -39,4 +40,20 @@ public class Recenzija implements Serializable {
     public Korisnik getKorisnik() { return korisnik; }
 
     public void setKorisnik(Korisnik korisnik) { this.korisnik = korisnik; }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Knjiga getKnjiga() {
+        return knjiga;
+    }
+
+    public void setKnjiga(Knjiga knjiga) {
+        this.knjiga = knjiga;
+    }
 }
