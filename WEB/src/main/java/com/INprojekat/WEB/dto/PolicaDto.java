@@ -12,14 +12,12 @@ public class PolicaDto {
     private String naziv;
     private boolean primarna;
     private Set<Recenzija> Stavka_Police = new HashSet<>();
-    private Korisnik korisnik;
 
-    public PolicaDto(Long id, String naziv, boolean primarna, Set<Recenzija> stavka_Police, Korisnik korisnik) {
+    public PolicaDto(Long id, String naziv, boolean primarna, Set<Recenzija> stavka_Police) {
         this.id = id;
         this.naziv = naziv;
         this.primarna = primarna;
-        Stavka_Police = stavka_Police;
-        this.korisnik = korisnik;
+        this.Stavka_Police = stavka_Police;
     }
 
     public PolicaDto(Polica polica) {
@@ -27,7 +25,6 @@ public class PolicaDto {
         this.naziv = polica.getNaziv();
         this.primarna = polica.isPrimarna();
         this.Stavka_Police = polica.getStavka_Police();
-        this.korisnik = polica.getKorisnik();
     }
 
     public Long getId() {
@@ -60,13 +57,5 @@ public class PolicaDto {
 
     public void setStavka_Police(Set<Recenzija> stavka_Police) {
         Stavka_Police = stavka_Police;
-    }
-
-    public Korisnik getKorisnik() {
-        return korisnik;
-    }
-
-    public void setKorisnik(Korisnik korisnik) {
-        this.korisnik = korisnik;
     }
 }

@@ -32,7 +32,7 @@ public class Knjiga implements Serializable {
     @OneToMany(mappedBy = "knjiga")
     private Set<StavkaPolice> stavka_polica = new HashSet<>();
 
-    @OneToMany(mappedBy = "knjiga")
+    @OneToMany
     private Set<Recenzija> recenzije = new HashSet<>();
 
     @ManyToOne

@@ -1,9 +1,6 @@
 package com.INprojekat.WEB.dto;
 
-import com.INprojekat.WEB.entity.Knjiga;
-import com.INprojekat.WEB.entity.Recenzija;
-import com.INprojekat.WEB.entity.StavkaPolice;
-import com.INprojekat.WEB.entity.Zanr;
+import com.INprojekat.WEB.entity.*;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -18,12 +15,12 @@ public class KnjigaDto {
     private Date datumObjavljivanja;
     private String opis;
     private Double ocena;
-    private Set<Zanr> zanrovi = new HashSet<>();
+    private Zanr zanr;
     private Set<StavkaPolice> stavka_polica = new HashSet<>();
     private Set<Recenzija> recenzije = new HashSet<>();
-    private Set<Zanr> autori = new HashSet<>();
+    private Autor autor;
 
-    public KnjigaDto(Long id, String naslov, String naslovnaFotografija, String ISBN, Date datumObjavljivanja, int brojStrana, String opis, Double ocena, Set<Zanr> zanrovi, Set<StavkaPolice> stavka_polica, Set<Recenzija> recenzije, Set<Zanr> autori) {
+    public KnjigaDto(Long id, String naslov, String naslovnaFotografija, String ISBN, Date datumObjavljivanja, int brojStrana, String opis, Double ocena, Zanr zanr, Set<StavkaPolice> stavka_polica, Set<Recenzija> recenzije, Autor autor) {
         this.id = id;
         this.naslov = naslov;
         this.naslovnaFotografija = naslovnaFotografija;
@@ -32,10 +29,10 @@ public class KnjigaDto {
         this.brojStrana = brojStrana;
         this.opis = opis;
         this.ocena = ocena;
-        this.zanrovi = zanrovi;
+        this.zanr = zanr;
         this.stavka_polica = stavka_polica;
         this.recenzije = recenzije;
-        this.autori = autori;
+        this.autor = autor;
     }
 
     public KnjigaDto(Knjiga knjiga) {
@@ -47,10 +44,10 @@ public class KnjigaDto {
         this.brojStrana = knjiga.getBrojStrana();
         this.opis = knjiga.getOpis();
         this.ocena = knjiga.getOcena();
-        this.zanrovi = knjiga.getZanrovi();
+        this.zanr = knjiga.getZanr();
         this.stavka_polica = knjiga.getStavka_polica();
         this.recenzije = knjiga.getRecenzije();
-        this.autori = knjiga.getAutori();
+        this.autor = knjiga.getAutor();
     }
 
     public Long getId() {
@@ -109,14 +106,30 @@ public class KnjigaDto {
         this.ocena = ocena;
     }
 
-    public Set<Zanr> getZanrovi() {
-        return zanrovi;
+    public Date getDatumObjavljivanja() {
+        return datumObjavljivanja;
     }
 
-    public void setZanrovi(Set<Zanr> zanrovi) {
-        this.zanrovi = zanrovi;
+    public void setDatumObjavljivanja(Date datumObjavljivanja) {
+        this.datumObjavljivanja = datumObjavljivanja;
     }
 
+    public Zanr getZanr() {
+        return zanr;
+    }
+
+    public void setZanr(Zanr zanr) {
+        this.zanr = zanr;
+    }
+
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
+    
     public Set<StavkaPolice> getStavka_polica() {
         return stavka_polica;
     }
@@ -133,11 +146,4 @@ public class KnjigaDto {
         this.recenzije = recenzije;
     }
 
-    public Set<Zanr> getAutori() {
-        return autori;
     }
-
-    public void setAutori(Set<Zanr> autori) {
-        this.autori = autori;
-    }
-}

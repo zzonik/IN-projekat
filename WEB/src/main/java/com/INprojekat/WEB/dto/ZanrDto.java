@@ -10,17 +10,13 @@ import java.util.Set;
 public class ZanrDto {
     private Long id;
     private String naziv;
-    private Set<Knjiga> knjige = new HashSet<>();
-
-    public ZanrDto(Long id, String naziv, Set<Knjiga> knjige) {
+    public ZanrDto(Long id, String naziv) {
         this.id = id;
         this.naziv = naziv;
-        this.knjige = knjige;
     }
     public ZanrDto(Zanr zanr) {
         this.id = zanr.getId();
         this.naziv = zanr.getNaziv();
-        this.knjige = zanr.getKnjige();
     }
 
     public Long getId() {
@@ -37,13 +33,5 @@ public class ZanrDto {
 
     public void setNaziv(String naziv) {
         this.naziv = naziv;
-    }
-
-    public Set<Knjiga> getKnjige() {
-        return knjige;
-    }
-
-    public void setKnjige(Set<Knjiga> knjige) {
-        this.knjige = knjige;
     }
 }

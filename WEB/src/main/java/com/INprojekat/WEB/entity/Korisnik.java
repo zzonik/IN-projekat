@@ -34,7 +34,7 @@ public class Korisnik {
     @Column
     private Uloga uloga;
 
-    @OneToMany(mappedBy = "korisnik",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Polica> police = new HashSet<>();
 
     public Long getId() { return id; }

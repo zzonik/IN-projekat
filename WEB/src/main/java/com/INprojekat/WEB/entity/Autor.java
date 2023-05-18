@@ -13,7 +13,7 @@ public class Autor extends Korisnik {
     @Column
     private boolean aktivnost;
 
-    @OneToMany(mappedBy = "autori")
+    @OneToMany
     private Set<Knjiga> knjige = new HashSet<>();
 
     public boolean getAktivnost() { return aktivnost; }

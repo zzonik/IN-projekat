@@ -14,11 +14,9 @@ public class KorisnikDto {
     private String profilnaSlika;
     private String opis;
     private Korisnik.Uloga uloga;
-    private Set<Recenzija> recenzije = new HashSet<>();
     private Set<Polica> police = new HashSet<>();
-    private Set<ZahtevZaAktivacijuNalogaAutora> Zahtevi_za_aktivaciju = new HashSet<>();
 
-    public KorisnikDto(Long id, String ime, String prezime, Date datumRodjenja, String profilnaSlika, String opis, Korisnik.Uloga uloga, Set<Recenzija> recenzije, Set<Polica> police, Set<ZahtevZaAktivacijuNalogaAutora> zahtevi_za_aktivaciju) {
+    public KorisnikDto(Long id, String ime, String prezime, Date datumRodjenja, String profilnaSlika, String opis, Korisnik.Uloga uloga, Set<Polica> police) {
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;
@@ -26,9 +24,7 @@ public class KorisnikDto {
         this.profilnaSlika = profilnaSlika;
         this.opis = opis;
         this.uloga = uloga;
-        this.recenzije = recenzije;
         this.police = police;
-        this.Zahtevi_za_aktivaciju = zahtevi_za_aktivaciju;
     }
 
     public KorisnikDto(Korisnik korisnik) {
@@ -39,10 +35,8 @@ public class KorisnikDto {
         this.profilnaSlika = korisnik.getProfilnaSlika();
         this.opis = korisnik.getOpis();
         this.uloga = korisnik.getUloga();
-        this.recenzije = korisnik.getRecenzije();
         this.police = korisnik.getPolice();
-        this.Zahtevi_za_aktivaciju = korisnik.getZahtevi_za_aktivaciju();
-    }
+        }
 
     public Long getId() {
         return id;
@@ -100,14 +94,6 @@ public class KorisnikDto {
         this.uloga = uloga;
     }
 
-    public Set<Recenzija> getRecenzije() {
-        return recenzije;
-    }
-
-    public void setRecenzije(Set<Recenzija> recenzije) {
-        this.recenzije = recenzije;
-    }
-
     public Set<Polica> getPolice() {
         return police;
     }
@@ -116,11 +102,5 @@ public class KorisnikDto {
         this.police = police;
     }
 
-    public Set<ZahtevZaAktivacijuNalogaAutora> getZahtevi_za_aktivaciju() {
-        return Zahtevi_za_aktivaciju;
-    }
 
-    public void setZahtevi_za_aktivaciju(Set<ZahtevZaAktivacijuNalogaAutora> zahtevi_za_aktivaciju) {
-        Zahtevi_za_aktivaciju = zahtevi_za_aktivaciju;
-    }
 }
