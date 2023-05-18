@@ -8,6 +8,7 @@ import java.util.Date;
 @Entity
 @Table(name = "ZAHTEV")
 public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
+    public enum Status {na_cekanju, odobren, odbijen}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

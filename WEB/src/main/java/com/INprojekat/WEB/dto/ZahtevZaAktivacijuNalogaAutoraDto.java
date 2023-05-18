@@ -1,11 +1,7 @@
 package com.INprojekat.WEB.dto;
 
 import com.INprojekat.WEB.entity.Korisnik;
-import com.INprojekat.WEB.entity.Status;
 import com.INprojekat.WEB.entity.ZahtevZaAktivacijuNalogaAutora;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 import java.util.Date;
 
@@ -15,10 +11,10 @@ public class ZahtevZaAktivacijuNalogaAutoraDto {
     private String telefon;
     private String poruka;
     private Date datum;
-    private Status status;
+    private ZahtevZaAktivacijuNalogaAutora.Status status;
     private Korisnik korisnik;
 
-    public ZahtevZaAktivacijuNalogaAutoraDto(Long id, String email, String telefon, String poruka, Date datum, Status status, Korisnik korisnik) {
+    public ZahtevZaAktivacijuNalogaAutoraDto(Long id, String email, String telefon, String poruka, Date datum, ZahtevZaAktivacijuNalogaAutora.Status status, Korisnik korisnik) {
         this.id = id;
         this.email = email;
         this.telefon = telefon;
@@ -78,11 +74,11 @@ public class ZahtevZaAktivacijuNalogaAutoraDto {
         this.datum = datum;
     }
 
-    public Status getStatus() {
+    public ZahtevZaAktivacijuNalogaAutora.Status getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(ZahtevZaAktivacijuNalogaAutora.Status status) {
         this.status = status;
     }
 

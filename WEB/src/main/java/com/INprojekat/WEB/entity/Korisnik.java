@@ -8,10 +8,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED )
 public class Korisnik {
+    public enum Uloga {CITALAC, AUTOR, ADMINISTRATOR};
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

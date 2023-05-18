@@ -13,12 +13,12 @@ public class KorisnikDto {
     private Date datumRodjenja;
     private String profilnaSlika;
     private String opis;
-    private Uloga uloga;
+    private Korisnik.Uloga uloga;
     private Set<Recenzija> recenzije = new HashSet<>();
     private Set<Polica> police = new HashSet<>();
     private Set<ZahtevZaAktivacijuNalogaAutora> Zahtevi_za_aktivaciju = new HashSet<>();
 
-    public KorisnikDto(Long id, String ime, String prezime, Date datumRodjenja, String profilnaSlika, String opis, Uloga uloga, Set<Recenzija> recenzije, Set<Polica> police, Set<ZahtevZaAktivacijuNalogaAutora> zahtevi_za_aktivaciju) {
+    public KorisnikDto(Long id, String ime, String prezime, Date datumRodjenja, String profilnaSlika, String opis, Korisnik.Uloga uloga, Set<Recenzija> recenzije, Set<Polica> police, Set<ZahtevZaAktivacijuNalogaAutora> zahtevi_za_aktivaciju) {
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;
@@ -92,11 +92,11 @@ public class KorisnikDto {
         this.opis = opis;
     }
 
-    public Uloga getUloga() {
+    public Korisnik.Uloga getUloga() {
         return uloga;
     }
 
-    public void setUloga(Uloga uloga) {
+    public void setUloga(Korisnik.Uloga uloga) {
         this.uloga = uloga;
     }
 
