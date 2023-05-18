@@ -41,5 +41,86 @@ public class KorisnikDto {
         this.uloga = korisnik.getUloga();
         this.recenzije = korisnik.getRecenzije();
         this.police = korisnik.getPolice();
-        this.Zahtevi_za_aktivaciju = korisnik.getZahtevi_za_aktivaciju();    }
+        this.Zahtevi_za_aktivaciju = korisnik.getZahtevi_za_aktivaciju();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getIme() {
+        return ime;
+    }
+
+    public void setIme(String ime) {
+        this.ime = ime;
+    }
+
+    public String getPrezime() {
+        return prezime;
+    }
+
+    public void setPrezime(String prezime) {
+        this.prezime = prezime;
+    }
+
+    public Date getDatumRodjenja() {
+        return datumRodjenja;
+    }
+
+    public void setDatumRodjenja(Date datumRodjenja) {
+        this.datumRodjenja = datumRodjenja;
+    }
+
+    public String getProfilnaSlika() {
+        return profilnaSlika;
+    }
+
+    public void setProfilnaSlika(String profilnaSlika) {
+        this.profilnaSlika = profilnaSlika;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+
+    public Uloga getUloga() {
+        return uloga;
+    }
+
+    public void setUloga(Uloga uloga) {
+        this.uloga = uloga;
+    }
+
+    public Set<Recenzija> getRecenzije() {
+        return recenzije;
+    }
+
+    public void setRecenzije(Set<Recenzija> recenzije) {
+        this.recenzije = recenzije;
+    }
+
+    public Set<Polica> getPolice() {
+        return police;
+    }
+
+    public void setPolice(Set<Polica> police) {
+        this.police = police;
+    }
+
+    public Set<ZahtevZaAktivacijuNalogaAutora> getZahtevi_za_aktivaciju() {
+        return Zahtevi_za_aktivaciju;
+    }
+
+    public void setZahtevi_za_aktivaciju(Set<ZahtevZaAktivacijuNalogaAutora> zahtevi_za_aktivaciju) {
+        Zahtevi_za_aktivaciju = zahtevi_za_aktivaciju;
+    }
 }
