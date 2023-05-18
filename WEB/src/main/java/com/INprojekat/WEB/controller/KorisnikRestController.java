@@ -2,6 +2,7 @@ package com.INprojekat.WEB.controller;
 
 import com.INprojekat.WEB.dto.KnjigaDto;
 import com.INprojekat.WEB.dto.LoginDto;
+import com.INprojekat.WEB.dto.RegisterDto;
 import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.repository.KorisnikRepository;
@@ -47,6 +48,24 @@ public class KorisnikRestController {
 
         session.invalidate();
         return new ResponseEntity("Successfully logged out", HttpStatus.OK);
+    }
+
+    @PostMapping("api/register")
+    public ResponseEntity<?> registerUser(@RequestBody RegisterDto registerDto){
+
+        if(korisnikService.existsMail(registerDto.getMail())){
+            return new ResponseEntity<>("Mail je zauzet!", HttpStatus.BAD_REQUEST);
+        }
+        if(korisnikService.existsKorisnickoIme(registerDto.getMail())){
+            return new ResponseEntity<>("Korisnicko ime je zauzeto!", HttpStatus.BAD_REQUEST);
+        }
+        if(korisnikService.existsLozinka(registerDto.getLozinka())){
+            return new ResponseEntity<>("Loznika je zauzeta!", HttpStatus.BAD_REQUEST);
+        }
+        korisnikService.create(registerDto);
+
+        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+
     }
 
 }

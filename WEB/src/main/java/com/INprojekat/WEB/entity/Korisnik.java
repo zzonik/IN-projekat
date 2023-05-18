@@ -19,11 +19,11 @@ public class Korisnik {
     private String ime;
     @Column
     private String prezime;
-    @Column(name="username")
+    @Column(name="username", unique = true)
     private String korisnickoIme;
-    @Column
+    @Column(unique = true)
     private String mail;
-    @Column
+    @Column(unique = true)
     private String lozinka;
     @Column(name = "date")
     private Date datumRodjenja;
@@ -37,13 +37,14 @@ public class Korisnik {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Polica> police = new HashSet<>();
 
-    public Korisnik(String ime, String prezime, String korisnickoIme, String mail, String lozinka, String profilnaSlika) {
+    public Korisnik(String ime, String prezime, String korisnickoIme, String mail, String lozinka, String profilnaSlika, Uloga uloga) {
         this.ime = ime;
         this.prezime = prezime;
         this.korisnickoIme = korisnickoIme;
         this.mail = mail;
         this.lozinka = lozinka;
         this.profilnaSlika = profilnaSlika;
+        this.uloga = uloga;
     }
     public Korisnik() {
 
