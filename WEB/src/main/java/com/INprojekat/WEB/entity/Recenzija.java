@@ -21,10 +21,6 @@ public class Recenzija implements Serializable {
     @JoinColumn(name="korisnik_id")
     private Korisnik korisnik;
 
-    @ManyToOne
-    @JoinColumn(name="knjiga_id")
-    private Knjiga knjiga;
-
     public int getOcena() { return ocena; }
 
     public void setOcena(int ocena) { this.ocena = ocena; }
@@ -47,13 +43,5 @@ public class Recenzija implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Knjiga getKnjiga() {
-        return knjiga;
-    }
-
-    public void setKnjiga(Knjiga knjiga) {
-        this.knjiga = knjiga;
     }
 }

@@ -23,8 +23,7 @@ public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
     @Column
     private Status status;
 
-    @ManyToOne
-    @JoinColumn(name="korisnik_id")
+    @OneToOne
     private Korisnik korisnik;
 
     public String getEmail() { return email; }
