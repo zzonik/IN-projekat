@@ -1,31 +1,31 @@
 package com.INprojekat.WEB.dto;
 
 public class LoginDto {
-    private String username;
+    private String mail;
 
-    private String password;
+    private String lozinka;
 
     public LoginDto() {
     }
 
-    public LoginDto(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public LoginDto(String mail, String lozinka) {
+        this.mail = mail;
+        this.lozinka = lozinka;
     }
 
-    public String getUsername() {
-        return username;
+    public String getMail() {
+        return mail;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
-    public String getPassword() {
-        return password;
+    public String getLozinka() {
+        return lozinka;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setLozinka(String lozinka) {
+        this.lozinka = lozinka;
     }
 }

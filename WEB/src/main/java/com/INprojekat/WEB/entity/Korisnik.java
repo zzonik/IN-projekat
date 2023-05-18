@@ -37,6 +37,18 @@ public class Korisnik {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Polica> police = new HashSet<>();
 
+    public Korisnik(String ime, String prezime, String korisnickoIme, String mail, String lozinka, String profilnaSlika) {
+        this.ime = ime;
+        this.prezime = prezime;
+        this.korisnickoIme = korisnickoIme;
+        this.mail = mail;
+        this.lozinka = lozinka;
+        this.profilnaSlika = profilnaSlika;
+    }
+    public Korisnik() {
+
+    }
+
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }

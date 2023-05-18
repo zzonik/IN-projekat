@@ -32,6 +32,10 @@ public class DatabaseConfiguration {
 
     @Bean
     public boolean instantiate(){
+        Korisnik ker = new Korisnik("Dejan", "Bodiroga", "rogxon", "bodirogaroga@gmail.com", "nabodiroga",  "/dejo");
+        korisnikRepository.saveAll(
+                List.of(ker)
+        );
         return true;
     }
 }

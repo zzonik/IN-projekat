@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -19,13 +20,17 @@ import java.util.List;
 public class KorisnikRestController {
     @Autowired
     private KorisnikService korisnikService;
+    @GetMapping("/api/")
+    public String welcome(){
+        return "Hello from api!";
+    }
 
     @PostMapping("api/login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto, HttpSession session){
-        if(loginDto.getUsername().isEmpty() || loginDto.getPassword().isEmpty())
+        if(loginDto.getMail().isEmpty() || loginDto.getLozinka().isEmpty())
             return new ResponseEntity("Invalid login data", HttpStatus.BAD_REQUEST);
 
-        Korisnik loggedKorisnik = korisnikService.login(loginDto.getUsername(), loginDto.getPassword());
+        Korisnik loggedKorisnik = korisnikService.login(loginDto.getMail(), loginDto.getLozinka());
         if (loggedKorisnik == null)
             return new ResponseEntity<>("User does not exist!", HttpStatus.NOT_FOUND);
 
