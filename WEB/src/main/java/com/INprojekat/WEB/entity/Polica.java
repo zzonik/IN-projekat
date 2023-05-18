@@ -19,10 +19,6 @@ public class Polica implements Serializable {
     @OneToMany
     private Set<Recenzija> Stavka_Police = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name="korisnik_id")
-    private Korisnik korisnik;
-
     public String getNaziv() { return naziv; }
 
     public void setNaziv(String naziv) { naziv = naziv; }
@@ -39,11 +35,4 @@ public class Polica implements Serializable {
 
     public void setStavka_Police(Set<Recenzija> stavka_Police) { Stavka_Police = stavka_Police; }
 
-    public Korisnik getKorisnik() {
-        return korisnik;
-    }
-
-    public void setKorisnik(Korisnik korisnik) {
-        this.korisnik = korisnik;
-    }
 }

@@ -26,11 +26,8 @@ public class Knjiga implements Serializable {
     private String opis;
     @Column
     private Double ocena;
-    @ManyToMany
-    @JoinTable(name = "knjigazanr",
-            joinColumns = @JoinColumn(name = "knjiga_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "zanr_id", referencedColumnName = "id"))
-    private Set<Zanr> zanrovi = new HashSet<>();
+    @OneToOne
+    private Zanr zanr;
 
     @OneToMany(mappedBy = "knjiga")
     private Set<StavkaPolice> stavka_polica = new HashSet<>();
@@ -38,11 +35,8 @@ public class Knjiga implements Serializable {
     @OneToMany(mappedBy = "knjiga")
     private Set<Recenzija> recenzije = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "knjigaautor",
-            joinColumns = @JoinColumn(name = "knjiga_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "autor_id", referencedColumnName = "id"))
-    private Set<Zanr> autori = new HashSet<>();
+    @ManyToOne
+    private Autor autor;
 
     public Long getId() { return id; }
 
@@ -72,9 +66,13 @@ public class Knjiga implements Serializable {
 
     public void setOpis(String opis) { this.opis = opis; }
 
-    public Set<Zanr> getZanrovi() { return zanrovi; }
+    public Zanr getZanr() {
+        return zanr;
+    }
 
-    public void setZanrovi(Set<Zanr> zanrovi) { this.zanrovi = zanrovi; }
+    public void setZanr(Zanr zanr) {
+        this.zanr = zanr;
+    }
 
     public Double getOcena() { return ocena; }
 
@@ -88,7 +86,11 @@ public class Knjiga implements Serializable {
 
     public void setRecenzije(Set<Recenzija> recenzije) { this.recenzije = recenzije; }
 
-    public Set<Zanr> getAutori() { return autori; }
+    public Autor getAutor() {
+        return autor;
+    }
 
-    public void setAutori(Set<Zanr> autori) { this.autori = autori; }
+    public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
 }

@@ -35,13 +35,7 @@ public class Korisnik {
     private Uloga uloga;
 
     @OneToMany(mappedBy = "korisnik",cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Recenzija> recenzije = new HashSet<>();
-
-    @OneToMany(mappedBy = "korisnik",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Polica> police = new HashSet<>();
-
-    @OneToMany
-    private Set<ZahtevZaAktivacijuNalogaAutora> Zahtevi_za_aktivaciju = new HashSet<>();
 
     public Long getId() { return id; }
 
@@ -83,14 +77,6 @@ public class Korisnik {
 
     public void setUloga(Uloga uloga) { this.uloga = uloga; }
 
-    public Set<Recenzija> getRecenzije() {
-        return recenzije;
-    }
-
-    public void setRecenzije(Set<Recenzija> recenzije) {
-        this.recenzije = recenzije;
-    }
-
     public Set<Polica> getPolice() {
         return police;
     }
@@ -99,12 +85,5 @@ public class Korisnik {
         this.police = police;
     }
 
-    public Set<ZahtevZaAktivacijuNalogaAutora> getZahtevi_za_aktivaciju() {
-        return Zahtevi_za_aktivaciju;
-    }
-
-    public void setZahtevi_za_aktivaciju(Set<ZahtevZaAktivacijuNalogaAutora> zahtevi_za_aktivaciju) {
-        Zahtevi_za_aktivaciju = zahtevi_za_aktivaciju;
-    }
 }
 
