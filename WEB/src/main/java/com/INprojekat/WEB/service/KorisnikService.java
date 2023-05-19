@@ -1,7 +1,15 @@
 package com.INprojekat.WEB.service;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+import com.INprojekat.WEB.dto.KorisnikDto;
+import com.INprojekat.WEB.dto.RegisterDto;
+import com.INprojekat.WEB.dto.UpdateDto;
+>>>>>>> Stashed changes
+=======
+import com.INprojekat.WEB.dto.RegisterDto;
+
 import com.INprojekat.WEB.dto.KorisnikDto;
 import com.INprojekat.WEB.dto.RegisterDto;
 import com.INprojekat.WEB.dto.UpdateDto;
@@ -26,7 +34,11 @@ public class KorisnikService {
         return  korisnik;
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+
+>>>>>>> Stashed changes
     public Korisnik create(RegisterDto registerDto) {
         Korisnik korisnik = new Korisnik();
         korisnik.setIme(registerDto.getIme());
@@ -39,6 +51,10 @@ public class KorisnikService {
         return save(korisnik);
     }
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     public Korisnik findOne(Long id){
         Optional<Korisnik> foundKorisnik = korisnikRepository.findById(id);
         if (foundKorisnik.isPresent())
@@ -79,5 +95,8 @@ public class KorisnikService {
 
     public Korisnik save(Korisnik korisnik) { return korisnikRepository.save(korisnik);}
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }

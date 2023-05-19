@@ -30,6 +30,9 @@ public class PolicaDto {
         this.korisnik = polica.getKorisnik();
     }
 
+    public PolicaDto(){
+    }
+
     public Long getId() {
         return id;
     }

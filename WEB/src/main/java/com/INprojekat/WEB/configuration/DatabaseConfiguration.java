@@ -1,6 +1,7 @@
 package com.INprojekat.WEB.configuration;
 
 import com.INprojekat.WEB.entity.Korisnik;
+import com.INprojekat.WEB.entity.Polica;
 import com.INprojekat.WEB.entity.Recenzija;
 import com.INprojekat.WEB.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,15 @@ public class DatabaseConfiguration {
                 List.of(ker, admin)
         );
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+        Polica polica1 = new Polica("Want to Read", true );
+        Polica polica2 = new Polica("Currently Reading", true );
+        Polica polica3 = new Polica("Read", true );
+        policaRepository.saveAll(
+                List.of(polica1, polica2, polica3)
+        );
 >>>>>>> Stashed changes
         return true;
     }
