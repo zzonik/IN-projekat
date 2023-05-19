@@ -20,7 +20,7 @@ public class KnjigaDto {
     private Set<Recenzija> recenzije = new HashSet<>();
     private Autor autor;
 
-    public KnjigaDto(Long id, String naslov, String naslovnaFotografija, String ISBN, Date datumObjavljivanja, int brojStrana, String opis, Double ocena, Zanr zanr, Set<StavkaPolice> stavka_polica, Set<Recenzija> recenzije, Autor autor) {
+    public KnjigaDto(Long id, String naslov, String naslovnaFotografija, String ISBN, Date datumObjavljivanja, int brojStrana, String opis, Double ocena, Zanr zanr, Set<Recenzija> recenzije, Autor autor) {
         this.id = id;
         this.naslov = naslov;
         this.naslovnaFotografija = naslovnaFotografija;
@@ -30,7 +30,6 @@ public class KnjigaDto {
         this.opis = opis;
         this.ocena = ocena;
         this.zanr = zanr;
-        this.stavka_polica = stavka_polica;
         this.recenzije = recenzije;
         this.autor = autor;
     }
@@ -45,7 +44,6 @@ public class KnjigaDto {
         this.opis = knjiga.getOpis();
         this.ocena = knjiga.getOcena();
         this.zanr = knjiga.getZanr();
-        this.stavka_polica = knjiga.getStavka_polica();
         this.recenzije = knjiga.getRecenzije();
         this.autor = knjiga.getAutor();
     }

@@ -1,5 +1,6 @@
 package com.INprojekat.WEB.configuration;
 
+import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.entity.Polica;
 import com.INprojekat.WEB.entity.Recenzija;
@@ -8,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +36,7 @@ public class DatabaseConfiguration {
     private ZanrRepository zanrRepository;
 
     @Bean
-    public boolean instantiate(){
+    public boolean instantiate() throws ParseException {
         Korisnik ker = new Korisnik("Dejan", "Bodiroga", "rogxon", "bodirogaroga@gmail.com", "nabodiroga",  "/dejo", Korisnik.Uloga.CITALAC);
         Korisnik admin = new Korisnik("Milka", "Canic", "milkica", "milka123@gmail.com", "milka32",  "/dobro", Korisnik.Uloga.ADMINISTRATOR);
         korisnikRepository.saveAll(
@@ -46,6 +50,8 @@ public class DatabaseConfiguration {
                 List.of(polica1, polica2, polica3)
         );
 
+        Knjiga knjiga1 = new Knjiga("Braca Karamazovi", "/23", "132421", 943, "Najjjjjaca");
+        knjigaRepository.save(knjiga1);
         return true;
     }
 }

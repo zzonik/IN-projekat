@@ -1,5 +1,6 @@
 package com.INprojekat.WEB.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -37,6 +38,16 @@ public class Knjiga implements Serializable {
 
     @ManyToOne
     private Autor autor;
+
+    public Knjiga(String naslov, String naslovnaFotografija, String ISBN, int brojStrana, String opis) {
+        this.naslov = naslov;
+        this.naslovnaFotografija = naslovnaFotografija;
+        this.ISBN = ISBN;
+        this.brojStrana = brojStrana;
+        this.opis = opis;
+    }
+    public Knjiga() {
+    }
 
     public Long getId() { return id; }
 

@@ -19,13 +19,7 @@ public class KnjigaRestController {
 
     @GetMapping("/api/knjige")
     public ResponseEntity<List<KnjigaDto>> getKnjige(HttpSession session){
-        List<Knjiga> knjigeList = knjigaService.findAll();
-
-        List<KnjigaDto> dtos = new ArrayList<>();
-        for(Knjiga knjiga : knjigeList){
-            KnjigaDto dto = new KnjigaDto(knjiga);
-            dtos.add(dto);
-        }
+        List<KnjigaDto> dtos = knjigaService.findAll();
         return ResponseEntity.ok(dtos);
     }
 
