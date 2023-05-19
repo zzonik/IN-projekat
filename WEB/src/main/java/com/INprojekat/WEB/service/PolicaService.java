@@ -28,9 +28,26 @@ public class PolicaService {
         Polica polica;
         polica = new Polica();
         polica.setNaziv(policaAddDto.getNaziv());
-        polica.setPrimarna(policaAddDto.isPrimarna());
+        polica.setPrimarna(false);
 
         return save(polica);
+    }
+
+    public void main3(){
+        Polica WantToRead = new Polica();
+        WantToRead.setNaziv("Want To Read");
+        WantToRead.setPrimarna(true);
+        save(WantToRead);
+
+        Polica CurrentlyReading = new Polica();
+        CurrentlyReading.setNaziv("CurrentlyReading");
+        CurrentlyReading.setPrimarna(true);
+        save(CurrentlyReading);
+
+        Polica Read = new Polica();
+        Read.setNaziv("Read");
+        Read.setPrimarna(true);
+        save(Read);
     }
 
     public Boolean existsPolica(String naziv) { return policaRepository.existsByNaziv(naziv); }

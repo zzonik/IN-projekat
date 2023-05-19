@@ -8,6 +8,7 @@ import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.repository.KorisnikRepository;
 import com.INprojekat.WEB.service.KorisnikService;
+import com.INprojekat.WEB.service.PolicaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,9 @@ import java.util.List;
 public class KorisnikRestController {
     @Autowired
     private KorisnikService korisnikService;
+    @Autowired
+    private PolicaService policaService;
+
     @GetMapping("/api/")
     public String welcome(){
         return "Hello from api!";
@@ -64,12 +68,13 @@ public class KorisnikRestController {
             return new ResponseEntity<>("Loznika je zauzeta!", HttpStatus.BAD_REQUEST);
         }
         korisnikService.create(registerDto);
+        policaService.main3();
 
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
 
     }
 
-    @PutMapping("/update_user")
+    @PutMapping("api/update_user")
     public ResponseEntity<?> updateUser(@RequestBody UpdateDto updateDto,HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
 

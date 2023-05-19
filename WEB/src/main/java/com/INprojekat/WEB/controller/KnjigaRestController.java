@@ -22,5 +22,6 @@ public class KnjigaRestController {
         List<KnjigaDto> dtos = knjigaService.findAll();
         return ResponseEntity.ok(dtos);
     }
-
 }
+
+
