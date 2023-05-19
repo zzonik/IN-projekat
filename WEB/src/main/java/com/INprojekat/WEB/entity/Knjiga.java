@@ -41,6 +41,16 @@ public class Knjiga implements Serializable {
     @JoinColumn(name = "autor_id")
     private Autor autor;
 
+    public Knjiga(String naslov, String naslovnaFotografija, String ISBN, int brojStrana, String opis) {
+        this.naslov = naslov;
+        this.naslovnaFotografija = naslovnaFotografija;
+        this.ISBN = ISBN;
+        this.brojStrana = brojStrana;
+        this.opis = opis;
+    }
+    public Knjiga() {
+    }
+
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }

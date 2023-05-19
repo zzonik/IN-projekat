@@ -10,4 +10,5 @@ public class StavkaPoliceService {
     @Autowired
     private StavkaPoliceRepository stavkaPoliceRepository;
 
+
 }
