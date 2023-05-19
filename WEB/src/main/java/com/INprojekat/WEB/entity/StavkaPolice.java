@@ -1,5 +1,6 @@
 package com.INprojekat.WEB.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ public class StavkaPolice implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="knjiga_id")
+    @JsonIgnore
     private Knjiga knjiga;
 
     public Recenzija getRecenzija() { return recenzija; }

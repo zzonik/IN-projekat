@@ -2,10 +2,16 @@ package com.INprojekat.WEB.service;
 
 import com.INprojekat.WEB.dto.RegisterDto;
 
+
 import com.INprojekat.WEB.dto.KorisnikDto;
 import com.INprojekat.WEB.dto.RegisterDto;
 import com.INprojekat.WEB.dto.UpdateDto;
 import com.INprojekat.WEB.dto.RegisterDto;
+
+import com.INprojekat.WEB.dto.KorisnikDto;
+import com.INprojekat.WEB.dto.RegisterDto;
+import com.INprojekat.WEB.dto.UpdateDto;
+
 
 import com.INprojekat.WEB.dto.KorisnikDto;
 import com.INprojekat.WEB.dto.RegisterDto;
@@ -34,6 +40,7 @@ public class KorisnikService {
     public Korisnik create(RegisterDto registerDto) {
         Korisnik korisnik = new Korisnik();
         korisnik.setIme(registerDto.getIme());
+        korisnik.setPrezime(registerDto.getPrezime());
         korisnik.setKorisnickoIme(registerDto.getKorisnickoIme());
         korisnik.setMail(registerDto.getMail());
         korisnik.setLozinka(registerDto.getLozinka());
@@ -63,6 +70,7 @@ public class KorisnikService {
         korisnik.setProfilnaSlika(updateDto.getNaslovnaFotografija());
         korisnik.setDatumRodjenja(updateDto.getDatumRodjenja());
         korisnik.setOpis(updateDto.getOpis());
+        korisnik.setUloga(Korisnik.Uloga.CITALAC);
 
         if(korisnik.getLozinka() != null && !updateDto.getLozinka().isEmpty()) {
 

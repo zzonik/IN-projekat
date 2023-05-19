@@ -13,8 +13,24 @@ public class Autor extends Korisnik {
     @Column
     private boolean aktivnost;
 
-    @OneToMany
+    @OneToMany(
+            mappedBy = "autor",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL)
     private Set<Knjiga> knjige = new HashSet<>();
+
+    public Autor(String ime, String prezime, String korisnickoIme, String mail, String lozinka, String profilnaSlika, Uloga uloga, boolean aktivnost) {
+        super(ime, prezime, korisnickoIme, mail, lozinka, profilnaSlika, uloga);
+        this.aktivnost = aktivnost;
+    }
+
+
+    public Autor(boolean aktivnost, Set<Knjiga> knjige) {
+        this.aktivnost = aktivnost;
+        this.knjige = knjige;
+    }
+    public Autor() {
+    }
 
     public boolean getAktivnost() { return aktivnost; }
 
