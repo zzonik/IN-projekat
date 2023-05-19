@@ -3,6 +3,7 @@ package com.INprojekat.WEB.controller;
 import com.INprojekat.WEB.dto.KnjigaDto;
 import com.INprojekat.WEB.dto.LoginDto;
 import com.INprojekat.WEB.dto.RegisterDto;
+import com.INprojekat.WEB.dto.*;
 import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.repository.KorisnikRepository;
@@ -65,6 +66,19 @@ public class KorisnikRestController {
         korisnikService.create(registerDto);
 
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+
+    }
+
+    @PutMapping("/update_user")
+    public ResponseEntity<?> updateUser(@RequestBody UpdateDto updateDto,HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+
+        if (loggedKorisnik == null)
+            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
+
+        korisnikService.updateUser( loggedKorisnik.getId() ,updateDto);
+
+        return new ResponseEntity<>("User updateded successfully", HttpStatus.OK);
 
     }
 
