@@ -1,15 +1,16 @@
 package com.INprojekat.WEB.service;
 
-<<<<<<< HEAD
 import com.INprojekat.WEB.dto.RegisterDto;
-=======
-<<<<<<< Updated upstream
-=======
+
 import com.INprojekat.WEB.dto.KorisnikDto;
 import com.INprojekat.WEB.dto.RegisterDto;
 import com.INprojekat.WEB.dto.UpdateDto;
->>>>>>> Stashed changes
->>>>>>> Search-and-view
+import com.INprojekat.WEB.dto.RegisterDto;
+
+import com.INprojekat.WEB.dto.KorisnikDto;
+import com.INprojekat.WEB.dto.RegisterDto;
+import com.INprojekat.WEB.dto.UpdateDto;
+
 import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.repository.KorisnikRepository;
 import jakarta.persistence.Id;
@@ -29,11 +30,7 @@ public class KorisnikService {
             return null;
         return  korisnik;
     }
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> Search-and-view
+
     public Korisnik create(RegisterDto registerDto) {
         Korisnik korisnik = new Korisnik();
         korisnik.setIme(registerDto.getIme());
@@ -46,8 +43,6 @@ public class KorisnikService {
         return save(korisnik);
     }
 
-<<<<<<< HEAD
-=======
     public Korisnik findOne(Long id){
         Optional<Korisnik> foundKorisnik = korisnikRepository.findById(id);
         if (foundKorisnik.isPresent())
@@ -82,15 +77,10 @@ public class KorisnikService {
         return save(korisnik);
     }
 
->>>>>>> Search-and-view
     public Boolean existsMail(String mail) { return korisnikRepository.existsByMail(mail); }
     public Boolean existsLozinka(String mail) { return korisnikRepository.existsByLozinka(mail); }
     public Boolean existsKorisnickoIme(String mail) { return korisnikRepository.existsByKorisnickoIme(mail); }
 
     public Korisnik save(Korisnik korisnik) { return korisnikRepository.save(korisnik);}
 
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> Search-and-view
 }

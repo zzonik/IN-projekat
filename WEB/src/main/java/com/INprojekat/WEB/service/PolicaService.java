@@ -1,5 +1,6 @@
 package com.INprojekat.WEB.service;
 
+import com.INprojekat.WEB.dto.PolicaAddDto;
 import com.INprojekat.WEB.dto.PolicaDto;
 import com.INprojekat.WEB.dto.RegisterDto;
 import com.INprojekat.WEB.entity.Knjiga;
@@ -23,9 +24,11 @@ public class PolicaService {
         return policaRepository.findAll();
     }
 
-    public Polica create(PolicaDto policaDto) {
-        Polica polica = new Polica();
-        polica.setNaziv(policaDto.getNaziv());
+    public Polica create(PolicaAddDto policaAddDto) {
+        Polica polica;
+        polica = new Polica();
+        polica.setNaziv(policaAddDto.getNaziv());
+        polica.setPrimarna(policaAddDto.isPrimarna());
 
         return save(polica);
     }

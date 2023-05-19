@@ -1,6 +1,7 @@
 package com.INprojekat.WEB.controller;
 
 import com.INprojekat.WEB.dto.KnjigaDto;
+import com.INprojekat.WEB.dto.PolicaAddDto;
 import com.INprojekat.WEB.dto.PolicaDto;
 import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Polica;
@@ -11,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +34,14 @@ public class PolicaRestController {
         }
         return ResponseEntity.ok(dtos);
     }
-    @GetMapping("/api/police/add")
-    public ResponseEntity<?> addPolica(PolicaDto policaDto) {
+    @PostMapping("/api/police-add")
+    public ResponseEntity<?> addPolica(@RequestBody PolicaAddDto policaAddDto) {
 
-        if (policaService.existsPolica(policaDto.getNaziv())) {
+        if (policaService.existsPolica(policaAddDto.getNaziv())) {
             return new ResponseEntity<>("Ime police je zauzeto!", HttpStatus.BAD_REQUEST);
         }
 
-        policaService.create(policaDto);
+        policaService.create(policaAddDto);
 
         return new ResponseEntity<>("Shelf added successfully", HttpStatus.OK);
 

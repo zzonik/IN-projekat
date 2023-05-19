@@ -27,6 +27,9 @@ public class PolicaDto {
         this.Stavka_Police = polica.getStavka_Police();
     }
 
+    public PolicaDto(){
+    }
+
     public Long getId() {
         return id;
     }

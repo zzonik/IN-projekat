@@ -19,20 +19,50 @@ public class Polica implements Serializable {
     @OneToMany
     private Set<Recenzija> Stavka_Police = new HashSet<>();
 
-    public String getNaziv() { return naziv; }
+    public Polica(Long id, String naziv, boolean primarna, Set<Recenzija> stavka_Police) {
+        this.id = id;
+        this.naziv = naziv;
+        this.primarna = primarna;
+        Stavka_Police = stavka_Police;
+    }
 
-    public void setNaziv(String naziv) { naziv = naziv; }
+    public Polica(String naziv, boolean primarna) {
+        this.naziv = naziv;
+        this.primarna = primarna;
+    }
 
-    public boolean isPrimarna() { return primarna; }
+    public Polica() {
+    }
 
-    public void setPrimarna(boolean primarna) { this.primarna = primarna; }
+    public Long getId() {
+        return id;
+    }
 
-    public Long getId() { return id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public void setId(Long id) { this.id = id; }
+    public String getNaziv() {
+        return naziv;
+    }
 
-    public Set<Recenzija> getStavka_Police() { return Stavka_Police; }
+    public void setNaziv(String naziv) {
+        this.naziv = naziv;
+    }
 
-    public void setStavka_Police(Set<Recenzija> stavka_Police) { Stavka_Police = stavka_Police; }
+    public boolean isPrimarna() {
+        return primarna;
+    }
 
+    public void setPrimarna(boolean primarna) {
+        this.primarna = primarna;
+    }
+
+    public Set<Recenzija> getStavka_Police() {
+        return Stavka_Police;
+    }
+
+    public void setStavka_Police(Set<Recenzija> stavka_Police) {
+        Stavka_Police = stavka_Police;
+    }
 }
