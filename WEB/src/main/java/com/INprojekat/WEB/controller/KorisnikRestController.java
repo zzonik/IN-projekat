@@ -66,7 +66,6 @@ public class KorisnikRestController {
         korisnikService.create(registerDto);
 
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
-
     }
 
     @PutMapping("/update_user")

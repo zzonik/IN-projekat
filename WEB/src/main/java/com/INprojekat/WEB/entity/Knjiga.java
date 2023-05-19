@@ -1,6 +1,8 @@
 package com.INprojekat.WEB.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -30,12 +32,13 @@ public class Knjiga implements Serializable {
     private Zanr zanr;
 
     @OneToMany(mappedBy = "knjiga")
+    @JsonIgnore
     private Set<StavkaPolice> stavka_polica = new HashSet<>();
 
     @OneToMany
     private Set<Recenzija> recenzije = new HashSet<>();
-
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "autor_id")
     private Autor autor;
 
     public Long getId() { return id; }

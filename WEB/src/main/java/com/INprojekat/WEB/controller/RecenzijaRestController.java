@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 public class RecenzijaRestController {
-
     @Autowired
     private RecenzijaService recenzijaService;
 
