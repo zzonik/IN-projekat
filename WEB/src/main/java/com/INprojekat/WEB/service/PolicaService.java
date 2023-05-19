@@ -1,7 +1,42 @@
 package com.INprojekat.WEB.service;
 
+import com.INprojekat.WEB.dto.PolicaDto;
+import com.INprojekat.WEB.dto.RegisterDto;
+import com.INprojekat.WEB.entity.Knjiga;
+import com.INprojekat.WEB.entity.Korisnik;
+import com.INprojekat.WEB.entity.Polica;
+import com.INprojekat.WEB.repository.KnjigaRepository;
+import com.INprojekat.WEB.repository.PolicaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PolicaService {
+
+    @Autowired
+    private PolicaRepository policaRepository;
+
+    public List<Polica> findAll(){
+        return policaRepository.findAll();
+    }
+
+    public Polica create(PolicaDto policaDto) {
+        Polica polica = new Polica();
+        polica.setNaziv(policaDto.getNaziv());
+
+        return save(polica);
+    }
+
+    public Boolean existsPolica(String naziv) { return policaRepository.existsByNaziv(naziv); }
+
+    public Polica save(Polica polica) { return policaRepository.save(polica);}
+
+    public void deletePolica(Long id) throws ChangeSetPersister.NotFoundException {
+        Polica polica = policaRepository.findById(id)
+                .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
+        policaRepository.delete(polica);
+    }
 }

@@ -1,7 +1,11 @@
 package com.INprojekat.WEB.controller;
 
+<<<<<<< Updated upstream
 import com.INprojekat.WEB.dto.KnjigaDto;
 import com.INprojekat.WEB.dto.LoginDto;
+=======
+import com.INprojekat.WEB.dto.*;
+>>>>>>> Stashed changes
 import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.repository.KorisnikRepository;
@@ -22,7 +26,12 @@ public class KorisnikRestController {
 
     @PostMapping("api/login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto, HttpSession session){
+<<<<<<< Updated upstream
         if(loginDto.getUsername().isEmpty() || loginDto.getPassword().isEmpty())
+=======
+
+        if(loginDto.getMail().isEmpty() || loginDto.getLozinka().isEmpty())
+>>>>>>> Stashed changes
             return new ResponseEntity("Invalid login data", HttpStatus.BAD_REQUEST);
 
         Korisnik loggedKorisnik = korisnikService.login(loginDto.getUsername(), loginDto.getPassword());
@@ -35,6 +44,7 @@ public class KorisnikRestController {
 
     @PostMapping("api/logout")
     public ResponseEntity Logout(HttpSession session){
+
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
 
         if (loggedKorisnik == null)
@@ -44,4 +54,38 @@ public class KorisnikRestController {
         return new ResponseEntity("Successfully logged out", HttpStatus.OK);
     }
 
+<<<<<<< Updated upstream
+=======
+    @PostMapping("api/register")
+    public ResponseEntity<?> registerUser(@RequestBody RegisterDto registerDto){
+
+        if(korisnikService.existsMail(registerDto.getMail())){
+            return new ResponseEntity<>("Mail je zauzet!", HttpStatus.BAD_REQUEST);
+        }
+        if(korisnikService.existsKorisnickoIme(registerDto.getMail())){
+            return new ResponseEntity<>("Korisnicko ime je zauzeto!", HttpStatus.BAD_REQUEST);
+        }
+        if(korisnikService.existsLozinka(registerDto.getLozinka())){
+            return new ResponseEntity<>("Loznika je zauzeta!", HttpStatus.BAD_REQUEST);
+        }
+        korisnikService.create(registerDto);
+
+        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+
+    }
+
+    @PutMapping("/update_user")
+    public ResponseEntity<?> updateUser(@RequestBody UpdateDto updateDto,HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+
+        if (loggedKorisnik == null)
+            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
+
+        korisnikService.updateUser( loggedKorisnik.getId() ,updateDto);
+
+        return new ResponseEntity<>("User updateded successfully", HttpStatus.OK);
+
+    }
+
+>>>>>>> Stashed changes
 }
