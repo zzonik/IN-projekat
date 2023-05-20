@@ -1,6 +1,7 @@
 INSERT INTO KNJIGA (naslov, IMAGE, ISBN, date, pages, opis, ocena) VALUES ('Naruto','slika.jpg','E821932', '1999-09-27', 44, 'Manga',8);
 
 INSERT INTO KORISNIK (ime, prezime, username, mail, lozinka, date, IMAGE, opis, uloga) VALUES ('Dule','Savic','Dule_Rana','dulesavic55@gmaiil.com','1234crvenkapa','1955-06-01','slika1.jpg','Visok, mlad i lep',1);
+INSERT INTO KORISNIK (ime, prezime, username, mail, lozinka, date, IMAGE, opis, uloga) VALUES ('Dudsle','Sadsvic','Ddsule_Rana','duldsds@gmaiil.com','12ds','19553-06-01','slika21.jpg','dsa',1);
 
 INSERT INTO POLICA (naziv, primarna) VALUES ('mange', 1);
 
@@ -12,5 +13,5 @@ INSERT INTO STAVKE (recenzija_id, knjiga_id) VALUES (1, 1);
 
 INSERT INTO ZANR VALUES (1, 'Drama');
 
-INSERT INTO AUTOR (id ,aktivnost) VALUES (1,1);
+INSERT INTO AUTOR (id ,aktivnost) VALUES (3,0);
 

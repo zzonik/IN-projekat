@@ -8,15 +8,12 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Autor extends Korisnik {
+public class Autor extends Korisnik implements Serializable {
 
     @Column
     private boolean aktivnost;
 
-    @OneToMany(
-            mappedBy = "autor",
-            orphanRemoval = true,
-            cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
     private Set<Knjiga> knjige = new HashSet<>();
 
     public Autor(String ime, String prezime, String korisnickoIme, String mail, String lozinka, String profilnaSlika, Uloga uloga, boolean aktivnost) {
@@ -30,6 +27,11 @@ public class Autor extends Korisnik {
         this.knjige = knjige;
     }
     public Autor() {
+    }
+
+    public void addKnjiga(Knjiga knjiga) {
+        knjige.add(knjiga);
+        knjiga.setAutor(this);
     }
 
     public boolean getAktivnost() { return aktivnost; }

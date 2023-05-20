@@ -37,7 +37,7 @@ public class RecenzijaRestController {
 
     }
 
-    @DeleteMapping("/api/police/{id}")
+    @DeleteMapping("/api/recenzije/{id}")
     public ResponseEntity<Void> deleteRecenzija(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
 
         recenzijaService.deleteRecenzija(id);

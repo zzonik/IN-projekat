@@ -1,5 +1,6 @@
 package com.INprojekat.WEB.entity;
 
+import com.INprojekat.WEB.dto.ZahtevZaAktivacijuNalogaAutoraDto;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -8,6 +9,7 @@ import java.util.Date;
 @Entity
 @Table(name = "ZAHTEV")
 public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
+
     public enum Status {na_cekanju, odobren, odbijen}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +24,29 @@ public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
     private Date datum;
     @Column
     private Status status;
-
-    @OneToOne
+    @ManyToOne
     private Korisnik korisnik;
+
+    public ZahtevZaAktivacijuNalogaAutora(Long id, String email, String telefon, String poruka, Date datum, Status status, Korisnik korisnik) {
+        this.id = id;
+        this.email = email;
+        this.telefon = telefon;
+        this.poruka = poruka;
+        this.datum = datum;
+        this.status = status;
+        this.korisnik = korisnik;
+    }
+    public ZahtevZaAktivacijuNalogaAutora(ZahtevZaAktivacijuNalogaAutoraDto zanaDto) {
+        this.id = zanaDto.getId();
+        this.email = zanaDto.getEmail();
+        this.telefon = zanaDto.getTelefon();
+        this.poruka = zanaDto.getPoruka();
+        this.datum = zanaDto.getDatum();
+        this.status = zanaDto.getStatus();
+        this.korisnik = zanaDto.getKorisnik();
+    }
+    public ZahtevZaAktivacijuNalogaAutora() {
+    }
 
     public String getEmail() { return email; }
 

@@ -37,8 +37,7 @@ public class Knjiga implements Serializable {
 
     @OneToMany
     private Set<Recenzija> recenzije = new HashSet<>();
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "autor_id")
+    @ManyToOne
     private Autor autor;
 
     public Knjiga(String naslov, String naslovnaFotografija, String ISBN, int brojStrana, String opis) {

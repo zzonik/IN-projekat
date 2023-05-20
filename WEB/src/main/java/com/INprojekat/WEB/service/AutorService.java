@@ -9,13 +9,18 @@ import com.INprojekat.WEB.repository.AutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AutorService {
 
     @Autowired
     private AutorRepository autorRepository;
+    public Autor findOne(Long id) {
+        return (Autor) autorRepository.findById(id).orElse(null);
+    }
 
-    public Korisnik create(AutorRegisterDto autorRegisterDto) {
+    public Autor create(AutorRegisterDto autorRegisterDto) {
         Autor autor = new Autor();
         autor.setIme(autorRegisterDto.getIme());
         autor.setPrezime(autorRegisterDto.getPrezime());

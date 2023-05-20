@@ -1,5 +1,6 @@
 package com.INprojekat.WEB.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.awt.image.BufferedImage;
@@ -10,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED )
-public class Korisnik {
+public class Korisnik implements Serializable{
     public enum Uloga {CITALAC, AUTOR, ADMINISTRATOR};
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +35,11 @@ public class Korisnik {
     @Column
     private Uloga uloga;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany
+    @JsonIgnore
+    private Set<ZahtevZaAktivacijuNalogaAutora> zahtevZaAktivacijuNalogaAutora = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Polica> police = new HashSet<>();
 
     public Korisnik(String ime, String prezime, String korisnickoIme, String mail, String lozinka, String profilnaSlika, Uloga uloga) {
