@@ -73,7 +73,21 @@ public class KorisnikRestController {
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
     }
 
-    @PutMapping("api/update_user")
+    @GetMapping("/api/korisnici")
+    public ResponseEntity<List<KorisnikDto>> getKorisnici(){
+        List<KorisnikDto> dtos = korisnikService.findAll();
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/api/korisnik{id}")
+    public ResponseEntity<KorisnikDto> getKorisnik(@PathVariable Long id){
+
+        KorisnikDto korisnikDto = korisnikService.findOne(id);
+
+        return ResponseEntity.ok(korisnikDto);
+    }
+
+    @PutMapping("api/update-korisnik")
     public ResponseEntity<?> updateUser(@RequestBody UpdateDto updateDto,HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
 
