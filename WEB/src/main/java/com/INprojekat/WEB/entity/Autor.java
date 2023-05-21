@@ -21,10 +21,23 @@ public class Autor extends Korisnik implements Serializable {
         this.aktivnost = aktivnost;
     }
 
-
+    public Autor(Korisnik korisnik, boolean aktivnost){
+        this.setId(korisnik.getId());
+        this.setIme(korisnik.getIme());
+        this.setPrezime(korisnik.getPrezime());
+        this.setKorisnickoIme(korisnik.getKorisnickoIme());
+        this.setMail(korisnik.getMail());
+        this.setLozinka(korisnik.getLozinka());
+        this.setProfilnaSlika(korisnik.getProfilnaSlika());
+        this.setUloga(korisnik.getUloga());
+        this.aktivnost = aktivnost;
+    }
     public Autor(boolean aktivnost, Set<Knjiga> knjige) {
         this.aktivnost = aktivnost;
         this.knjige = knjige;
+    }
+    public Autor(boolean aktivnost) {
+        this.aktivnost = aktivnost;
     }
     public Autor() {
     }

@@ -27,8 +27,8 @@ public class AutorService {
         autor.setKorisnickoIme(autorRegisterDto.getKorisnickoIme());
         autor.setMail(autorRegisterDto.getMail());
         autor.setLozinka(autorRegisterDto.getLozinka());
-
         autor.setUloga(Korisnik.Uloga.AUTOR);
+        autor.setAktivnost(false);
 
         return save(autor);
     }

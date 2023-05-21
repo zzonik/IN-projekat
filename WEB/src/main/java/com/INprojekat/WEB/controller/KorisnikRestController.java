@@ -4,14 +4,12 @@ import com.INprojekat.WEB.dto.KnjigaDto;
 import com.INprojekat.WEB.dto.LoginDto;
 import com.INprojekat.WEB.dto.RegisterDto;
 import com.INprojekat.WEB.dto.*;
+import com.INprojekat.WEB.entity.Autor;
 import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.entity.ZahtevZaAktivacijuNalogaAutora;
 import com.INprojekat.WEB.repository.KorisnikRepository;
-import com.INprojekat.WEB.service.AutorService;
-import com.INprojekat.WEB.service.KorisnikService;
-import com.INprojekat.WEB.service.PolicaService;
-import com.INprojekat.WEB.service.ZahtevZaAktivacijuNalogaAutoraService;
+import com.INprojekat.WEB.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +33,8 @@ public class KorisnikRestController {
     @Autowired
     private AutorService autorService;
 
+    @Autowired
+    private ZanrService zanrService;
     @Autowired
     private ZahtevZaAktivacijuNalogaAutoraService zahtevZaAktivacijuNalogaAutoraService;
 
@@ -116,7 +116,11 @@ public class KorisnikRestController {
             zanaDto.setStatus(ZahtevZaAktivacijuNalogaAutora.Status.odobren);
             zahtevZaAktivacijuNalogaAutoraService.saveDto(zanaDto);
 
-            //AUTORA POSTAVITI DA BUDE AKTIVAN
+            Long ID = zanaDto.getKorisnik().getId();
+            Autor autor = autorService.findOne(ID);
+            autor.setAktivnost(true);
+            autorService.save(autor);
+            policaService.main3();
 
             Properties properties = new Properties();
             properties.put("mail.smtp.auth", "true");
@@ -224,6 +228,16 @@ public class KorisnikRestController {
     public ResponseEntity<?> zahtevGet(HttpSession session) {
         List<ZahtevZaAktivacijuNalogaAutoraDto> dtos = zahtevZaAktivacijuNalogaAutoraService.findAll();
         return ResponseEntity.ok(dtos);
+    }
+    @PostMapping("/api/admin/zanr-add")
+    public ResponseEntity<?> addZanr(@RequestBody ZanrAddDto zanrAddDto, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
+            zanrService.create(zanrAddDto);
+            return new ResponseEntity<>("Zanr dodat", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
