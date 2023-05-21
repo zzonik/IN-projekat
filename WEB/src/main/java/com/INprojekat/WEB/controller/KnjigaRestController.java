@@ -51,7 +51,7 @@ public class KnjigaRestController {
             return new ResponseEntity<>("Book is already added!", HttpStatus.BAD_REQUEST);
         }
 
-        knjigaService.add(id,id2,knjigaAddDto);
+       // knjigaService.add(id,id2,knjigaAddDto);
 
         return new ResponseEntity<>("Book added successfully", HttpStatus.OK);
 
