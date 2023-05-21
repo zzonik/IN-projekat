@@ -12,6 +12,7 @@ import com.INprojekat.WEB.repository.KorisnikRepository;
 import com.INprojekat.WEB.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import javax.mail.*;
@@ -35,6 +36,8 @@ public class KorisnikRestController {
 
     @Autowired
     private ZanrService zanrService;
+    @Autowired
+    private KnjigaService knjigaService;
     @Autowired
     private ZahtevZaAktivacijuNalogaAutoraService zahtevZaAktivacijuNalogaAutoraService;
 
@@ -235,6 +238,53 @@ public class KorisnikRestController {
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
             zanrService.create(zanrAddDto);
             return new ResponseEntity<>("Zanr dodat", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("/api/admin/knjiga-add")
+    public ResponseEntity<?> addKnjiga(@RequestBody KnjigaAutorDto knjigaAutorDto, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
+            knjigaService.create(knjigaAutorDto);
+            return new ResponseEntity<>("Knjiga dodata", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("api/admin/knjiga/{id}/update_knjiga")
+    public ResponseEntity<?> updateKnjigaAdmin(@RequestBody UpdateKnjigaDto updateKnjigaDto,@PathVariable("id") Long knjigaId, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
+            knjigaService.updateKnjigaAdmin(knjigaId, updateKnjigaDto);
+            return new ResponseEntity<>("Knjiga azurirana", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+        }
+    }
+    @DeleteMapping("/api/knjiga-AdminDelete/{id}")
+    public ResponseEntity<Void> deleteKnjiga(@PathVariable Long id, HttpSession session) throws ChangeSetPersister.NotFoundException {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
+            knjigaService.deleteKnjiga(id);
+            return ResponseEntity.noContent().build();
+        }else {
+            return null;
+        }
+    }
+
+    @PutMapping("/api/admin/update_autor/{autorId}/")
+    public ResponseEntity<?> updateAutor(@RequestBody UpdateDto updateDto, @PathVariable Long autorId, HttpSession session) throws ChangeSetPersister.NotFoundException {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
+            Autor autor = autorService.findOne(autorId);
+            if(!autor.getAktivnost()){
+                autorService.updateAutor(autorId, updateDto);
+                return new ResponseEntity<>("Autor azuriran", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Autor je aktivan", HttpStatus.BAD_REQUEST);
+            }
         }else {
             return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
         }

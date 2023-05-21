@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AutorRepository extends JpaRepository<Autor, Long> {
     Autor getByMail(String mail);
+    Autor findAutorById(Long id);
     Boolean existsByMail(String mail);
     Boolean existsByLozinka(String mail);
     Boolean existsByKorisnickoIme(String mail);

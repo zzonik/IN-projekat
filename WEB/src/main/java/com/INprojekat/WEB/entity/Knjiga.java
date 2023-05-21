@@ -38,6 +38,7 @@ public class Knjiga implements Serializable {
     @OneToMany
     private Set<Recenzija> recenzije = new HashSet<>();
     @ManyToOne
+    @JsonIgnore
     private Autor autor;
 
     public Knjiga(String naslov, String naslovnaFotografija, String ISBN, int brojStrana, String opis) {
@@ -62,9 +63,13 @@ public class Knjiga implements Serializable {
 
     public void setNaslovnaFotografija(String naslovnaFotografija) { this.naslovnaFotografija = naslovnaFotografija; }
 
-    public String getISBN() { return ISBN; }
+    public String getISBN() {
+        return ISBN;
+    }
 
-    public void setISBN(String ISBN) { this.ISBN = ISBN; }
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
 
     public Date getDatumObjavljivanja() { return datumObjavljivanja; }
 
