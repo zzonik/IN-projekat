@@ -7,6 +7,7 @@ import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.entity.Polica;
 import com.INprojekat.WEB.entity.StavkaPolice;
 import com.INprojekat.WEB.entity.Zanr;
+import com.INprojekat.WEB.entity.StavkaPolice;
 import com.INprojekat.WEB.repository.StavkaPoliceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -22,6 +23,7 @@ public class StavkaPoliceService {
     @Autowired
     private StavkaPoliceRepository stavkaPoliceRepository;
 
+    public StavkaPolice save(StavkaPolice stavka) { return  stavkaPoliceRepository.save(stavka);}
 
     public StavkaPoliceDto findOne(Long id){
         Optional<StavkaPolice> foundStavka = stavkaPoliceRepository.findById(id);
@@ -57,6 +59,4 @@ public class StavkaPoliceService {
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
         stavkaPoliceRepository.delete(stavkaPolice);
     }
-
-    public StavkaPolice save(StavkaPolice stavkaPolice) { return stavkaPoliceRepository.save(stavkaPolice); }
 }

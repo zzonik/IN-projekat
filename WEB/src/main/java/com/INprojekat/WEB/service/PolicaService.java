@@ -8,20 +8,33 @@ import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.entity.Polica;
 import com.INprojekat.WEB.entity.Zanr;
+import com.INprojekat.WEB.dto.StavkaPoliceDto;
+import com.INprojekat.WEB.entity.Knjiga;
+import com.INprojekat.WEB.entity.Korisnik;
+import com.INprojekat.WEB.entity.Polica;
+import com.INprojekat.WEB.entity.StavkaPolice;
 import com.INprojekat.WEB.repository.KnjigaRepository;
 import com.INprojekat.WEB.repository.PolicaRepository;
+import com.INprojekat.WEB.repository.StavkaPoliceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PolicaService {
 
     @Autowired
     private PolicaRepository policaRepository;
+    @Autowired
+    private  KnjigaRepository knjigaRepository;
+    @Autowired
+    private KorisnikService korisnikService;
+
+    @Autowired
+    private StavkaPoliceRepository stavkaPoliceRepository;
 
     public PolicaDto findOne(Long id){
         Optional<Polica> foundPolica = policaRepository.findById(id);
@@ -69,5 +82,24 @@ public class PolicaService {
         Polica polica = policaRepository.findById(id)
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
         policaRepository.delete(polica);
+    }
+    public void addKnjigaOnPolica(Long policaId, Long knjigaId) throws ChangeSetPersister.NotFoundException {
+        Polica polica = policaRepository.findById(policaId).orElse(null);
+        Knjiga knjiga = knjigaRepository.findById(knjigaId).orElse(null);
+        StavkaPolice stavkaPolice = new StavkaPolice();
+        stavkaPolice.setKnjiga(knjiga);
+        stavkaPoliceRepository.save(stavkaPolice);
+        polica.getStavkePolica().add(stavkaPolice);
+        save(polica);
+
+    }
+    public Set<PolicaDto> getPolice(Long id) {
+        Korisnik korisnik = korisnikService.findOne(id);
+        Set<Polica> police = korisnik.getPolice();
+        Set<PolicaDto> dtos = new HashSet<>();
+        for(Polica polica: police){
+            PolicaDto dto = new PolicaDto(polica);
+        }
+        return dtos;
     }
 }

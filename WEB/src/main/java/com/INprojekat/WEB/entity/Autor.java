@@ -1,5 +1,7 @@
 package com.INprojekat.WEB.entity;
 
+import com.INprojekat.WEB.dto.AutorRegisterDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -14,6 +16,7 @@ public class Autor extends Korisnik implements Serializable {
     private boolean aktivnost;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Knjiga> knjige = new HashSet<>();
 
     public Autor(String ime, String prezime, String korisnickoIme, String mail, String lozinka, String profilnaSlika, Uloga uloga, boolean aktivnost) {
@@ -31,6 +34,15 @@ public class Autor extends Korisnik implements Serializable {
         this.setProfilnaSlika(korisnik.getProfilnaSlika());
         this.setUloga(korisnik.getUloga());
         this.aktivnost = aktivnost;
+    }
+    public Autor(AutorRegisterDto dto){
+        this.setIme(dto.getIme());
+        this.setPrezime(dto.getPrezime());
+        this.setKorisnickoIme(dto.getKorisnickoIme());
+        this.setMail(dto.getMail());
+        this.setLozinka(dto.getLozinka());
+        this.setProfilnaSlika(dto.getProfilnaSlika());
+        this.setUloga(Uloga.AUTOR);
     }
     public Autor(boolean aktivnost, Set<Knjiga> knjige) {
         this.aktivnost = aktivnost;

@@ -1,54 +1,34 @@
 package com.INprojekat.WEB.dto;
 
-import com.INprojekat.WEB.entity.*;
+import com.INprojekat.WEB.entity.Zanr;
+import jakarta.persistence.Column;
+import jakarta.persistence.OneToOne;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-public class KnjigaAutorDto {
+public class UpdateKnjigaDto {
     private String naslov;
     private String naslovnaFotografija;
     private String isbn;
-    private int brojStrana;
     private Date datumObjavljivanja;
+    private int brojStrana;
     private String opis;
     private Long zanrId;
-    private Long autorId;
 
-    public KnjigaAutorDto(String naslov, String naslovnaFotografija, String ISBN, int brojStrana, Date datumObjavljivanja, String opis, Long autorId, Long zanrId) {
+    public UpdateKnjigaDto(String naslov, String naslovnaFotografija, String isbn, Date datumObjavljivanja, int brojStrana, String opis, Long zanrId) {
         this.naslov = naslov;
         this.naslovnaFotografija = naslovnaFotografija;
-        this.isbn = ISBN;
-        this.brojStrana = brojStrana;
+        this.isbn = isbn;
         this.datumObjavljivanja = datumObjavljivanja;
+        this.brojStrana = brojStrana;
         this.opis = opis;
-        this.autorId = autorId;
         this.zanrId = zanrId;
     }
-    public KnjigaAutorDto(Knjiga knjiga) {
-        this.naslov = knjiga.getNaslov();
-        this.naslovnaFotografija = knjiga.getNaslovnaFotografija();
-        this.isbn = knjiga.getISBN();
-        this.brojStrana = knjiga.getBrojStrana();
-        this.datumObjavljivanja = knjiga.getDatumObjavljivanja();
-        this.opis = knjiga.getOpis();
-        this.autorId = knjiga.getAutor().getId();
-        this.zanrId = knjiga.getZanr().getId();
-    }
-    public KnjigaAutorDto() {
+    public UpdateKnjigaDto() {
     }
 
     public String getNaslov() {
         return naslov;
-    }
-
-    public Long getAutorId() {
-        return autorId;
-    }
-
-    public void setAutorId(Long autorId) {
-        this.autorId = autorId;
     }
 
     public void setNaslov(String naslov) {
@@ -71,20 +51,20 @@ public class KnjigaAutorDto {
         this.isbn = ISBN;
     }
 
-    public int getBrojStrana() {
-        return brojStrana;
-    }
-
-    public void setBrojStrana(int brojStrana) {
-        this.brojStrana = brojStrana;
-    }
-
     public Date getDatumObjavljivanja() {
         return datumObjavljivanja;
     }
 
     public void setDatumObjavljivanja(Date datumObjavljivanja) {
         this.datumObjavljivanja = datumObjavljivanja;
+    }
+
+    public int getBrojStrana() {
+        return brojStrana;
+    }
+
+    public void setBrojStrana(int brojStrana) {
+        this.brojStrana = brojStrana;
     }
 
     public String getOpis() {
@@ -98,6 +78,7 @@ public class KnjigaAutorDto {
     public Long getZanrId() {
         return zanrId;
     }
+
     public void setZanrId(Long zanrId) {
         this.zanrId = zanrId;
     }
