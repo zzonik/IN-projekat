@@ -34,6 +34,7 @@ public class PolicaRestController {
         }
         return ResponseEntity.ok(dtos);
     }
+
     @PostMapping("/api/police-add")
     public ResponseEntity<?> addPolica(@RequestBody PolicaAddDto policaAddDto) {
 
@@ -46,12 +47,11 @@ public class PolicaRestController {
         return new ResponseEntity<>("Shelf added successfully", HttpStatus.OK);
 
     }
-    @DeleteMapping("/api/police/{id}")
+    @DeleteMapping("/api/police{id}")
     public ResponseEntity<Void> deletePolica(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
 
         policaService.deletePolica(id);
 
         return ResponseEntity.noContent().build();
     }
-
 }

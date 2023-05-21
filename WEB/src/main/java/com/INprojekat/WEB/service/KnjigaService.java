@@ -1,5 +1,6 @@
 package com.INprojekat.WEB.service;
 
+
 import com.INprojekat.WEB.dto.KnjigaAutorDto;
 import com.INprojekat.WEB.dto.KnjigaDto;
 import com.INprojekat.WEB.entity.Autor;
@@ -7,7 +8,16 @@ import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.repository.KnjigaRepository;
 import jakarta.persistence.GeneratedValue;
+
+import com.INprojekat.WEB.dto.*;
+import com.INprojekat.WEB.entity.*;
+import com.INprojekat.WEB.repository.KnjigaRepository;
+import com.INprojekat.WEB.repository.PolicaRepository;
+import com.INprojekat.WEB.repository.RecenzijaRepository;
+import com.INprojekat.WEB.repository.StavkaPoliceRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,8 +31,27 @@ public class KnjigaService {
     private KnjigaRepository knjigaRepository;
 
     @Autowired
+
     private AutorService autorService;
 
+    private RecenzijaRepository recenzijaRepository;
+
+    @Autowired
+    private StavkaPoliceRepository stavkaPoliceRepository;
+
+    @Autowired
+    private KorisnikService korisnikService;
+
+    @Autowired
+    private PolicaService policaService;
+
+    public KnjigaDto findOne(Long id){
+        Optional<Knjiga> foundKnjiga = knjigaRepository.findById(id);
+        if (foundKnjiga.isPresent()) {
+            return new KnjigaDto(foundKnjiga.get());
+        }
+        return null;
+    }
 
 
     public List<KnjigaDto> findAll(){
@@ -36,6 +65,19 @@ public class KnjigaService {
         return dtos;
 
     }
+
+    public Knjiga create(Long id, KnjigaAutorDto knjigaAutorDto) {
+        Korisnik korisnik = korisnikService.findOne(id);
+        Autor autor = new Autor();
+        autor.setIme(korisnik.getIme());
+        autor.setPrezime(korisnik.getPrezime());
+        autor.setKorisnickoIme(korisnik.getKorisnickoIme());
+        autor.setMail(korisnik.getMail());
+        autor.setLozinka(korisnik.getLozinka());
+        autor.setProfilnaSlika(korisnik.getProfilnaSlika());
+        autor.setUloga(korisnik.getUloga());
+        autor.setAktivnost(true);
+
 
     public Knjiga create(Long autorId, KnjigaAutorDto knjigaAutorDto) {
         Autor autor = autorService.findOne(autorId);
@@ -54,15 +96,22 @@ public class KnjigaService {
         return save(knjiga);
     }
 
-    public Knjiga save(Knjiga knjiga) {
-        return knjigaRepository.save(knjiga);
+    public void deleteKnjiga(Long id,Long id2) throws ChangeSetPersister.NotFoundException {
+        Knjiga knjiga = knjigaRepository.findById(id)
+                .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
+        PolicaDto policaDto = policaService.findOne(id2);
+        if(policaDto.isPrimarna()){
+            for(StavkaPolice stavkaPolice: stavkaPoliceRepository.findAll()){
+                if(stavkaPolice.getKnjiga().getId() == id);
+                knjigaRepository.delete(knjiga);
+            }
+        }
+        knjigaRepository.delete(knjiga);
     }
 
-    public Knjiga findOne(Long id){
-        Optional<Knjiga> foundKnjiga = knjigaRepository.findById(id);
-        if (foundKnjiga.isPresent())
-            return foundKnjiga.get();
+    public Boolean existsKnjiga(String naziv) { return knjigaRepository.existsByNaziv(naziv); }
 
-        return null;
-    }
+    public Knjiga save(Knjiga knjiga) { return knjigaRepository.save(knjiga); }
+
 }
+

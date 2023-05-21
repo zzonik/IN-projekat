@@ -3,6 +3,7 @@ package com.INprojekat.WEB.controller;
 import com.INprojekat.WEB.dto.*;
 import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
+import com.INprojekat.WEB.entity.Recenzija;
 import com.INprojekat.WEB.service.RecenzijaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,21 @@ import java.util.List;
 public class RecenzijaRestController {
     @Autowired
     private RecenzijaService recenzijaService;
-//izmena
+//izmena #2
+    @GetMapping("/api/recenzije")
+    public ResponseEntity<List<RecenzijaDto>> getRecenzije(HttpSession session){
+        List<RecenzijaDto> dtos = recenzijaService.findAll();
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/api/recenzija{id}")
+    public ResponseEntity<Recenzija> getRecenzija(@PathVariable Long id){
+
+        Recenzija recenzija = recenzijaService.findOne(id);
+
+        return ResponseEntity.ok(recenzija);
+    }
+
     @PostMapping("/api/recenzija-add")
     public ResponseEntity<?> addRecenzija(@RequestBody RecenzijaDto recenzijaDto) {
 
@@ -37,7 +52,9 @@ public class RecenzijaRestController {
 
     }
 
-    @DeleteMapping("/api/recenzije/{id}")
+
+    @DeleteMapping("/api/recenzija{id}")
+
     public ResponseEntity<Void> deleteRecenzija(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
 
         recenzijaService.deleteRecenzija(id);

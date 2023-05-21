@@ -1,28 +1,30 @@
 package com.INprojekat.WEB.service;
 
-import com.INprojekat.WEB.dto.RegisterDto;
+import com.INprojekat.WEB.dto.*;
 
 
-import com.INprojekat.WEB.dto.KorisnikDto;
 import com.INprojekat.WEB.dto.RegisterDto;
-import com.INprojekat.WEB.dto.UpdateDto;
 import com.INprojekat.WEB.dto.RegisterDto;
-
-import com.INprojekat.WEB.dto.KorisnikDto;
-import com.INprojekat.WEB.dto.RegisterDto;
-import com.INprojekat.WEB.dto.UpdateDto;
-
 
 import com.INprojekat.WEB.dto.KorisnikDto;
 import com.INprojekat.WEB.dto.RegisterDto;
 import com.INprojekat.WEB.dto.UpdateDto;
 
+
+import com.INprojekat.WEB.dto.KorisnikDto;
+import com.INprojekat.WEB.dto.RegisterDto;
+import com.INprojekat.WEB.dto.UpdateDto;
+
+import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
+import com.INprojekat.WEB.entity.Zanr;
 import com.INprojekat.WEB.repository.KorisnikRepository;
 import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,6 +32,7 @@ public class KorisnikService {
 
     @Autowired
     private KorisnikRepository korisnikRepository;
+
     public Korisnik login(String username, String password) {
         Korisnik korisnik = korisnikRepository.getByMail(username);
         if(korisnik == null || !korisnik.getLozinka().equals(password))
@@ -50,11 +53,23 @@ public class KorisnikService {
         return save(korisnik);
     }
 
+    public List<KorisnikDto> findAll(){
+        List<Korisnik> korisniciList = korisnikRepository.findAll();
+
+        List<KorisnikDto> dtos = new ArrayList<>();
+        for(Korisnik korisnik : korisniciList){
+            KorisnikDto dto = new KorisnikDto(korisnik);
+            dtos.add(dto);
+        }
+        return dtos;
+
+    }
+
     public Korisnik findOne(Long id){
         Optional<Korisnik> foundKorisnik = korisnikRepository.findById(id);
-        if (foundKorisnik.isPresent())
+        if (foundKorisnik.isPresent()) {
             return foundKorisnik.get();
-
+        }
         return null;
     }
 
@@ -89,6 +104,6 @@ public class KorisnikService {
     public Boolean existsLozinka(String mail) { return korisnikRepository.existsByLozinka(mail); }
     public Boolean existsKorisnickoIme(String mail) { return korisnikRepository.existsByKorisnickoIme(mail); }
 
-    public Korisnik save(Korisnik korisnik) { return korisnikRepository.save(korisnik);}
+    public Korisnik save(Korisnik korisnik) { return korisnikRepository.save(korisnik); }
 
 }

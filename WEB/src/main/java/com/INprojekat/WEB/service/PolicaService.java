@@ -3,9 +3,11 @@ package com.INprojekat.WEB.service;
 import com.INprojekat.WEB.dto.PolicaAddDto;
 import com.INprojekat.WEB.dto.PolicaDto;
 import com.INprojekat.WEB.dto.RegisterDto;
+import com.INprojekat.WEB.dto.ZanrDto;
 import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.entity.Polica;
+import com.INprojekat.WEB.entity.Zanr;
 import com.INprojekat.WEB.repository.KnjigaRepository;
 import com.INprojekat.WEB.repository.PolicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PolicaService {
@@ -20,8 +23,12 @@ public class PolicaService {
     @Autowired
     private PolicaRepository policaRepository;
 
-    public List<Polica> findAll(){
-        return policaRepository.findAll();
+    public PolicaDto findOne(Long id){
+        Optional<Polica> foundPolica = policaRepository.findById(id);
+        if (foundPolica.isPresent()) {
+            return new PolicaDto(foundPolica.get());
+        }
+        return null;
     }
 
     public Polica create(PolicaAddDto policaAddDto) {
@@ -48,6 +55,10 @@ public class PolicaService {
         Read.setNaziv("Read");
         Read.setPrimarna(true);
         save(Read);
+    }
+
+    public List<Polica> findAll(){
+        return policaRepository.findAll();
     }
 
     public Boolean existsPolica(String naziv) { return policaRepository.existsByNaziv(naziv); }

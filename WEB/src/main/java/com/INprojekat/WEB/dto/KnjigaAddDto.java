@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class KnjigaDto {
+public class KnjigaAddDto {
     private Long id;
     private String naslov;
     private String naslovnaFotografija;
@@ -20,7 +20,7 @@ public class KnjigaDto {
     private Set<Recenzija> recenzije = new HashSet<>();
     private Autor autor;
 
-    public KnjigaDto(Long id, String naslov, String naslovnaFotografija, String ISBN, Date datumObjavljivanja, int brojStrana, String opis, Double ocena, Zanr zanr, Set<Recenzija> recenzije, Autor autor) {
+    public KnjigaAddDto(Long id, String naslov, String naslovnaFotografija, String ISBN, Date datumObjavljivanja, int brojStrana, String opis, Double ocena, Zanr zanr, Set<Recenzija> recenzije, Autor autor) {
         this.id = id;
         this.naslov = naslov;
         this.naslovnaFotografija = naslovnaFotografija;
@@ -34,7 +34,7 @@ public class KnjigaDto {
         this.autor = autor;
     }
 
-    public KnjigaDto(Knjiga knjiga) {
+    public KnjigaAddDto(Knjiga knjiga) {
         this.id = knjiga.getId();
         this.naslov = knjiga.getNaslov();
         this.naslovnaFotografija = knjiga.getNaslovnaFotografija();
@@ -48,7 +48,7 @@ public class KnjigaDto {
         this.autor = knjiga.getAutor();
     }
 
-    public KnjigaDto() {
+    public KnjigaAddDto() {
 
     }
 
@@ -131,7 +131,7 @@ public class KnjigaDto {
     public void setAutor(Autor autor) {
         this.autor = autor;
     }
-    
+
     public Set<StavkaPolice> getStavka_polica() {
         return stavka_polica;
     }
@@ -148,4 +148,4 @@ public class KnjigaDto {
         this.recenzije = recenzije;
     }
 
-    }
+}
