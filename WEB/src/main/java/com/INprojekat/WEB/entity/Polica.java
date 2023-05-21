@@ -17,13 +17,13 @@ public class Polica implements Serializable {
     @Column
     private boolean primarna;
     @OneToMany
-    private Set<Recenzija> Stavka_Police = new HashSet<>();
+    private Set<StavkaPolice> stavkePolica = new HashSet<>();
 
-    public Polica(Long id, String naziv, boolean primarna, Set<Recenzija> stavka_Police) {
+    public Polica(Long id, String naziv, boolean primarna, Set<StavkaPolice> stavkePolica) {
         this.id = id;
         this.naziv = naziv;
         this.primarna = primarna;
-        Stavka_Police = stavka_Police;
+        this.stavkePolica = stavkePolica;
     }
 
     public Polica(String naziv, boolean primarna) {
@@ -58,11 +58,11 @@ public class Polica implements Serializable {
         this.primarna = primarna;
     }
 
-    public Set<Recenzija> getStavka_Police() {
-        return Stavka_Police;
+    public Set<StavkaPolice> getStavkePolica() {
+        return stavkePolica;
     }
 
-    public void setStavka_Police(Set<Recenzija> stavka_Police) {
-        Stavka_Police = stavka_Police;
+    public void setStavkePolica(Set<StavkaPolice> stavkePolica) {
+        this.stavkePolica = stavkePolica;
     }
 }

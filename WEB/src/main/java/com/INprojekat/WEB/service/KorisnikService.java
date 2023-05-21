@@ -18,18 +18,24 @@ import com.INprojekat.WEB.dto.RegisterDto;
 import com.INprojekat.WEB.dto.UpdateDto;
 
 import com.INprojekat.WEB.entity.Korisnik;
+import com.INprojekat.WEB.entity.Polica;
 import com.INprojekat.WEB.repository.KorisnikRepository;
 import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class KorisnikService {
 
     @Autowired
     private KorisnikRepository korisnikRepository;
+
+    @Autowired
+    private PolicaService policaService;
     public Korisnik login(String username, String password) {
         Korisnik korisnik = korisnikRepository.getByMail(username);
         if(korisnik == null || !korisnik.getLozinka().equals(password))
@@ -44,6 +50,27 @@ public class KorisnikService {
         korisnik.setKorisnickoIme(registerDto.getKorisnickoIme());
         korisnik.setMail(registerDto.getMail());
         korisnik.setLozinka(registerDto.getLozinka());
+
+        Set<Polica> police = new HashSet<>();
+        Polica WantToRead = new Polica();
+        WantToRead.setNaziv("Want To Read");
+        WantToRead.setPrimarna(true);
+        police.add(WantToRead);
+
+        Polica CurrentlyReading = new Polica();
+        CurrentlyReading.setNaziv("CurrentlyReading");
+        CurrentlyReading.setPrimarna(true);
+        police.add(CurrentlyReading);
+
+        Polica Read = new Polica();
+        Read.setNaziv("Read");
+        Read.setPrimarna(true);
+        police.add(Read);
+        policaService.save(WantToRead);
+        policaService.save(CurrentlyReading);
+        policaService.save(Read);
+        //prvo napravi 3 police i sacuvaj ih u repozitorijum od korisnika
+        korisnik.setPolice(police);
 
         korisnik.setUloga(Korisnik.Uloga.CITALAC);
 

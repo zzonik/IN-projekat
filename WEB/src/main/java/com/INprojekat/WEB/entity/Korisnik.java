@@ -142,5 +142,13 @@ public class Korisnik implements Serializable{
     public void setPolice(Set<Polica> police) {
         this.police = police;
     }
+
+    public Set<ZahtevZaAktivacijuNalogaAutora> getZahtevZaAktivacijuNalogaAutora() {
+        return zahtevZaAktivacijuNalogaAutora;
+    }
+
+    public void setZahtevZaAktivacijuNalogaAutora(Set<ZahtevZaAktivacijuNalogaAutora> zahtevZaAktivacijuNalogaAutora) {
+        this.zahtevZaAktivacijuNalogaAutora = zahtevZaAktivacijuNalogaAutora;
+    }
 }
 

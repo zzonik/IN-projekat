@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class KorisnikRestController {
@@ -83,7 +84,7 @@ public class KorisnikRestController {
             return new ResponseEntity<>("Loznika je zauzeta!", HttpStatus.BAD_REQUEST);
         }
         korisnikService.create(registerDto);
-        policaService.main3();
+        //policaService.main3();
 
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
     }
@@ -123,7 +124,7 @@ public class KorisnikRestController {
             Autor autor = autorService.findOne(ID);
             autor.setAktivnost(true);
             autorService.save(autor);
-            policaService.main3();
+            //policaService.main3();
 
             Properties properties = new Properties();
             properties.put("mail.smtp.auth", "true");
@@ -287,6 +288,26 @@ public class KorisnikRestController {
             }
         }else {
             return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("/api/citalac/{knjigaId}/knjiga-add-polica/{policaId}")
+    public ResponseEntity<?> addKnjigaPolica(@PathVariable Long knjigaId,@PathVariable Long policaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC){
+            policaService.addKnjigaOnPolica(policaId, knjigaId);
+            return new ResponseEntity<>("Knjiga dodata", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("/api/citalac/police")
+    public ResponseEntity<?> getStavkePolica(HttpSession session) throws ChangeSetPersister.NotFoundException {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC){
+            Set<PolicaDto> dtos = policaService.getPolice(loggedKorisnik.getId());
+            return ResponseEntity.ok(dtos);
+        }else {
+            return new ResponseEntity<>("Niste citalac", HttpStatus.BAD_REQUEST);
         }
     }
 
