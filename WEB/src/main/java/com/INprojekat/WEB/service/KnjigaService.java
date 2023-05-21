@@ -1,5 +1,19 @@
 package com.INprojekat.WEB.service;
 
+<<<<<<< Updated upstream
+=======
+    }
+
+import com.INprojekat.WEB.dto.KnjigaAutorDto;
+import com.INprojekat.WEB.dto.KnjigaDto;
+import com.INprojekat.WEB.dto.UpdateKnjigaDto;
+import com.INprojekat.WEB.entity.*;
+import com.INprojekat.WEB.repository.AutorRepository;
+import com.INprojekat.WEB.repository.KnjigaRepository;
+import com.INprojekat.WEB.repository.ZanrRepository;
+import jakarta.persistence.GeneratedValue;
+
+>>>>>>> Stashed changes
 import com.INprojekat.WEB.dto.*;
 import com.INprojekat.WEB.entity.*;
 import com.INprojekat.WEB.repository.KnjigaRepository;
