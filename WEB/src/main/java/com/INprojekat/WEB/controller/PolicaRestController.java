@@ -3,7 +3,9 @@ package com.INprojekat.WEB.controller;
 import com.INprojekat.WEB.dto.KnjigaDto;
 import com.INprojekat.WEB.dto.PolicaAddDto;
 import com.INprojekat.WEB.dto.PolicaDto;
+import com.INprojekat.WEB.dto.ZanrAddDto;
 import com.INprojekat.WEB.entity.Knjiga;
+import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.entity.Polica;
 import com.INprojekat.WEB.service.KnjigaService;
 import com.INprojekat.WEB.service.PolicaService;
@@ -36,16 +38,17 @@ public class PolicaRestController {
     }
 
     @PostMapping("/api/police-add")
-    public ResponseEntity<?> addPolica(@RequestBody PolicaAddDto policaAddDto) {
-
-        if (policaService.existsPolica(policaAddDto.getNaziv())) {
-            return new ResponseEntity<>("Ime police je zauzeto!", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> addPolica(@RequestBody PolicaAddDto policaAddDto, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR){
+            if (policaService.existsPolica(policaAddDto.getNaziv())) {
+                return new ResponseEntity<>("Ime police je zauzeto!", HttpStatus.BAD_REQUEST);
+            }
+            policaService.create(policaAddDto, loggedKorisnik.getId());
+            return new ResponseEntity<>("Shelf added successfully", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
         }
-
-        policaService.create(policaAddDto);
-
-        return new ResponseEntity<>("Shelf added successfully", HttpStatus.OK);
-
     }
     @DeleteMapping("/api/police{id}")
     public ResponseEntity<Void> deletePolica(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {

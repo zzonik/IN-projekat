@@ -56,7 +56,7 @@ public class AutorRestController {
                 return ResponseEntity.badRequest().body("Autor je neaktivan");
             }
             // Create a new Knjiga
-            Knjiga knjiga = knjigaService.create(knjigaAutorDto);
+            Knjiga knjiga = knjigaService.create(loggedAutor.getId(), knjigaAutorDto);
             autorService.addKnjiga(loggedAutor.getId(), knjiga);
 
             return ResponseEntity.ok("Knjiga dodata");

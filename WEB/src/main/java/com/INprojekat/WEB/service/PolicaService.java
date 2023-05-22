@@ -44,13 +44,17 @@ public class PolicaService {
         return null;
     }
 
-    public Polica create(PolicaAddDto policaAddDto) {
+    public void create(PolicaAddDto policaAddDto, Long id) {
         Polica polica;
         polica = new Polica();
         polica.setNaziv(policaAddDto.getNaziv());
         polica.setPrimarna(false);
 
-        return save(polica);
+        Korisnik korisnik = korisnikService.findOne(id);
+        Set<Polica> police = korisnik.getPolice();
+        police.add(polica);
+        korisnik.setPolice(police);
+        korisnikService.save(korisnik);
     }
 
     public void main3(){
@@ -79,6 +83,7 @@ public class PolicaService {
     public Polica save(Polica polica) { return policaRepository.save(polica);}
 
     public void deletePolica(Long id) throws ChangeSetPersister.NotFoundException {
+        //potrebna provera da li je primarna =, ako je primarna vrati EXCEPTION da se ne moze obrisati, a ako nije primarna, obirsati je
         Polica polica = policaRepository.findById(id)
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
         policaRepository.delete(polica);

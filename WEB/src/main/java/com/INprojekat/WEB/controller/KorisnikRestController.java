@@ -98,7 +98,8 @@ public class KorisnikRestController {
     @GetMapping("/api/korisnik{id}")
     public ResponseEntity<KorisnikDto> getKorisnik(@PathVariable Long id){
 
-        KorisnikDto korisnikDto = korisnikService.findOne(id);
+        Korisnik korisnik = korisnikService.findOne(id);
+        KorisnikDto korisnikDto = new KorisnikDto(korisnik);
 
         return ResponseEntity.ok(korisnikDto);
     }
@@ -138,7 +139,6 @@ public class KorisnikRestController {
             Autor autor = autorService.findOne(ID);
             autor.setAktivnost(true);
             autorService.save(autor);
-            //policaService.main3();
 
             Properties properties = new Properties();
             properties.put("mail.smtp.auth", "true");
@@ -261,7 +261,7 @@ public class KorisnikRestController {
     public ResponseEntity<?> addKnjiga(@RequestBody KnjigaAutorDto knjigaAutorDto, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
-            knjigaService.create(knjigaAutorDto);
+            knjigaService.createKnjigaAdmin(knjigaAutorDto);
             return new ResponseEntity<>("Knjiga dodata", HttpStatus.OK);
         }else {
             return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
@@ -276,16 +276,6 @@ public class KorisnikRestController {
             return new ResponseEntity<>("Knjiga azurirana", HttpStatus.OK);
         }else {
             return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
-        }
-    }
-    @DeleteMapping("/api/knjiga-AdminDelete/{id}")
-    public ResponseEntity<Void> deleteKnjiga(@PathVariable Long id, HttpSession session) throws ChangeSetPersister.NotFoundException {
-        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
-            knjigaService.deleteKnjiga(id);
-            return ResponseEntity.noContent().build();
-        }else {
-            return null;
         }
     }
 

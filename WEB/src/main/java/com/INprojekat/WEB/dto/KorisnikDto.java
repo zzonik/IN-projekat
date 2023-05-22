@@ -13,21 +13,17 @@ public class KorisnikDto {
     private String prezime;
 //dodato falilo za service
     private String korisnickoIme;
-    private String mail;
-    private String lozinka;
     private Date datumRodjenja;
     private String profilnaSlika;
     private String opis;
     private Korisnik.Uloga uloga;
     private Set<Polica> police = new HashSet<>();
 
-    public KorisnikDto(Long id, String ime, String prezime, String korisnickoIme, String mail, String lozinka, Date datumRodjenja, String profilnaSlika, String opis, Korisnik.Uloga uloga, Set<Polica> police) {
+    public KorisnikDto(Long id, String ime, String prezime, String korisnickoIme, Date datumRodjenja, String profilnaSlika, String opis, Korisnik.Uloga uloga, Set<Polica> police) {
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;
         this.korisnickoIme = korisnickoIme;
-        this.mail = mail;
-        this.lozinka = lozinka;
         this.datumRodjenja = datumRodjenja;
         this.profilnaSlika = profilnaSlika;
         this.opis = opis;
@@ -40,8 +36,6 @@ public class KorisnikDto {
         this.ime = korisnik.getIme();
         this.prezime = korisnik.getPrezime();
         this.korisnickoIme = korisnik.getKorisnickoIme();
-        this.mail = korisnik.getMail();
-        this.lozinka = korisnik.getLozinka();
         this.datumRodjenja = korisnik.getDatumRodjenja();
         this.profilnaSlika = korisnik.getProfilnaSlika();
         this.opis = korisnik.getOpis();
@@ -121,11 +115,4 @@ public class KorisnikDto {
 
     public void setKorisnickoIme(String korisnickoIme) { this.korisnickoIme = korisnickoIme; }
 
-    public String getMail() { return mail; }
-
-    public void setMail(String mail) { this.mail = mail; }
-
-    public String getLozinka() { return lozinka; }
-
-    public void setLozinka(String lozinka) { this.lozinka = lozinka; }
 }

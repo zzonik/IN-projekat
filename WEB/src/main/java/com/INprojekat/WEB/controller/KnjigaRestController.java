@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class KnjigaRestController {
@@ -27,7 +28,7 @@ public class KnjigaRestController {
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping("/api/knjiga{id}")
+    @GetMapping("/api/knjiga/{id}")
     public ResponseEntity<KnjigaDto> getKnjiga(@PathVariable Long id){
 
         KnjigaDto knjigaDto = knjigaService.findOne(id);
@@ -35,33 +36,15 @@ public class KnjigaRestController {
         return ResponseEntity.ok(knjigaDto);
     }
 
-    @PostMapping("/api/autor/post-knjiga")
-    public ResponseEntity<?> postKnjiga(@PathVariable Long id,@RequestBody KnjigaAutorDto knjigaAutorDto) {
-
-        knjigaService.create(id,knjigaAutorDto);
-
-        return new ResponseEntity<>("Book posted successfully", HttpStatus.OK);
-
-    }
-
-    @PostMapping("/api/knjiga-add")
-    public ResponseEntity<?> addKnjiga(@PathVariable Long id,@PathVariable Long id2,@RequestBody KnjigaAddDto knjigaAddDto) {
-
-        if (knjigaService.existsKnjiga(knjigaAddDto.getNaslov())) {
-            return new ResponseEntity<>("Book is already added!", HttpStatus.BAD_REQUEST);
+    @DeleteMapping("/api/polica/{policaId}/knjiga/{knjigaId}")
+    public ResponseEntity<?> deleteKnjiga(@PathVariable Long policaId,@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC){
+            knjigaService.deleteKnjiga(knjigaId,policaId, loggedKorisnik.getId());
+            return ResponseEntity.noContent().build();
+        }else {
+            return new ResponseEntity<>("Niste citalac", HttpStatus.BAD_REQUEST);
         }
-
-        knjigaService.add(id,id2,knjigaAddDto);
-
-        return new ResponseEntity<>("Book added successfully", HttpStatus.OK);
-
-    }
-    @DeleteMapping("/api/knjiga{id}")
-    public ResponseEntity<Void> deleteKnjiga(@PathVariable Long id,@PathVariable Long id2) throws ChangeSetPersister.NotFoundException {
-
-        knjigaService.deleteKnjiga(id,id2);
-
-        return ResponseEntity.noContent().build();
     }
 }
 

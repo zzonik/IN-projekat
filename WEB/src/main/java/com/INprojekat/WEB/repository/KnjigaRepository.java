@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface KnjigaRepository extends JpaRepository<Knjiga, Long> {
-    Boolean existsByNaziv(String naziv);
+    Boolean existsByNaslov(String naziv);
     Optional<Knjiga> findById(Long id);
 
 }

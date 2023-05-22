@@ -21,10 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class KnjigaService {
@@ -47,6 +44,12 @@ public class KnjigaService {
     @Autowired
     private PolicaService policaService;
 
+    @Autowired
+    private AutorService autorService;
+
+    @Autowired
+    private StavkaPoliceService stavkaPoliceService;
+
     public KnjigaDto findOne(Long id){
         Optional<Knjiga> foundKnjiga = knjigaRepository.findById(id);
         if (foundKnjiga.isPresent()) {
@@ -65,8 +68,8 @@ public class KnjigaService {
         }
         return dtos;
     }
-
-    public Knjiga create(KnjigaAutorDto knjigaAutorDto) {
+    public Knjiga create(Long autorId, KnjigaAutorDto knjigaAutorDto) {
+        Autor autor = autorService.findOne(autorId);
         Knjiga knjiga = new Knjiga();
         knjiga.setNaslov(knjigaAutorDto.getNaslov());
         knjiga.setNaslovnaFotografija(knjigaAutorDto.getNaslovnaFotografija());
@@ -80,20 +83,39 @@ public class KnjigaService {
         return save(knjiga);
     }
 
-    public void deleteKnjiga(Long id,Long id2) throws ChangeSetPersister.NotFoundException {
-        Knjiga knjiga = knjigaRepository.findById(id)
-                .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
-        PolicaDto policaDto = policaService.findOne(id2);
-        if(policaDto.isPrimarna()){
-            for(StavkaPolice stavkaPolice: stavkaPoliceRepository.findAll()){
-                if(stavkaPolice.getKnjiga().getId() == id);
-                knjigaRepository.delete(knjiga);
-            }
-        }
-        knjigaRepository.delete(knjiga);
+    public Knjiga createKnjigaAdmin(KnjigaAutorDto knjigaAutorDto) {
+        Knjiga knjiga = new Knjiga();
+        knjiga.setNaslov(knjigaAutorDto.getNaslov());
+        knjiga.setNaslovnaFotografija(knjigaAutorDto.getNaslovnaFotografija());
+        knjiga.setISBN(knjigaAutorDto.getISBN());
+        knjiga.setBrojStrana(knjigaAutorDto.getBrojStrana());
+        knjiga.setDatumObjavljivanja(knjigaAutorDto.getDatumObjavljivanja());
+        knjiga.setOpis(knjigaAutorDto.getOpis());
+        knjiga.setZanr(zanrRepository.findZanrById(knjigaAutorDto.getZanrId()));
+        knjiga.setAutor(autorRepository.findAutorById(knjigaAutorDto.getAutorId()));
+
+        return save(knjiga);
     }
 
-    public Boolean existsKnjiga(String naziv) { return knjigaRepository.existsByNaziv(naziv); }
+    public void deleteKnjiga(Long id,Long id2, Long id3) throws ChangeSetPersister.NotFoundException {
+        Knjiga knjiga = knjigaRepository.findById(id)
+                .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
+        Korisnik korisnik = korisnikService.findOne(id3);
+        PolicaDto policaDto = policaService.findOne(id2);
+        Set<Polica> police = korisnik.getPolice();
+        if(policaDto.isPrimarna()){
+            for(Polica polica: police){
+                for(StavkaPolice stavka: polica.getStavkePolica()){
+                    if(stavka.getKnjiga().getId() == id) {
+                        stavkaPoliceService.deleteStavkaPolice(id);
+                    }
+                }
+            }
+        }
+        stavkaPoliceService.deleteStavkaPolice(id);
+    }
+
+    public Boolean existsKnjiga(String naziv) { return knjigaRepository.existsByNaslov(naziv); }
 
     public Knjiga save(Knjiga knjiga) { return knjigaRepository.save(knjiga); }
 
