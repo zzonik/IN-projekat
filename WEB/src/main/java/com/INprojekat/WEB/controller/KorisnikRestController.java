@@ -13,14 +13,15 @@ import com.INprojekat.WEB.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +35,15 @@ public class KorisnikRestController {
     private PolicaService policaService;
     @Autowired
     private AutorService autorService;
-
     @Autowired
     private ZanrService zanrService;
     @Autowired
     private KnjigaService knjigaService;
     @Autowired
     private ZahtevZaAktivacijuNalogaAutoraService zahtevZaAktivacijuNalogaAutoraService;
+    @Autowired
+    private RecenzijaService recenzijaService;
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @GetMapping("/api/")
     public String welcome(){
@@ -75,16 +78,15 @@ public class KorisnikRestController {
     public ResponseEntity<?> registerUser(@RequestBody RegisterDto registerDto){
 
         if(korisnikService.existsMail(registerDto.getMail())){
-            return new ResponseEntity<>("Mail je zauzet!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Mail already used!", HttpStatus.BAD_REQUEST);
         }
         if(korisnikService.existsKorisnickoIme(registerDto.getMail())){
-            return new ResponseEntity<>("Korisnicko ime je zauzeto!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Username already used!", HttpStatus.BAD_REQUEST);
         }
         if(korisnikService.existsLozinka(registerDto.getLozinka())){
-            return new ResponseEntity<>("Loznika je zauzeta!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Password already used!", HttpStatus.BAD_REQUEST);
         }
         korisnikService.create(registerDto);
-        //policaService.main3();
 
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
     }
@@ -95,33 +97,44 @@ public class KorisnikRestController {
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping("/api/korisnik{id}")
+    @GetMapping("/api/korisnici/{id}")
     public ResponseEntity<Korisnik> getKorisnik(@PathVariable Long id){
 
         Korisnik korisnik = korisnikService.findOne(id);
         return ResponseEntity.ok(korisnik);
     }
 
-    @PutMapping("api/update-korisnik")
-    public ResponseEntity<?> updateUser(@RequestBody UpdateDto updateDto,HttpSession session) {
+    @PutMapping("api/citalac/{citalacId}/update-korisnik")
+    public ResponseEntity<?> updateUser(@PathVariable long citalacId, @RequestBody UpdateDto updateDto,HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-
-        if (loggedKorisnik == null)
-            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
-
-        korisnikService.updateUser( loggedKorisnik.getId() ,updateDto);
-
-        return new ResponseEntity<>("User updateded successfully", HttpStatus.OK);
+        if(citalacId == loggedKorisnik.getId()) {
+            if (loggedKorisnik != null || loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC) {
+                korisnikService.updateUser(citalacId, updateDto);
+                return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+    }
+    @PutMapping("api/autor/{autorId}/update-korisnik")
+    public ResponseEntity<?> updateUser(@PathVariable Long autorId, @RequestBody UpdateDto updateDto,HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(autorId == loggedKorisnik.getId()) {
+            if (loggedKorisnik != null || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR) {
+                korisnikService.updateUser(autorId, updateDto);
+                return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
     }
 
     @PostMapping("api/zahtev-create")
     public ResponseEntity<?> zahtev(@RequestBody ZahtevDto zahtevDto) {
         if(zahtevZaAktivacijuNalogaAutoraService.create(zahtevDto) == null)
-            return new ResponseEntity<>("Ne postoji autor", HttpStatus.BAD_REQUEST);
-        return ResponseEntity.ok("Zahtev dodat");
+            return new ResponseEntity<>("There is no autor with this name", HttpStatus.BAD_REQUEST);
+        return ResponseEntity.ok("Request added");
     }
-    @PostMapping("/api/admin/zahtev/{id}/accept")
-    public ResponseEntity<?> zahtevAccept(@PathVariable("id") Long zahtevId, HttpSession session) {
+    @PostMapping("/api/admin/zahtev/{zahtevId}/accept")
+    public ResponseEntity<?> zahtevAccept(@PathVariable Long zahtevId, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
 
@@ -181,11 +194,11 @@ public class KorisnikRestController {
             }
 
         }else {
-            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/api/admin/zahtev/{id}/decline")
-    public ResponseEntity<?> zahtevDecline(@PathVariable("id") Long zahtevId, HttpSession session) {
+    @PostMapping("/api/admin/zahtev/{zahtevId}/decline")
+    public ResponseEntity<?> zahtevDecline(@PathVariable Long zahtevId, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
 
@@ -237,7 +250,7 @@ public class KorisnikRestController {
                 return new ResponseEntity<>("Failed to send email", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }else {
-            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }
     }
     @GetMapping("api/zahtev-getAll")
@@ -260,57 +273,84 @@ public class KorisnikRestController {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
             knjigaService.createKnjigaAdmin(knjigaAutorDto);
-            return new ResponseEntity<>("Knjiga dodata", HttpStatus.OK);
+            return new ResponseEntity<>("Book added successfully", HttpStatus.OK);
         }else {
             return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("api/admin/knjiga/{id}/update_knjiga")
-    public ResponseEntity<?> updateKnjigaAdmin(@RequestBody UpdateKnjigaDto updateKnjigaDto,@PathVariable("id") Long knjigaId, HttpSession session) {
+    @PutMapping("api/admin/knjiga/{knjigaId}/update_knjiga")
+    public ResponseEntity<?> updateKnjigaAdmin(@RequestBody UpdateKnjigaDto updateKnjigaDto,@PathVariable Long knjigaId, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
             knjigaService.updateKnjigaAdmin(knjigaId, updateKnjigaDto);
-            return new ResponseEntity<>("Knjiga azurirana", HttpStatus.OK);
+            return new ResponseEntity<>("Book updated successfully", HttpStatus.OK);
         }else {
-            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/api/admin/update_autor/{autorId}/")
+    @PutMapping("/api/admin/update_autor/{autorId}")
     public ResponseEntity<?> updateAutor(@RequestBody UpdateDto updateDto, @PathVariable Long autorId, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
             Autor autor = autorService.findOne(autorId);
             if(!autor.getAktivnost()){
                 autorService.updateAutor(autorId, updateDto);
-                return new ResponseEntity<>("Autor azuriran", HttpStatus.OK);
+                return new ResponseEntity<>("Autor is updated", HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Autor je aktivan", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Autor is active", HttpStatus.BAD_REQUEST);
             }
         }else {
-            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/api/citalac/{knjigaId}/knjiga-add-polica/{policaId}")
-    public ResponseEntity<?> addKnjigaPolica(@PathVariable Long knjigaId,@PathVariable Long policaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
+    @PostMapping("/api/citalac/{citalacId}/polica/{policaId}/knjiga/{knjigaId}/knjiga-add-polica")
+    public ResponseEntity<?> addKnjigaPolicaCitalac(@PathVariable Long citalacId, @PathVariable Long knjigaId,@PathVariable Long policaId,RecenzijaDto recenzijaDto, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC){
-            policaService.addKnjigaOnPolica(policaId, knjigaId);
-            return new ResponseEntity<>("Knjiga dodata", HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC ){
+            PolicaDto policaDto = policaService.findOne(policaId);
+            if (policaDto.getNaziv().equals("Read")) {
+                Long stavkaId = policaService.addKnjigaOnPolica(policaId, knjigaId);
+                recenzijaService.add(recenzijaDto,stavkaId);
+                return new ResponseEntity<>("Book added on primary successfully", HttpStatus.OK);
+            } else {
+                Long stavkaId = policaService.addKnjigaOnPolica(policaId, knjigaId);
+                return new ResponseEntity<>("Book added successfully", HttpStatus.OK);
+            }
         }
+        return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
     }
-    @GetMapping("/api/citalac/police")
-    public ResponseEntity<?> getStavkePolica(HttpSession session) throws ChangeSetPersister.NotFoundException {
+    @PostMapping("/api/autor/{autorId}/knjiga/{knjigaId}/knjiga-add-polica/{policaId}")
+    public ResponseEntity<?> addKnjigaPolicaAutor(@PathVariable Long autorId, @PathVariable Long knjigaId,@PathVariable Long policaId, RecenzijaDto recenzijaDto,HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC){
-            Set<PolicaDto> dtos = policaService.getPolice(loggedKorisnik.getId());
-            return ResponseEntity.ok(dtos);
-        }else {
-            return new ResponseEntity<>("Niste citalac", HttpStatus.BAD_REQUEST);
-        }
-    }
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR ){
+            PolicaDto policaDto = policaService.findOne(policaId);
+            if (policaDto.getNaziv().equals("Read")) {
+                Long stavkaId = policaService.addKnjigaOnPolica(policaId, knjigaId);
+                String url = "/api/autor/{autorId}/polica/{policaId}/stavka-police/{stavkaPoliceId}/add-recenzija";
+                url = url.replace("{citalacId}", String.valueOf(autorId))
+                        .replace("{policaId}", String.valueOf(policaId))
+                        .replace("{stavkaPoliceId}", String.valueOf(stavkaId));
 
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+
+                HttpEntity<RecenzijaDto> requestEntity = new HttpEntity<>(recenzijaDto, headers);
+                ResponseEntity<?> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+                HttpStatusCode statusCode = responseEntity.getStatusCode();
+                if (statusCode == HttpStatus.OK) {
+                    return new ResponseEntity<>("Book added successfully", HttpStatus.OK);
+                } else if (statusCode == HttpStatus.NO_CONTENT) {
+                    return ResponseEntity.noContent().build();
+                } else {
+                    return new ResponseEntity<>("Error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            } else {
+                policaService.addKnjigaOnPolica(policaId, knjigaId);
+            }
+        }
+        return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
+    }
 }

@@ -20,9 +20,24 @@ public class ZahtevZaAktivacijuNalogaAutoraService {
 
     @Autowired
     private KorisnikRepository korisnikRepository;
-    public ZahtevZaAktivacijuNalogaAutora save(ZahtevZaAktivacijuNalogaAutora zana) {
-        return zahtevZaAktiavcijuNalogaAutoraRepository.save(zana);
+    public ZahtevZaAktivacijuNalogaAutoraDto findOne(Long id){
+        Optional<ZahtevZaAktivacijuNalogaAutora> foundZahtev = zahtevZaAktiavcijuNalogaAutoraRepository.findById(id);
+        if (foundZahtev.isPresent()) {
+            return new ZahtevZaAktivacijuNalogaAutoraDto(foundZahtev.get());
+        }
+        return null;
     }
+    public List<ZahtevZaAktivacijuNalogaAutoraDto> findAll() {
+        List<ZahtevZaAktivacijuNalogaAutora> zahtevi = zahtevZaAktiavcijuNalogaAutoraRepository.findAll();
+
+        List<ZahtevZaAktivacijuNalogaAutoraDto> dtos = new ArrayList<>();
+        for(ZahtevZaAktivacijuNalogaAutora zahtev : zahtevi){
+            ZahtevZaAktivacijuNalogaAutoraDto dto = new ZahtevZaAktivacijuNalogaAutoraDto(zahtev);
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
     public ZahtevZaAktivacijuNalogaAutora saveDto(ZahtevZaAktivacijuNalogaAutoraDto zanaDto) {
         ZahtevZaAktivacijuNalogaAutora zana = new ZahtevZaAktivacijuNalogaAutora(zanaDto);
         return zahtevZaAktiavcijuNalogaAutoraRepository.save(zana);
@@ -38,23 +53,13 @@ public class ZahtevZaAktivacijuNalogaAutoraService {
             return null;
         return save(zana);
     }
-    public List<ZahtevZaAktivacijuNalogaAutoraDto> findAll() {
-        List<ZahtevZaAktivacijuNalogaAutora> zahtevi = zahtevZaAktiavcijuNalogaAutoraRepository.findAll();
+    public ZahtevZaAktivacijuNalogaAutora save(ZahtevZaAktivacijuNalogaAutora zana) { return zahtevZaAktiavcijuNalogaAutoraRepository.save(zana); }
 
-        List<ZahtevZaAktivacijuNalogaAutoraDto> dtos = new ArrayList<>();
-        for(ZahtevZaAktivacijuNalogaAutora zahtev : zahtevi){
-            ZahtevZaAktivacijuNalogaAutoraDto dto = new ZahtevZaAktivacijuNalogaAutoraDto(zahtev);
-            dtos.add(dto);
-        }
-        return dtos;
-    }
-    public ZahtevZaAktivacijuNalogaAutoraDto findOne(Long id){
-        Optional<ZahtevZaAktivacijuNalogaAutora> foundZahtev = zahtevZaAktiavcijuNalogaAutoraRepository.findById(id);
-        if (foundZahtev.isPresent()) {
-            return new ZahtevZaAktivacijuNalogaAutoraDto(foundZahtev.get());
-        }
-        return null;
-    }
-
-
+/*
+        1. Trazenje jednog zahteva za aktivaciju
+        2. Izlistavanje svih zahteva za aktivaciju
+        3. Cuvanje stiglog zahteva za aktivaciju
+        4. Kreiranje zahteva za aktivaciju
+        5. Save za cuvanje zahteva za aktivaciju
+ */
 }

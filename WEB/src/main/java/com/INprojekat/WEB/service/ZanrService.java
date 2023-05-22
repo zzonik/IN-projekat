@@ -25,13 +25,6 @@ public class ZanrService {
     @Autowired
     private ZanrRepository zanrRepository;
 
-
-    public Zanr create(ZanrAddDto zanrAddDto) {
-        Zanr zanr = new Zanr();
-        zanr.setNaziv(zanrAddDto.getNaziv());
-        return save(zanr);
-    }
-
     public ZanrDto findOne(Long id){
         Optional<Zanr> foundZanr = zanrRepository.findById(id);
         if (foundZanr.isPresent()) {
@@ -48,9 +41,18 @@ public class ZanrService {
             dtos.add(dto);
         }
         return dtos;
-
-
+    }
+    public Zanr create(ZanrAddDto zanrAddDto) {
+        Zanr zanr = new Zanr();
+        zanr.setNaziv(zanrAddDto.getNaziv());
+        return save(zanr);
     }
     public Zanr save(Zanr zanr) { return zanrRepository.save(zanr); }
 
+/*
+        1. Trazenje jednog zanra
+        2. Izlistavanje svih zanrova
+        3. Kreiranje zanra
+        3. Save za cuvanje zanra
+ */
 }

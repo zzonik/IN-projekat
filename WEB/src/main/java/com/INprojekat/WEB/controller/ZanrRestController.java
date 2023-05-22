@@ -20,20 +20,18 @@ public class ZanrRestController {
     @Autowired
     private ZanrService zanrService;
 
-    @GetMapping("/api/zanrovi")
-    public ResponseEntity<List<ZanrDto>> getZanrovi(HttpSession session){
-        List<ZanrDto> dtos = zanrService.findAll();
-        return ResponseEntity.ok(dtos);
-    }
 
-    @GetMapping("/api/zanr{id}")
+    @GetMapping("/api/zanr/{id}")
     public ResponseEntity<ZanrDto> getZanr(@PathVariable Long id){
 
         ZanrDto zanrDto = zanrService.findOne(id);
 
         return ResponseEntity.ok(zanrDto);
     }
-
-
+    @GetMapping("/api/zanrovi")
+    public ResponseEntity<List<ZanrDto>> getZanrovi(HttpSession session){
+        List<ZanrDto> dtos = zanrService.findAll();
+        return ResponseEntity.ok(dtos);
+    }
 
 }

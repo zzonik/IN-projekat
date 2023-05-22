@@ -8,6 +8,7 @@ import com.INprojekat.WEB.entity.Polica;
 import com.INprojekat.WEB.entity.StavkaPolice;
 import com.INprojekat.WEB.entity.Zanr;
 import com.INprojekat.WEB.entity.StavkaPolice;
+import com.INprojekat.WEB.repository.PolicaRepository;
 import com.INprojekat.WEB.repository.StavkaPoliceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class StavkaPoliceService {
@@ -23,7 +25,8 @@ public class StavkaPoliceService {
     @Autowired
     private StavkaPoliceRepository stavkaPoliceRepository;
 
-    public StavkaPolice save(StavkaPolice stavka) { return  stavkaPoliceRepository.save(stavka);}
+    @Autowired
+    private PolicaService policaService;
 
     public StavkaPoliceDto findOne(Long id){
         Optional<StavkaPolice> foundStavka = stavkaPoliceRepository.findById(id);
@@ -45,18 +48,37 @@ public class StavkaPoliceService {
 
     }
 
-    public StavkaPolice create(StavkaPoliceAddDto stavkaPoliceAddDto) {
+    public void create(StavkaPoliceAddDto stavkaPoliceAddDto,Long policaId) {
         StavkaPolice stavkaPolice = new StavkaPolice();
-
         stavkaPolice.setKnjiga(stavkaPoliceAddDto.getKnjiga());
         stavkaPolice.setRecenzija(stavkaPoliceAddDto.getRecenzija());
 
-        return save(stavkaPolice);
+        Polica polica = policaService.findOneById(policaId);
+        Set<StavkaPolice> stavkePolice = polica.getStavkePolica();
+        stavkePolice.add(stavkaPolice);
+        polica.setStavkePolica(stavkePolice);
+        policaService.save(polica);
+
     }
 
-    public void deleteStavkaPolice(Long id) throws ChangeSetPersister.NotFoundException {
-        StavkaPolice stavkaPolice = stavkaPoliceRepository.findById(id)
+    public void deleteStavkaPolice(Long policaId,Long stavkaId) throws ChangeSetPersister.NotFoundException {
+        StavkaPolice stavkaPolice = stavkaPoliceRepository.findById(stavkaId)
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
+        Polica polica = policaService.findOneById(policaId);
+        Set<StavkaPolice> stavkePolice = polica.getStavkePolica();
+        stavkePolice.remove(stavkaPolice);
         stavkaPoliceRepository.delete(stavkaPolice);
+        polica.setStavkePolica(stavkePolice);
+        policaService.save(polica);
+
     }
+    public StavkaPolice save(StavkaPolice stavka) { return  stavkaPoliceRepository.save(stavka);}
+
+/*
+        1. Trazenje jedne stavke polica
+        2. Izlistavanje svih stavki polica
+        3. Kreiranje stavke polica
+        4. Brisanje stavke polica
+        5. Save za cuvanje stavke polica
+ */
 }

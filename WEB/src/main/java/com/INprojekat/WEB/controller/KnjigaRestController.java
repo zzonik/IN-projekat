@@ -28,7 +28,7 @@ public class KnjigaRestController {
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping("/api/knjiga/{id}")
+    @GetMapping("/api/knjige/{id}")
     public ResponseEntity<KnjigaDto> getKnjiga(@PathVariable Long id){
 
         KnjigaDto knjigaDto = knjigaService.findOne(id);
@@ -36,16 +36,26 @@ public class KnjigaRestController {
         return ResponseEntity.ok(knjigaDto);
     }
 
-    @DeleteMapping("/api/polica/{policaId}/knjiga/{knjigaId}")
-    public ResponseEntity<?> deleteKnjiga(@PathVariable Long policaId,@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
+    @DeleteMapping("/api/citalac/{citalacId}/polica/{policaId}/knjiga/{knjigaId}")
+    public ResponseEntity<?> deleteKnjigaCitalac(@PathVariable Long citalacId, @PathVariable Long policaId,@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC){
-            knjigaService.deleteKnjiga(knjigaId,policaId, loggedKorisnik.getId());
-            return ResponseEntity.noContent().build();
+            knjigaService.deleteKnjiga(citalacId,policaId,knjigaId);
+            return new ResponseEntity<>("Book deleted successfully", HttpStatus.OK);
         }else {
-            return new ResponseEntity<>("Niste citalac", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You are not administrator", HttpStatus.OK);
         }
+    }
 
+    @DeleteMapping("/api/autor/{autorId}/polica/{policaId}/knjiga/{knjigaId}")
+    public ResponseEntity<?> deleteKnjigaAutor(@PathVariable Long autorId, @PathVariable Long policaId,@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR){
+            knjigaService.deleteKnjiga(autorId,policaId,knjigaId);
+            return new ResponseEntity<>("Book deleted successfully", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("You are not administrator", HttpStatus.OK);
+        }
     }
 }
 

@@ -27,8 +27,28 @@ public class KorisnikService {
 
     @Autowired
     private KorisnikRepository korisnikRepository;
+
     @Autowired
     private PolicaService policaService;
+
+    public Korisnik findOne(Long id){
+        Optional<Korisnik> foundKorisnik = korisnikRepository.findById(id);
+        if (foundKorisnik.isPresent()) {
+            return foundKorisnik.get();
+        }
+        return null;
+    }
+    public List<KorisnikDto> findAll(){
+        List<Korisnik> korisniciList = korisnikRepository.findAll();
+
+        List<KorisnikDto> dtos = new ArrayList<>();
+        for(Korisnik korisnik : korisniciList){
+            KorisnikDto dto = new KorisnikDto(korisnik);
+            dtos.add(dto);
+        }
+        return dtos;
+
+    }
 
     public Korisnik login(String username, String password) {
         Korisnik korisnik = korisnikRepository.getByMail(username);
@@ -71,26 +91,6 @@ public class KorisnikService {
         return save(korisnik);
     }
 
-    public List<KorisnikDto> findAll(){
-        List<Korisnik> korisniciList = korisnikRepository.findAll();
-
-        List<KorisnikDto> dtos = new ArrayList<>();
-        for(Korisnik korisnik : korisniciList){
-            KorisnikDto dto = new KorisnikDto(korisnik);
-            dtos.add(dto);
-        }
-        return dtos;
-
-    }
-
-    public Korisnik findOne(Long id){
-        Optional<Korisnik> foundKorisnik = korisnikRepository.findById(id);
-        if (foundKorisnik.isPresent()) {
-            return foundKorisnik.get();
-        }
-        return null;
-    }
-
     public Korisnik updateUser(Long id, UpdateDto updateDto){
         Korisnik korisnik = findOne(id);
 
@@ -119,9 +119,17 @@ public class KorisnikService {
     }
 
     public Boolean existsMail(String mail) { return korisnikRepository.existsByMail(mail); }
-    public Boolean existsLozinka(String mail) { return korisnikRepository.existsByLozinka(mail); }
-    public Boolean existsKorisnickoIme(String mail) { return korisnikRepository.existsByKorisnickoIme(mail); }
-
+    public Boolean existsLozinka(String lozinka) { return korisnikRepository.existsByLozinka(lozinka); }
+    public Boolean existsKorisnickoIme(String korisnickoIme) { return korisnikRepository.existsByKorisnickoIme(korisnickoIme); }
     public Korisnik save(Korisnik korisnik) { return korisnikRepository.save(korisnik); }
-
+/*
+        1. Trazenje jednog korisnika
+        2. Izlistavanje svih korisnika
+        3. Kreiranje korisnika
+        4. Update korisnika
+        5. Provera postojanja maila
+        6. Provera postojanja lozinke
+        7. Provera postojanja korisnickog imena
+        8. Save za cuvanje korisnika
+ */
 }

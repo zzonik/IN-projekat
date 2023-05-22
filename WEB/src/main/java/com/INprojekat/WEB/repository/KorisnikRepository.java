@@ -7,6 +7,6 @@ public interface KorisnikRepository extends JpaRepository<Korisnik, Long> {
     Korisnik getByMail(String mail);
     Korisnik getById(Long id);
     Boolean existsByMail(String mail);
-    Boolean existsByLozinka(String mail);
-    Boolean existsByKorisnickoIme(String mail);
+    Boolean existsByLozinka(String lozinka);
+    Boolean existsByKorisnickoIme(String korisnickoIme);
 }

@@ -3,7 +3,10 @@ package com.INprojekat.WEB.controller;
 import com.INprojekat.WEB.dto.*;
 import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
+import com.INprojekat.WEB.entity.Polica;
 import com.INprojekat.WEB.entity.Recenzija;
+import com.INprojekat.WEB.repository.PolicaRepository;
+import com.INprojekat.WEB.service.PolicaService;
 import com.INprojekat.WEB.service.RecenzijaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +22,16 @@ import java.util.List;
 public class RecenzijaRestController {
     @Autowired
     private RecenzijaService recenzijaService;
-//izmena #2
+    @Autowired
+    private PolicaService policaService;
+
     @GetMapping("/api/recenzije")
     public ResponseEntity<List<RecenzijaDto>> getRecenzije(HttpSession session){
         List<RecenzijaDto> dtos = recenzijaService.findAll();
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping("/api/recenzija{id}")
+    @GetMapping("/api/recenzija/{id}")
     public ResponseEntity<Recenzija> getRecenzija(@PathVariable Long id){
 
         Recenzija recenzija = recenzijaService.findOne(id);
@@ -34,27 +39,59 @@ public class RecenzijaRestController {
         return ResponseEntity.ok(recenzija);
     }
 
-    @PostMapping("/api/recenzija-add")
-    public ResponseEntity<?> addRecenzija(@RequestBody RecenzijaDto recenzijaDto) {
-
-        recenzijaService.add(recenzijaDto);
-
-        return new ResponseEntity<>("Recenzija added successfully", HttpStatus.OK);
-
+    @PostMapping("/api/citalac/{citalacId}/polica/{policaId}/stavka-police/{stavkaPoliceId}/add-recenzija")
+    public ResponseEntity<?> addRecenzijaCitalac(@PathVariable Long citalacId, @PathVariable Long policaId,@PathVariable Long stavkaPoliceId ,@RequestBody RecenzijaDto recenzijaDto,HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(citalacId == loggedKorisnik.getId()){
+            if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC ) {
+                PolicaDto policaDto = policaService.findOne(policaId);
+                    if (policaDto.getNaziv().equals("Read")) {
+                        recenzijaService.add(recenzijaDto, stavkaPoliceId);
+                        return new ResponseEntity<>("Recenzija added successfully", HttpStatus.OK);
+                    }
+            }
+        }
+        return ResponseEntity.noContent().build();
+    }
+    @PostMapping("/api/autor/{autorId}/polica/{policaId}/stavka-police/{stavkaPoliceId}/add-recenzija")
+    public ResponseEntity<?> addRecenzijaAutor(@PathVariable Long autorId, @PathVariable Long policaId,@PathVariable Long stavkaPoliceId ,@RequestBody RecenzijaDto recenzijaDto,HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(autorId == loggedKorisnik.getId()) {
+            if (loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR) {
+                PolicaDto policaDto = policaService.findOne(policaId);
+                    if (policaDto.getNaziv().equals("Read")) {
+                        recenzijaService.add(recenzijaDto, stavkaPoliceId);
+                        return new ResponseEntity<>("Recenzija added successfully", HttpStatus.OK);
+                    }
+            }
+        }
+        return ResponseEntity.noContent().build();
+    }
+    @PutMapping("api/citalac/{citalacId}/recenzija/{recenzijaId}/update-recenzija")
+    public ResponseEntity<?> updateRecenzijaCitalac(@PathVariable Long citalacId,@PathVariable Long recenzijaId, @RequestBody UpdateRecDto updateRecDto,HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(citalacId == loggedKorisnik.getId()) {
+            if (loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC) {
+                recenzijaService.updateRecenzija(recenzijaId, updateRecDto);
+                return new ResponseEntity<>("Recenzija updated successfully", HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("api/update_recenzija")
-    public ResponseEntity<?> updateRecenzija(@PathVariable Long id, @RequestBody UpdateRecDto updateRecDto) {
-
-        recenzijaService.updateRecenzija(id, updateRecDto);
-
-        return new ResponseEntity<>("Recenzija updateded successfully", HttpStatus.OK);
-
+    @PutMapping("api/autor/{autorId}/recenzija/{recenzijaId}/update-recenzija")
+    public ResponseEntity<?> updateRecenzijaAutor(@PathVariable Long autorId,@PathVariable Long recenzijaId, @RequestBody UpdateRecDto updateRecDto,HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(autorId == loggedKorisnik.getId()) {
+            if (loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR) {
+                recenzijaService.updateRecenzija(recenzijaId, updateRecDto);
+                return new ResponseEntity<>("Recenzija updated successfully", HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
     }
-
-
-    @DeleteMapping("/api/recenzija{id}")
-
+/*
+    @DeleteMapping("/api/citalac/{id}/recenzija/{id}")
     public ResponseEntity<Void> deleteRecenzija(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
 
         recenzijaService.deleteRecenzija(id);
@@ -62,5 +99,5 @@ public class RecenzijaRestController {
         return ResponseEntity.noContent().build();
     }
 
-
+*/
 }

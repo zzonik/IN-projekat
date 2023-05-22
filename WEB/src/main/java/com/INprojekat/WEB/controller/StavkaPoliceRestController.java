@@ -4,6 +4,7 @@ import com.INprojekat.WEB.dto.PolicaAddDto;
 import com.INprojekat.WEB.dto.StavkaPoliceAddDto;
 import com.INprojekat.WEB.dto.StavkaPoliceDto;
 import com.INprojekat.WEB.dto.ZanrDto;
+import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.service.StavkaPoliceService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,38 +21,60 @@ public class StavkaPoliceRestController {
     @Autowired
     private StavkaPoliceService stavkaPoliceService;
 
+    @GetMapping("/api/stavka-police/{stavkaPoliceId}")
+    public ResponseEntity<StavkaPoliceDto> getStavka(@PathVariable Long stavkaPoliceId){
+
+        StavkaPoliceDto stavkaPoliceDto = stavkaPoliceService.findOne(stavkaPoliceId);
+
+        return ResponseEntity.ok(stavkaPoliceDto);
+    }
     @GetMapping("/api/stavke-police")
     public ResponseEntity<List<StavkaPoliceDto>> getStavke(HttpSession session){
         List<StavkaPoliceDto> dtos = stavkaPoliceService.findAll();
         return ResponseEntity.ok(dtos);
     }
-
-    @GetMapping("/api/stavka-police{id}")
-    public ResponseEntity<StavkaPoliceDto> getStavka(@PathVariable Long id){
-
-        StavkaPoliceDto stavkaPoliceDto = stavkaPoliceService.findOne(id);
-
-        return ResponseEntity.ok(stavkaPoliceDto);
-    }
-
-    @PostMapping("/api/stavka-police-add")
-    public ResponseEntity<?> addStavkaPolice(@RequestBody StavkaPoliceAddDto stavkaPoliceAddDto) {
-/*
-        if (stavkaPoliceService.existsStavkaPolice(stavkaPoliceAddDto.getNaziv())) {
-            return new ResponseEntity<>("Ime police je zauzeto!", HttpStatus.BAD_REQUEST);
+    @PostMapping("/api/citalac/{citalacId}/polica/{policaId}/stavka-police-add")
+    public ResponseEntity<?> addStavkaPoliceCitalac(@RequestBody StavkaPoliceAddDto stavkaPoliceAddDto,@PathVariable Long citalacId,@PathVariable Long policaId, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC ){
+            stavkaPoliceService.create(stavkaPoliceAddDto, policaId);
+            return new ResponseEntity<>("Stavka police added successfully", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }
-*/
-        stavkaPoliceService.create(stavkaPoliceAddDto);
-
-        return new ResponseEntity<>("Shelf added successfully", HttpStatus.OK);
-
     }
-    @DeleteMapping("/api/stavka-police{id}")
-    public ResponseEntity<Void> deleteStavkaPolice(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
 
-        stavkaPoliceService.deleteStavkaPolice(id);
+    @PostMapping("/api/autor/{autorId}/polica/{policaId}/stavka-police-add")
+    public ResponseEntity<?> addStavkaPoliceAutor(@RequestBody StavkaPoliceAddDto stavkaPoliceAddDto,@PathVariable Long autorId,@PathVariable Long policaId, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR ){
+            stavkaPoliceService.create(stavkaPoliceAddDto, policaId);
+            return new ResponseEntity<>("Stavka police added successfully", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
+        }
+    }
 
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/api/citalac/{citalacId}/polica/{policaId}/stavka-police/{id}")
+    public ResponseEntity<?> deleteStavkaPoliceCitalac(@PathVariable Long citalacId,@PathVariable Long policaId,@PathVariable Long id, HttpSession session) throws ChangeSetPersister.NotFoundException {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC ){
+            stavkaPoliceService.deleteStavkaPolice(policaId, id);
+            return new ResponseEntity<>("Stavka police deleted successfully", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/api/autor/{autorId}/polica/{policaId}/stavka-police/{id}")
+    public ResponseEntity<?> deleteStavkaPoliceAutor(@PathVariable Long autorId,@PathVariable Long policaId,@PathVariable Long id, HttpSession session) throws ChangeSetPersister.NotFoundException {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR){
+            stavkaPoliceService.deleteStavkaPolice(policaId, id);
+            return new ResponseEntity<>("Stavka police deleted successfully", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

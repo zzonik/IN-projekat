@@ -16,6 +16,9 @@ public class RecenzijaDto {
     private Date datum;
     private Korisnik korisnik;
 
+    public RecenzijaDto() {
+    }
+
     public RecenzijaDto(Long id, int ocena, String tekst, Date datum, Korisnik korisnik) {
         this.id = id;
         this.ocena = ocena;

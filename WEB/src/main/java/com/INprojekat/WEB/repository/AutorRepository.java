@@ -8,6 +8,6 @@ public interface AutorRepository extends JpaRepository<Autor, Long> {
     Autor getByMail(String mail);
     Autor findAutorById(Long id);
     Boolean existsByMail(String mail);
-    Boolean existsByLozinka(String mail);
-    Boolean existsByKorisnickoIme(String mail);
+    Boolean existsByLozinka(String lozinka);
+    Boolean existsByKorisnickoIme(String korisnickoIme);
 }

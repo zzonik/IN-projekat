@@ -30,59 +30,58 @@ public class AutorRestController {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
             if(autorService.existsMail(autorRegisterDto.getMail())){
-                return new ResponseEntity<>("Mail je zauzet!", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Mail already used!", HttpStatus.BAD_REQUEST);
             }
             if(autorService.existsKorisnickoIme(autorRegisterDto.getKorisnickoIme())){
-                return new ResponseEntity<>("Korisnicko ime je zauzeto!", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Username already used!", HttpStatus.BAD_REQUEST);
             }
             if(autorService.existsLozinka(autorRegisterDto.getLozinka())){
-                return new ResponseEntity<>("Loznika je zauzeta!", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Password already used!", HttpStatus.BAD_REQUEST);
             }
             autorService.create(autorRegisterDto);
 
             return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
         }else {
-            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/api/autor/add-knjiga")
-    public ResponseEntity<?> addKnjiga(@RequestBody KnjigaAutorDto knjigaAutorDto, HttpSession session) {
+    @PostMapping("/api/autor/{autorId}/add-knjiga")
+    public ResponseEntity<?> addKnjiga(@PathVariable Long autorId, @RequestBody KnjigaAutorDto knjigaAutorDto, HttpSession session) {
         Object sessionEmployee = session.getAttribute("employee");
 
-        if (sessionEmployee instanceof Autor) {
-            Autor loggedAutor = (Autor) sessionEmployee;
+        {
+            if (sessionEmployee instanceof Autor) {
+                Autor loggedAutor = (Autor) sessionEmployee;
+                if (autorId == loggedAutor.getId()) {
+                    if (loggedAutor.getAktivnost() == false) {
+                        return ResponseEntity.badRequest().body("Autor is not active");
+                    }
 
-            if(loggedAutor.getAktivnost() == false){
-                return ResponseEntity.badRequest().body("Autor je neaktivan");
+                    Knjiga knjiga = knjigaService.create(loggedAutor.getId(), knjigaAutorDto);
+                    autorService.addKnjiga(autorId, knjiga);
+
+                    return ResponseEntity.ok("Book is added");
+                }
             }
-            // Create a new Knjiga
-            Knjiga knjiga = knjigaService.create(loggedAutor.getId(), knjigaAutorDto);
-            autorService.addKnjiga(loggedAutor.getId(), knjiga);
 
-            return ResponseEntity.ok("Knjiga dodata");
+            return ResponseEntity.badRequest().body("Only Autor can add a Knjiga.");
         }
-
-        return ResponseEntity.badRequest().body("Only Autor can add a Knjiga.");
     }
-    @GetMapping("/api/autor/{id}/get-knjige")
-    public ResponseEntity<List<KnjigaDto>> getKnjige(@PathVariable("id") Long autorId){
+    @GetMapping("/api/autor/{autorId}/get-knjige")
+    public ResponseEntity<List<KnjigaDto>> getKnjige(@PathVariable Long autorId){
         List<KnjigaDto> dtos = autorService.getAutorKnjige(autorId);
         return ResponseEntity.ok(dtos);
     }
-    @PutMapping("api/autor/knjiga/{id}/update_knjiga")
-    public ResponseEntity<?> updateKnjiga(@RequestBody UpdateKnjigaDto updateKnjigaDto,@PathVariable("id") Long knjigaId, HttpSession session) {
+    @PutMapping("api/autor/{autorId}/knjiga/{knjigaId}/update_knjiga")
+    public ResponseEntity<?> updateKnjiga(@RequestBody UpdateKnjigaDto updateKnjigaDto,@PathVariable Long autorId ,@PathVariable Long knjigaId, HttpSession session) {
         Autor loggedKorisnik = (Autor) session.getAttribute("employee");
-
-        if (loggedKorisnik == null)
-            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
-
-        knjigaService.updateKnjiga(loggedKorisnik.getId(), knjigaId, updateKnjigaDto);
-
+        if(autorId == loggedKorisnik.getId()) {
+            if (loggedKorisnik == null) {
+                return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
+            }
+            knjigaService.updateKnjiga(autorId, knjigaId, updateKnjigaDto);
+        }
         return new ResponseEntity<>("Knjiga updateded successfully", HttpStatus.OK);
     }
-
-
-
-
 
 }

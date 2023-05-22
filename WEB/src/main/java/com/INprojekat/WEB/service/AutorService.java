@@ -35,8 +35,8 @@ public class AutorService {
         autor.addKnjiga(knjiga);
     }
 
-    public List<KnjigaDto> getAutorKnjige(Long id){
-        Autor autor = autorRepository.findAutorById(id);
+    public List<KnjigaDto> getAutorKnjige(Long autorId){
+        Autor autor = autorRepository.findAutorById(autorId);
 
         List<KnjigaDto> dtos = new ArrayList<>();
         for(Knjiga knjiga : autor.getKnjige()){
@@ -72,9 +72,20 @@ public class AutorService {
         return save(autor);
     }
     public Boolean existsMail(String mail) { return autorRepository.existsByMail(mail); }
-    public Boolean existsLozinka(String mail) { return autorRepository.existsByLozinka(mail); }
-    public Boolean existsKorisnickoIme(String mail) { return autorRepository.existsByKorisnickoIme(mail); }
+    public Boolean existsLozinka(String lozinka) { return autorRepository.existsByLozinka(lozinka); }
+    public Boolean existsKorisnickoIme(String korisnickoIme) { return autorRepository.existsByKorisnickoIme(korisnickoIme); }
 
     public Autor save(Autor autor) { return autorRepository.save(autor);}
 
+/*
+        1. Trazenje jednog autora
+        2. Kreiranje autora
+        3. Dodavanje knjiga autora
+        4. Izlistavanje svih knjiga autora
+        5. Update autora
+        6. Provera postojanja maila
+        7. Provera postojanja lozince
+        8. Provera postojanja korisnickog imena
+        9. Save za cuvanje autora
+ */
 }
