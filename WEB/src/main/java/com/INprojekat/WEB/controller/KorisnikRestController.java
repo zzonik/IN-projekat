@@ -96,12 +96,10 @@ public class KorisnikRestController {
     }
 
     @GetMapping("/api/korisnik{id}")
-    public ResponseEntity<KorisnikDto> getKorisnik(@PathVariable Long id){
+    public ResponseEntity<Korisnik> getKorisnik(@PathVariable Long id){
 
         Korisnik korisnik = korisnikService.findOne(id);
-        KorisnikDto korisnikDto = new KorisnikDto(korisnik);
-
-        return ResponseEntity.ok(korisnikDto);
+        return ResponseEntity.ok(korisnik);
     }
 
     @PutMapping("api/update-korisnik")
@@ -252,9 +250,9 @@ public class KorisnikRestController {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
             zanrService.create(zanrAddDto);
-            return new ResponseEntity<>("Zanr dodat", HttpStatus.OK);
+            return new ResponseEntity<>("Zanr added seccessfully", HttpStatus.OK);
         }else {
-            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }
     }
     @PostMapping("/api/admin/knjiga-add")
@@ -264,7 +262,7 @@ public class KorisnikRestController {
             knjigaService.createKnjigaAdmin(knjigaAutorDto);
             return new ResponseEntity<>("Knjiga dodata", HttpStatus.OK);
         }else {
-            return new ResponseEntity<>("Niste administrator", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }
     }
 
