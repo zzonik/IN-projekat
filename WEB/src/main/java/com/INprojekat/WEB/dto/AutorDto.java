@@ -43,6 +43,12 @@ public class AutorDto {
 
     public AutorDto(Autor autor) {
         this.aktivnost = autor.getAktivnost();
+        this.ime = autor.getIme();
+        this.prezime = autor.getPrezime();
+        this.profilnaSlika = autor.getProfilnaSlika();
+        this.korisnickoIme = autor.getKorisnickoIme();
+        this.datumRodjenja = autor.getDatumRodjenja();
+        this.mail = autor.getMail();
     }
     public AutorDto() {
     }
@@ -61,5 +67,77 @@ public class AutorDto {
 
     public void setKnjige(Set<Knjiga> knjige) {
         this.knjige = knjige;
+    }
+
+    public String getIme() {
+        return ime;
+    }
+
+    public void setIme(String ime) {
+        this.ime = ime;
+    }
+
+    public String getPrezime() {
+        return prezime;
+    }
+
+    public void setPrezime(String prezime) {
+        this.prezime = prezime;
+    }
+
+    public String getKorisnickoIme() {
+        return korisnickoIme;
+    }
+
+    public void setKorisnickoIme(String korisnickoIme) {
+        this.korisnickoIme = korisnickoIme;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getLozinka() {
+        return lozinka;
+    }
+
+    public void setLozinka(String lozinka) {
+        this.lozinka = lozinka;
+    }
+
+    public Date getDatumRodjenja() {
+        return datumRodjenja;
+    }
+
+    public void setDatumRodjenja(Date datumRodjenja) {
+        this.datumRodjenja = datumRodjenja;
+    }
+
+    public String getProfilnaSlika() {
+        return profilnaSlika;
+    }
+
+    public void setProfilnaSlika(String profilnaSlika) {
+        this.profilnaSlika = profilnaSlika;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+
+    public Korisnik.Uloga getUloga() {
+        return uloga;
+    }
+
+    public void setUloga(Korisnik.Uloga uloga) {
+        this.uloga = uloga;
     }
 }

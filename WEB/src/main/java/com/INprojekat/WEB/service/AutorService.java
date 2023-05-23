@@ -1,9 +1,6 @@
 package com.INprojekat.WEB.service;
 
-import com.INprojekat.WEB.dto.AutorRegisterDto;
-import com.INprojekat.WEB.dto.KnjigaAutorDto;
-import com.INprojekat.WEB.dto.KnjigaDto;
-import com.INprojekat.WEB.dto.UpdateDto;
+import com.INprojekat.WEB.dto.*;
 import com.INprojekat.WEB.entity.Autor;
 import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
@@ -105,6 +102,17 @@ public class AutorService {
         autor.getPolice().addAll(police);
         autor.setAktivnost(true);
         save(autor);
+    }
+
+    public List<AutorDto> findAll(){
+        List<Autor> autoriList = autorRepository.findAll();
+
+        List<AutorDto> dtos = new ArrayList<>();
+        for(Autor autor : autoriList){
+            AutorDto dto = new AutorDto(autor);
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     public Boolean existsMail(String mail) { return autorRepository.existsByMail(mail); }

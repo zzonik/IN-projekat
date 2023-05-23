@@ -15,14 +15,10 @@ import org.springframework.http.*;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.Properties;
+import java.util.*;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 @RestController
 public class KorisnikRestController {
@@ -52,6 +48,15 @@ public class KorisnikRestController {
         if(loginDto.getMail().isEmpty() || loginDto.getLozinka().isEmpty())
             return new ResponseEntity("Invalid login data", HttpStatus.BAD_REQUEST);
 
+        String mail = loginDto.getMail();
+        List<AutorDto> autori = autorService.findAll();
+        for(AutorDto dto : autori){
+            if((Objects.equals(dto.getMail(), mail))) {
+                if (dto.isAktivnost() == false) {
+                    return new ResponseEntity<>("Autor nije aktivan", HttpStatus.BAD_REQUEST);
+                }
+            }
+        }
         Korisnik loggedKorisnik = korisnikService.login(loginDto.getMail(), loginDto.getLozinka());
         if (loggedKorisnik == null)
             return new ResponseEntity<>("User does not exist!", HttpStatus.NOT_FOUND);
