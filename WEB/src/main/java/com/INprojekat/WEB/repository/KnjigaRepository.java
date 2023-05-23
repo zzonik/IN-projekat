@@ -8,5 +8,4 @@ import java.util.Optional;
 public interface KnjigaRepository extends JpaRepository<Knjiga, Long> {
     Boolean existsByNaslov(String naziv);
     Optional<Knjiga> findById(Long id);
-
 }

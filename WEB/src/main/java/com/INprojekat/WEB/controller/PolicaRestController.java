@@ -98,7 +98,7 @@ public class PolicaRestController {
                 return new ResponseEntity<>("Shelf added successfully", HttpStatus.OK);
             }
         }
-            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Vi niste taj citalac", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/api/autor/{autorId}/police-add")

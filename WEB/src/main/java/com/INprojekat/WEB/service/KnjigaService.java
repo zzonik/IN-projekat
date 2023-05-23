@@ -28,6 +28,8 @@ public class KnjigaService {
     @Autowired
     private KnjigaRepository knjigaRepository;
     @Autowired
+    private KnjigaService knjigaService;
+    @Autowired
     private AutorRepository autorRepository;
     @Autowired
     private ZanrRepository zanrRepository;
@@ -164,6 +166,31 @@ public class KnjigaService {
             }
         }
     }
+
+    public boolean findKnjigaOnPrimarnaPolica(Long citalacId, Long knjigaId){
+        Korisnik korisnik = korisnikService.findOne(citalacId);
+        Set<Polica> korisnikovePolice = korisnik.getPolice();
+
+        for (Polica p : korisnikovePolice) {
+            for (StavkaPolice stavka : p.getStavkePolica()) {
+                if (stavka.getKnjiga().getId() == knjigaId) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void deleteKnjigaAdmin(Long id) throws ChangeSetPersister.NotFoundException {
+        Knjiga knjiga = knjigaRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+        if (knjiga.getRecenzije().isEmpty()) {
+            for (StavkaPolice stavka : knjiga.getStavka_polica()) {
+                stavka.setKnjiga(null); // Remove the association to avoid constraint violation
+            }
+            knjigaRepository.delete(knjiga);
+        }
+    }
+
 
     public Boolean existsKnjiga(String naziv) { return knjigaRepository.existsByNaslov(naziv); }
 

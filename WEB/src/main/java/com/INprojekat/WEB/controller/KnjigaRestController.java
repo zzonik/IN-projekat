@@ -57,6 +57,16 @@ public class KnjigaRestController {
             return new ResponseEntity<>("You are not administrator", HttpStatus.OK);
         }
     }
+    @DeleteMapping("/api/admin/{knjigaId}")
+    public ResponseEntity<?> deleteKnjigaAdmin(@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
+            knjigaService.deleteKnjigaAdmin(knjigaId);
+            return new ResponseEntity<>("Book deleted successfully", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("You are not administrator", HttpStatus.OK);
+        }
+    }
 }
 
 

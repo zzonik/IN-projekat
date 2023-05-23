@@ -28,6 +28,12 @@ public class RecenzijaService {
     @Autowired
     private StavkaPoliceRepository stavkaPoliceRepository;
 
+    @Autowired
+    private PolicaService policaService;
+
+    @Autowired
+    private RecenzijaService recenzijaService;
+
     public Recenzija findOne(Long id){
         Optional<Recenzija> foundRecenzija = recenzijaRepository.findById(id);
         if (foundRecenzija.isPresent()) {
@@ -48,23 +54,34 @@ public class RecenzijaService {
 
     }
 
-    public void add(RecenzijaDto recenzijaDto,Long stavkaPoliceId) {
-        Recenzija recenzija;
-        recenzija = new Recenzija();
-        recenzija.setOcena(recenzijaDto.getOcena());
-        recenzija.setDatum(recenzijaDto.getDatum());
-        recenzija.setTekst(recenzijaDto.getTekst());
-        recenzija.setKorisnik(recenzijaDto.getKorisnik());
+    public void add(RecenzijaAddDto recenzijaAddDto, Long stavkaPoliceId) throws ChangeSetPersister.NotFoundException {
+        Recenzija recenzija = new Recenzija();
+        recenzija.setOcena(recenzijaAddDto.getOcena());
+        recenzija.setDatum(recenzijaAddDto.getDatum());
+        recenzija.setTekst(recenzijaAddDto.getTekst());
+        Korisnik korisnik = korisnikRepository.getById(recenzijaAddDto.getKorisnikId());
+        recenzija.setKorisnik(korisnik);
 
         StavkaPoliceDto stavkaPoliceDto = stavkaPoliceService.findOne(stavkaPoliceId);
-
         Knjiga knjiga = stavkaPoliceDto.getKnjiga();
+
+        List<Long> indeksiPolica = recenzijaAddDto.getPolice();
+        for(Long indeks : indeksiPolica){
+            policaService.addKnjigaOnPolica(indeks, knjiga.getId());
+        }
+
+        // Save the Recenzija entity
+        recenzija = recenzijaService.save(recenzija);
+
+        // Associate the saved Recenzija with the Knjiga entity
         Set<Recenzija> recenzije = knjiga.getRecenzije();
         recenzije.add(recenzija);
         knjiga.setRecenzije(recenzije);
-        knjigaService.save(knjiga);
 
+        // Save the Knjiga entity
+        knjigaService.save(knjiga);
     }
+
 
     public Recenzija updateRecenzija(Long id, UpdateRecDto updateRecDto) {
         Recenzija recenzija = findOne(id);

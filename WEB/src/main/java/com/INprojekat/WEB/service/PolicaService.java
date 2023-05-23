@@ -73,6 +73,7 @@ public class PolicaService {
         polica.setPrimarna(false);
 
         Korisnik korisnik = korisnikService.findOne(id);
+        polica.setKorisnik(korisnik);
         Set<Polica> police = korisnik.getPolice();
         police.add(polica);
         korisnik.setPolice(police);

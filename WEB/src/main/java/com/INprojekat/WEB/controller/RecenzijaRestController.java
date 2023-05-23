@@ -40,13 +40,13 @@ public class RecenzijaRestController {
     }
 
     @PostMapping("/api/citalac/{citalacId}/polica/{policaId}/stavka-police/{stavkaPoliceId}/add-recenzija")
-    public ResponseEntity<?> addRecenzijaCitalac(@PathVariable Long citalacId, @PathVariable Long policaId,@PathVariable Long stavkaPoliceId ,@RequestBody RecenzijaDto recenzijaDto,HttpSession session) {
+    public ResponseEntity<?> addRecenzijaCitalac(@PathVariable Long citalacId, @PathVariable Long policaId,@PathVariable Long stavkaPoliceId ,@RequestBody RecenzijaAddDto recenzijaAddDto,HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(citalacId == loggedKorisnik.getId()){
             if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC ) {
                 PolicaDto policaDto = policaService.findOne(policaId);
                     if (policaDto.getNaziv().equals("Read")) {
-                        recenzijaService.add(recenzijaDto, stavkaPoliceId);
+                        recenzijaService.add(recenzijaAddDto, stavkaPoliceId);
                         return new ResponseEntity<>("Recenzija added successfully", HttpStatus.OK);
                     }
             }
@@ -54,13 +54,13 @@ public class RecenzijaRestController {
         return ResponseEntity.noContent().build();
     }
     @PostMapping("/api/autor/{autorId}/polica/{policaId}/stavka-police/{stavkaPoliceId}/add-recenzija")
-    public ResponseEntity<?> addRecenzijaAutor(@PathVariable Long autorId, @PathVariable Long policaId,@PathVariable Long stavkaPoliceId ,@RequestBody RecenzijaDto recenzijaDto,HttpSession session) {
+    public ResponseEntity<?> addRecenzijaAutor(@PathVariable Long autorId, @PathVariable Long policaId,@PathVariable Long stavkaPoliceId ,@RequestBody RecenzijaAddDto recenzijaAddDto,HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(autorId == loggedKorisnik.getId()) {
             if (loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR) {
                 PolicaDto policaDto = policaService.findOne(policaId);
                     if (policaDto.getNaziv().equals("Read")) {
-                        recenzijaService.add(recenzijaDto, stavkaPoliceId);
+                        recenzijaService.add(recenzijaAddDto, stavkaPoliceId);
                         return new ResponseEntity<>("Recenzija added successfully", HttpStatus.OK);
                     }
             }

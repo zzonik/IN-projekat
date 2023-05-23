@@ -7,19 +7,24 @@ import com.INprojekat.WEB.dto.UpdateDto;
 import com.INprojekat.WEB.entity.Autor;
 import com.INprojekat.WEB.entity.Knjiga;
 import com.INprojekat.WEB.entity.Korisnik;
+import com.INprojekat.WEB.entity.Polica;
 import com.INprojekat.WEB.repository.AutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AutorService {
 
     @Autowired
     private AutorRepository autorRepository;
+
+    @Autowired
+    private KorisnikService korisnikService;
+
+    @Autowired
+    private PolicaService policaService;
     public Autor findOne(Long id) {
         return (Autor) autorRepository.findById(id).orElse(null);
     }
@@ -71,6 +76,37 @@ public class AutorService {
 
         return save(autor);
     }
+    public void activateAutor(Long id) {
+        Set<Polica> police = new HashSet<>();
+        Korisnik korisnik = korisnikService.findOne(id);
+        Polica wantToRead = new Polica();
+        wantToRead.setNaziv("Want To Read");
+        wantToRead.setPrimarna(true);
+        wantToRead.setKorisnik(korisnik);
+        policaService.save(wantToRead);
+        police.add(wantToRead);
+
+        Polica currentlyReading = new Polica();
+        currentlyReading.setNaziv("Currently Reading");
+        currentlyReading.setPrimarna(true);
+        currentlyReading.setKorisnik(korisnik);
+        policaService.save(currentlyReading);
+        police.add(currentlyReading);
+
+        Polica read = new Polica();
+        read.setNaziv("Read");
+        read.setPrimarna(true);
+        read.setKorisnik(korisnik);
+        policaService.save(read);
+        police.add(read);
+
+        Autor autor = findOne(id);
+        autor.getPolice().clear();
+        autor.getPolice().addAll(police);
+        autor.setAktivnost(true);
+        save(autor);
+    }
+
     public Boolean existsMail(String mail) { return autorRepository.existsByMail(mail); }
     public Boolean existsLozinka(String lozinka) { return autorRepository.existsByLozinka(lozinka); }
     public Boolean existsKorisnickoIme(String korisnickoIme) { return autorRepository.existsByKorisnickoIme(korisnickoIme); }

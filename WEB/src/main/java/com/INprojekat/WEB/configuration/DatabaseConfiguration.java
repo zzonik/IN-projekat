@@ -2,6 +2,7 @@ package com.INprojekat.WEB.configuration;
 
 import com.INprojekat.WEB.entity.*;
 import com.INprojekat.WEB.repository.*;
+import com.INprojekat.WEB.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,9 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Configuration
 public class DatabaseConfiguration {
@@ -34,8 +33,6 @@ public class DatabaseConfiguration {
 
     @Bean
     public boolean instantiate() throws ParseException {
-        Korisnik ker = new Korisnik("Dejan", "Bodiroga", "rogxon", "bodirogaroga@gmail.com", "nabodiroga",  "/dejo", Korisnik.Uloga.CITALAC);
-
         Korisnik autorK1 = new Korisnik("Mico", "Roknic", "dsaf", "micomico@gmail.com", "brizaou",  "/dejdo", Korisnik.Uloga.AUTOR);
         Korisnik autorK2 = new Korisnik("Dule", "Savic", "Dule_Rana", "dulesavic55@gmail.com", "1234crvenkapa",  "/slika1.jpg", Korisnik.Uloga.AUTOR);
 
@@ -44,17 +41,10 @@ public class DatabaseConfiguration {
 
         Korisnik admin = new Korisnik("Milka", "Canic", "milkica", "milka123@gmail.com", "milka32",  "/dobro", Korisnik.Uloga.ADMINISTRATOR);
         korisnikRepository.saveAll(
-                List.of(ker, admin)
+                List.of(admin)
         );
         autorRepository.saveAll(
                 List.of(autor1, autor2)
-        );
-
-        Polica polica1 = new Polica("Want to Read", true );
-        Polica polica2 = new Polica("Currently Reading", true );
-        Polica polica3 = new Polica("Read", true );
-        policaRepository.saveAll(
-                List.of(polica1, polica2, polica3)
         );
 
         Zanr zanr1 = new Zanr("Drama");

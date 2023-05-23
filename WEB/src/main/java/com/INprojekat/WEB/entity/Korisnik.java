@@ -39,8 +39,8 @@ public class Korisnik implements Serializable{
     @JsonIgnore
     private Set<ZahtevZaAktivacijuNalogaAutora> zahtevZaAktivacijuNalogaAutora = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<Polica> police = new HashSet<>();
+    @OneToMany(mappedBy = "korisnik", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Polica> police;
 
     public Korisnik(String ime, String prezime, String korisnickoIme, String mail, String lozinka, String profilnaSlika, Uloga uloga) {
         this.ime = ime;

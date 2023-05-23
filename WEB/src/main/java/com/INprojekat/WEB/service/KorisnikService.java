@@ -64,32 +64,43 @@ public class KorisnikService {
         korisnik.setKorisnickoIme(registerDto.getKorisnickoIme());
         korisnik.setMail(registerDto.getMail());
         korisnik.setLozinka(registerDto.getLozinka());
-
-        Set<Polica> police = new HashSet<>();
-        Polica WantToRead = new Polica();
-        WantToRead.setNaziv("Want To Read");
-        WantToRead.setPrimarna(true);
-        police.add(WantToRead);
-
-        Polica CurrentlyReading = new Polica();
-        CurrentlyReading.setNaziv("CurrentlyReading");
-        CurrentlyReading.setPrimarna(true);
-        police.add(CurrentlyReading);
-
-        Polica Read = new Polica();
-        Read.setNaziv("Read");
-        Read.setPrimarna(true);
-        police.add(Read);
-        policaService.save(WantToRead);
-        policaService.save(CurrentlyReading);
-        policaService.save(Read);
-        //prvo napravi 3 police i sacuvaj ih u repozitorijum od korisnika
-        korisnik.setPolice(police);
-
         korisnik.setUloga(Korisnik.Uloga.CITALAC);
 
-        return save(korisnik);
+        // Save the Korisnik entity
+        korisnik = save(korisnik);
+
+        // Create and associate the Polica entities
+        Set<Polica> police = new HashSet<>();
+
+        Polica wantToRead = new Polica();
+        wantToRead.setNaziv("Want To Read");
+        wantToRead.setPrimarna(true);
+        wantToRead.setKorisnik(korisnik);
+        police.add(wantToRead);
+
+        Polica currentlyReading = new Polica();
+        currentlyReading.setNaziv("Currently Reading");
+        currentlyReading.setPrimarna(true);
+        currentlyReading.setKorisnik(korisnik);
+        police.add(currentlyReading);
+
+        Polica read = new Polica();
+        read.setNaziv("Read");
+        read.setPrimarna(true);
+        read.setKorisnik(korisnik);
+        police.add(read);
+
+        // Save the Polica entities
+        for (Polica polica : police) {
+            policaService.save(polica);
+        }
+
+        // Set the Polica collection in the Korisnik entity
+        korisnik.setPolice(police);
+
+        return korisnik;
     }
+
 
     public Korisnik updateUser(Long id, UpdateDto updateDto){
         Korisnik korisnik = findOne(id);

@@ -48,7 +48,6 @@ public class AutorRestController {
     @PostMapping("/api/autor/{autorId}/add-knjiga")
     public ResponseEntity<?> addKnjiga(@PathVariable Long autorId, @RequestBody KnjigaAutorDto knjigaAutorDto, HttpSession session) {
         Object sessionEmployee = session.getAttribute("employee");
-
         {
             if (sessionEmployee instanceof Autor) {
                 Autor loggedAutor = (Autor) sessionEmployee;
@@ -56,7 +55,6 @@ public class AutorRestController {
                     if (loggedAutor.getAktivnost() == false) {
                         return ResponseEntity.badRequest().body("Autor is not active");
                     }
-
                     Knjiga knjiga = knjigaService.create(loggedAutor.getId(), knjigaAutorDto);
                     autorService.addKnjiga(autorId, knjiga);
 

@@ -14,17 +14,17 @@ public class RecenzijaDto {
     private int ocena;
     private String tekst;
     private Date datum;
-    private Korisnik korisnik;
+    private Long korisnikId;
 
     public RecenzijaDto() {
     }
 
-    public RecenzijaDto(Long id, int ocena, String tekst, Date datum, Korisnik korisnik) {
+    public RecenzijaDto(Long id, int ocena, String tekst, Date datum, Long korisnikId) {
         this.id = id;
         this.ocena = ocena;
         this.tekst = tekst;
         this.datum = datum;
-        this.korisnik = korisnik;
+        this.korisnikId = korisnikId;
     }
 
     public RecenzijaDto(Recenzija recenzija) {
@@ -32,7 +32,7 @@ public class RecenzijaDto {
         this.ocena = recenzija.getOcena();
         this.tekst = recenzija.getTekst();
         this.datum = recenzija.getDatum();
-        this.korisnik = recenzija.getKorisnik();
+        this.korisnikId = recenzija.getKorisnik().getId();
     }
 
     public Long getId() {
@@ -67,11 +67,11 @@ public class RecenzijaDto {
         this.datum = datum;
     }
 
-    public Korisnik getKorisnik() {
-        return korisnik;
+    public Long getKorisnikId() {
+        return korisnikId;
     }
 
-    public void setKorisnik(Korisnik korisnik) {
-        this.korisnik = korisnik;
+    public void setKorisnikId(Long korisnikId) {
+        this.korisnikId = korisnikId;
     }
 }
