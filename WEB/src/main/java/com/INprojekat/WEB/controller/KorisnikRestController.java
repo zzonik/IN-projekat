@@ -112,11 +112,11 @@ public class KorisnikRestController {
         }
         return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
     }
-    @PutMapping("api/autor/{autorId}/update-korisnik")
+    @PutMapping("api/autor/{autorId}/update-autor")
     public ResponseEntity<?> updateUser(@PathVariable Long autorId, @RequestBody UpdateDto updateDto,HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(autorId == loggedKorisnik.getId()) {
-            if (loggedKorisnik != null || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR) {
+            if (loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR) {
                 korisnikService.updateUser(autorId, updateDto);
                 return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
             }

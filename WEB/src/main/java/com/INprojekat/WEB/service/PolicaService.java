@@ -124,7 +124,15 @@ public class PolicaService {
         }
         return false;
     }
-    public Boolean existsPolica(String naziv) { return policaRepository.existsByNaziv(naziv); }
+    public Boolean existsPolicaInKorisnik(String naziv, Long id) {
+        Set<Polica> police = korisnikService.findOne(id).getPolice();
+        for(Polica polica: police){
+            if(Objects.equals(polica.getNaziv(), naziv)){
+                return true;
+            }
+        }
+        return false;
+    }
     public Polica save(Polica polica) { return policaRepository.save(polica);}
 
 /*

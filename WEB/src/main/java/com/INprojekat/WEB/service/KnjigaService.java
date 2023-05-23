@@ -47,6 +47,8 @@ public class KnjigaService {
 
     @Autowired
     private AutorService autorService;
+    @Autowired
+    private PolicaRepository policaRepository;
 
     @Autowired
     private StavkaPoliceService stavkaPoliceService;
@@ -184,8 +186,13 @@ public class KnjigaService {
     public void deleteKnjigaAdmin(Long id) throws ChangeSetPersister.NotFoundException {
         Knjiga knjiga = knjigaRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
         if (knjiga.getRecenzije().isEmpty()) {
-            for (StavkaPolice stavka : knjiga.getStavka_polica()) {
-                stavka.setKnjiga(null); // Remove the association to avoid constraint violation
+            List<Polica> police = policaRepository.findAll();
+            for(Polica polica: police){
+                for(StavkaPolice stavka : polica.getStavkePolica()){
+                    if(stavka.getKnjiga().getId() == id){
+                        stavkaPoliceService.deleteStavkaPolice(polica.getId(), stavka.getId());
+                    }
+                }
             }
             knjigaRepository.delete(knjiga);
         }

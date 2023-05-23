@@ -91,7 +91,7 @@ public class PolicaRestController {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(citalacId == loggedKorisnik.getId()) {
             if (loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC) {
-                if (policaService.existsPolica(policaAddDto.getNaziv())) {
+                if (policaService.existsPolicaInKorisnik(policaAddDto.getNaziv(), citalacId)) {
                     return new ResponseEntity<>("Name for shelf is used!", HttpStatus.BAD_REQUEST);
                 }
                 policaService.create(policaAddDto, loggedKorisnik.getId());
@@ -106,8 +106,8 @@ public class PolicaRestController {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(autorId == loggedKorisnik.getId()) {
             if (loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR) {
-                if (policaService.existsPolica(policaAddDto.getNaziv())) {
-                    return new ResponseEntity<>("Name for shelf is udes!", HttpStatus.BAD_REQUEST);
+                if (policaService.existsPolicaInKorisnik(policaAddDto.getNaziv(), autorId)) {
+                    return new ResponseEntity<>("Name for shelf is used!", HttpStatus.BAD_REQUEST);
                 }
                 policaService.create(policaAddDto, loggedKorisnik.getId());
                 return new ResponseEntity<>("Shelf added successfully", HttpStatus.OK);
