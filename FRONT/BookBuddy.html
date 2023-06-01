@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <title>BookBuddy</title>
+</head>
+<body>
+    
+<header>
+    <div class="pre-header">
+        <div class="container1">
+            <div class="row1">
+                <div class="imageheader1">
+                    <div class="col-md-4">
+                        <img src="images/Header left-right.png">
+                    </div>
+                </div>  
+                <div class="imagelogo">
+                    <div class="col-md-4">
+                        <img src="images/Logo.png">
+                    </div>
+                </div> 
+                <div class="imageheader2">
+                    <div class="col-md-4">
+                        <img src="images/Header left-right.png">
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="container2">
+        <div class="row2">
+            <div>
+                <ul class="menu">
+                    <li id="pocetna"><a href="#">Pocetna</a></li>
+                    <li id="pretraga"><a href="#">Pretraga</a></li>
+                    <li id="prijava"><a href="#">Log in</a></li>
+                    <li id="zahtev"><a href="#">Zahtev za aktivaciju naloga</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<footer>
+  <p>&copy; 2023 BookBuddy. Sva prava zadržana.</p>
+</footer>
+
+<script>
+    document.getElementById("pocetna").addEventListener("click", function() {
+      window.location.href = "BookBuddy.html";
+    });
+
+    document.getElementById("pretraga").addEventListener("click", function() {
+      window.location.href = "pretraga.html";
+    });
+
+    document.getElementById("prijava").addEventListener("click", function() {
+      window.location.href = "login.html";
+    });
+
+    document.getElementById("zahtev").addEventListener("click", function() {
+      window.location.href = "aktivacija.html";
+    });
+  </script>
+
+</body>
+</html>
