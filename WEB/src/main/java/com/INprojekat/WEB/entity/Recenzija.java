@@ -1,6 +1,7 @@
 package com.INprojekat.WEB.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class Recenzija implements Serializable {
     @Column
     private Date datum;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="korisnik_id")
     private Korisnik korisnik;
 

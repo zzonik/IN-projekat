@@ -55,31 +55,38 @@ public class RecenzijaService {
     }
 
     public void add(RecenzijaAddDto recenzijaAddDto, Long stavkaPoliceId) throws ChangeSetPersister.NotFoundException {
-        Recenzija recenzija = new Recenzija();
-        recenzija.setOcena(recenzijaAddDto.getOcena());
-        recenzija.setDatum(recenzijaAddDto.getDatum());
-        recenzija.setTekst(recenzijaAddDto.getTekst());
-        Korisnik korisnik = korisnikRepository.getById(recenzijaAddDto.getKorisnikId());
-        recenzija.setKorisnik(korisnik);
+        StavkaPolice stavka = stavkaPoliceService.findOneById(stavkaPoliceId);
+        if (stavka.getRecenzija() == null) {
+            Recenzija recenzija = new Recenzija();
+            recenzija.setOcena(recenzijaAddDto.getOcena());
+            recenzija.setDatum(recenzijaAddDto.getDatum());
+            recenzija.setTekst(recenzijaAddDto.getTekst());
+            Korisnik korisnik = korisnikRepository.getById(recenzijaAddDto.getKorisnikId());
+            recenzija.setKorisnik(korisnik);
 
-        StavkaPoliceDto stavkaPoliceDto = stavkaPoliceService.findOne(stavkaPoliceId);
-        Knjiga knjiga = stavkaPoliceDto.getKnjiga();
+            Knjiga knjiga = stavka.getKnjiga();
 
-        List<Long> indeksiPolica = recenzijaAddDto.getPolice();
-        for(Long indeks : indeksiPolica){
-            policaService.addKnjigaOnPolica(indeks, knjiga.getId());
-        }
+            List<Long> indeksiPolica = recenzijaAddDto.getPolice();
+            for (Long indeks : indeksiPolica) {
+                policaService.addKnjigaOnPolica(indeks, knjiga.getId());
 
-        // Save the Recenzija entity
-        recenzija = recenzijaService.save(recenzija);
+            }
 
-        // Associate the saved Recenzija with the Knjiga entity
-        Set<Recenzija> recenzije = knjiga.getRecenzije();
-        recenzije.add(recenzija);
-        knjiga.setRecenzije(recenzije);
+            // Save the Recenzija entity
+            recenzija = recenzijaService.save(recenzija);
 
-        // Save the Knjiga entity
-        knjigaService.save(knjiga);
+            stavka.setRecenzija(recenzija);
+            stavkaPoliceService.save(stavka);
+
+            // Associate the saved Recenzija with the Knjiga entity
+            Set<Recenzija> recenzije = knjiga.getRecenzije();
+            recenzije.add(recenzija);
+            knjiga.setRecenzije(recenzije);
+
+            // Save the Knjiga entity
+            knjigaService.save(knjiga);
+        } return;
+
     }
 
 
@@ -100,6 +107,12 @@ public class RecenzijaService {
     }
 
     public Recenzija save(Recenzija recenzija) { return recenzijaRepository.save(recenzija);}
+
+    public Set<Recenzija> searchRecenzijeKnjige(Long knjigaId){
+        KnjigaDto knjiga = knjigaService.findOne(knjigaId);
+        Set<Recenzija> recenzije = knjiga.getRecenzije();
+        return recenzije;
+    }
 /*
         1. Trazenje jedne recenzije
         2. Izlistavanje svih recenzija

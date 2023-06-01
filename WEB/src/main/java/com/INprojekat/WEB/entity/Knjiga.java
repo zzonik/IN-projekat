@@ -48,6 +48,17 @@ public class Knjiga implements Serializable {
         this.brojStrana = brojStrana;
         this.opis = opis;
     }
+
+    public Knjiga(String naslov, String naslovnaFotografija, String ISBN, int brojStrana, String opis, Date datum, Autor autor, Zanr zanr) {
+        this.naslov = naslov;
+        this.naslovnaFotografija = naslovnaFotografija;
+        this.ISBN = ISBN;
+        this.brojStrana = brojStrana;
+        this.opis = opis;
+        this.autor = autor;
+        this.zanr = zanr;
+        this.datumObjavljivanja = datum;
+    }
     public Knjiga() {
     }
 

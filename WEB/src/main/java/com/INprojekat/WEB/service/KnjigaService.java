@@ -53,6 +53,9 @@ public class KnjigaService {
     @Autowired
     private StavkaPoliceService stavkaPoliceService;
 
+    @Autowired
+    private RecenzijaService recenzijaService;
+
     private Knjiga findOneById(Long knjigaId) {
         Optional<Knjiga> foundKnjiga = knjigaRepository.findById(knjigaId);
         if (foundKnjiga.isPresent()) {
@@ -150,11 +153,24 @@ public class KnjigaService {
         Polica polica = policaService.findOneById(policaId);
         Set<Polica> korisnikovePolice = korisnik.getPolice();
         if(polica.isPrimarna()){
-            for (Polica p : korisnikovePolice) {
-                if (p.getStavkePolica().stream().anyMatch(stavka -> stavka.getKnjiga().equals(knjiga))) {
-                    for (StavkaPolice stavka : p.getStavkePolica()) {
-                        if (stavka.getKnjiga().equals(knjiga)) {
-                            stavkaPoliceService.deleteStavkaPolice(p.getId(), stavka.getId());
+            if(polica.getNaziv().equals("Read")){
+                for (Polica p : korisnikovePolice) {
+                    if (p.getStavkePolica().stream().anyMatch(stavka -> stavka.getKnjiga().equals(knjiga))) {
+                        for (StavkaPolice stavka : p.getStavkePolica()) {
+                            if (stavka.getKnjiga().equals(knjiga)) {
+                                stavkaPoliceService.deleteStavkaPolice(p.getId(), stavka.getId());
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                for (Polica p : korisnikovePolice) {
+                    if (p.getStavkePolica().stream().anyMatch(stavka -> stavka.getKnjiga().equals(knjiga))) {
+                        for (StavkaPolice stavka : p.getStavkePolica()) {
+                            if (stavka.getKnjiga().equals(knjiga)) {
+                                stavka.setKnjiga(null);
+                            }
                         }
                     }
                 }
@@ -197,11 +213,31 @@ public class KnjigaService {
             knjigaRepository.delete(knjiga);
         }
     }
-
-
     public Boolean existsKnjiga(String naziv) { return knjigaRepository.existsByNaslov(naziv); }
 
     public Knjiga save(Knjiga knjiga) { return knjigaRepository.save(knjiga); }
+
+    public List<KnjigaDto> searchKnjige(String string){
+        List<KnjigaDto> knjige = findAll();
+        List<KnjigaDto> knjigeIzdvojeno = new ArrayList<>();
+        for(KnjigaDto dto : knjige){
+            if(dto.getNaslov().toLowerCase().contains(string.toLowerCase())){
+                knjigeIzdvojeno.add(dto);
+            }
+        }
+        return knjigeIzdvojeno;
+    }
+    public List<KnjigaDto> searchKnjigeByZanr(String string){
+        List<KnjigaDto> knjige = findAll();
+        List<KnjigaDto> knjigeIzdvojeno = new ArrayList<>();
+        for(KnjigaDto dto : knjige){
+            if(dto.getZanr().getNaziv().toLowerCase().contains(string.toLowerCase())){
+                knjigeIzdvojeno.add(dto);
+            }
+        }
+        return knjigeIzdvojeno;
+    }
+
 
 /*
         1. Trazenje jedne knjige

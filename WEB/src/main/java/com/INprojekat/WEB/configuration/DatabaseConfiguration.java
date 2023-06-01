@@ -33,7 +33,7 @@ public class DatabaseConfiguration {
 
     @Bean
     public boolean instantiate() throws ParseException {
-        Korisnik autorK1 = new Korisnik("Mico", "Roknic", "dsaf", "micomico@gmail.com", "brizaou",  "/dejdo", Korisnik.Uloga.AUTOR);
+        Korisnik autorK1 = new Korisnik("Mico", "Roknic", "Mico1389", "micomico@gmail.com", "brizaou",  "/dejdo", Korisnik.Uloga.AUTOR);
         Korisnik autorK2 = new Korisnik("Dule", "Savic", "Dule_Rana", "dulesavic55@gmail.com", "1234crvenkapa",  "/slika1.jpg", Korisnik.Uloga.AUTOR);
 
         Autor autor1 = new Autor(autorK1, false);
@@ -51,8 +51,13 @@ public class DatabaseConfiguration {
         Zanr zanr2 = new Zanr("Triler");
         zanrRepository.saveAll(List.of(zanr1, zanr2));
 
-        Knjiga knjiga1 = new Knjiga("Braca Karamazovi", "/23", "132421", 943, "Najjjjjaca");
-        knjigaRepository.save(knjiga1);
+        DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+        Date d1 = df.parse("12-10-2011"); // for example, today's date
+        Date d2 = df.parse("01-01-1900"); // use your own dates, of course
+
+        Knjiga knjiga1 = new Knjiga("Braca Karamazovi", "/23", "132421", 943, "Jako duga knjiga", d1, autor1, zanr1);
+        Knjiga knjiga2 = new Knjiga("Naruto", "slika.jpg", "E821932", 44, "Manga",d2 , autor1, zanr2);
+        knjigaRepository.saveAll(List.of(knjiga1, knjiga2));
         return true;
     }
 }

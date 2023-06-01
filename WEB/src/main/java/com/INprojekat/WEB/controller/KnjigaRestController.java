@@ -36,22 +36,22 @@ public class KnjigaRestController {
         return ResponseEntity.ok(knjigaDto);
     }
 
-    @DeleteMapping("/api/citalac/{citalacId}/polica/{policaId}/knjiga/{knjigaId}")
-    public ResponseEntity<?> deleteKnjigaCitalac(@PathVariable Long citalacId, @PathVariable Long policaId,@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
+    @DeleteMapping("/api/citalac/polica/{policaId}/knjiga/{knjigaId}")
+    public ResponseEntity<?> deleteKnjigaCitalac(@PathVariable Long policaId,@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC){
-            knjigaService.deleteKnjiga(citalacId,policaId,knjigaId);
+            knjigaService.deleteKnjiga(loggedKorisnik.getId(), policaId,knjigaId);
             return new ResponseEntity<>("Book deleted successfully", HttpStatus.OK);
         }else {
             return new ResponseEntity<>("You are not administrator", HttpStatus.OK);
         }
     }
 
-    @DeleteMapping("/api/autor/{autorId}/polica/{policaId}/knjiga/{knjigaId}")
-    public ResponseEntity<?> deleteKnjigaAutor(@PathVariable Long autorId, @PathVariable Long policaId,@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
+    @DeleteMapping("/api/autor/polica/{policaId}/knjiga/{knjigaId}")
+    public ResponseEntity<?> deleteKnjigaAutor(@PathVariable Long policaId,@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR){
-            knjigaService.deleteKnjiga(autorId,policaId,knjigaId);
+            knjigaService.deleteKnjiga(loggedKorisnik.getId(), policaId,knjigaId);
             return new ResponseEntity<>("Book deleted successfully", HttpStatus.OK);
         }else {
             return new ResponseEntity<>("You are not administrator", HttpStatus.OK);
@@ -67,6 +67,18 @@ public class KnjigaRestController {
             return new ResponseEntity<>("You are not administrator", HttpStatus.OK);
         }
     }
+
+    @GetMapping("api/search-knjige/{string}")
+    public ResponseEntity<?> searchKnjige(@PathVariable String string) {
+        List<KnjigaDto> dtos = knjigaService.searchKnjige(string);
+        if (dtos.isEmpty()) {
+            return ResponseEntity.badRequest().body("Ne postoji");
+        } else {
+            return ResponseEntity.ok(dtos);
+        }
+    }
+
+
 }
 
 

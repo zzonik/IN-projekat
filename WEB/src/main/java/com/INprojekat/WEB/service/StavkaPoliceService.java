@@ -35,6 +35,13 @@ public class StavkaPoliceService {
         }
         return null;
     }
+    public StavkaPolice findOneById(Long id){
+        Optional<StavkaPolice> stavkaPolice = stavkaPoliceRepository.findById(id);
+        if (stavkaPolice.isPresent()) {
+            return stavkaPolice.get();
+        }
+        return null;
+    }
 
     public List<StavkaPoliceDto> findAll(){
         List<StavkaPolice> stavkeList = stavkaPoliceRepository.findAll();

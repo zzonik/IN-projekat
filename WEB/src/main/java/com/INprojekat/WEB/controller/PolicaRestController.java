@@ -49,7 +49,7 @@ public class PolicaRestController {
         return ResponseEntity.ok(dtos);
     }
     @GetMapping("/api/korisnici/{id}/police")
-    public ResponseEntity<List<PolicaDto>> getPoliceKorisnika(@PathVariable Long id, HttpSession session) {
+    public ResponseEntity<List<PolicaDto>> getPoliceKorisnika(@PathVariable Long id) {
         Korisnik korisnik = korisnikService.findOne(id);
         Set<Polica> policeSet = korisnik.getPolice();
         List<PolicaDto> dtos = new ArrayList<>();
@@ -61,7 +61,7 @@ public class PolicaRestController {
         return ResponseEntity.ok(dtos);
     }
     @GetMapping("/api/autor/{autorId}/police")
-    public ResponseEntity<List<PolicaDto>> getPoliceAutora(@PathVariable Long autorId, HttpSession session) {
+    public ResponseEntity<?> getPoliceAutora(@PathVariable Long autorId) {
         Korisnik korisnik = korisnikService.findOne(autorId);
         Set<Polica> policeSet = korisnik.getPolice();
         List<PolicaDto> dtos = new ArrayList<>();
@@ -74,75 +74,47 @@ public class PolicaRestController {
     }
 
     @GetMapping("/api/citalac/{citalacId}/police")
-    public ResponseEntity<List<PolicaDto>> getPoliceCitalaca(@PathVariable Long citalacId, HttpSession session) {
+    public ResponseEntity<?> getPoliceCitalaca(@PathVariable Long citalacId) {
         Korisnik korisnik = korisnikService.findOne(citalacId);
         Set<Polica> policeSet = korisnik.getPolice();
-        List<PolicaDto> dtos = new ArrayList<>();
+        if(citalacId == korisnik.getId()) {
+            List<PolicaDto> dtos = new ArrayList<>();
 
-        for (Polica polica : policeSet) {
-            PolicaDto dto = new PolicaDto(polica);
-            dtos.add(dto);
+            for (Polica polica : policeSet) {
+                PolicaDto dto = new PolicaDto(polica);
+                dtos.add(dto);
+            }
+            return ResponseEntity.ok(dtos);
         }
-        return ResponseEntity.ok(dtos);
+        return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/api/citalac/{citalacId}/police-add")
-    public ResponseEntity<?> addPolicaCitalac(@PathVariable Long citalacId,@RequestBody PolicaAddDto policaAddDto, HttpSession session) {
+    @PostMapping("/api/citalac/police-add")
+    public ResponseEntity<?> addPolica(@RequestBody PolicaAddDto policaAddDto, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(citalacId == loggedKorisnik.getId()) {
-            if (loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC) {
-                if (policaService.existsPolicaInKorisnik(policaAddDto.getNaziv(), citalacId)) {
-                    return new ResponseEntity<>("Name for shelf is used!", HttpStatus.BAD_REQUEST);
-                }
-                policaService.create(policaAddDto, loggedKorisnik.getId());
-                return new ResponseEntity<>("Shelf added successfully", HttpStatus.OK);
+        if (loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC  || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR ) {
+            if (policaService.existsPolicaInKorisnik(policaAddDto.getNaziv(), loggedKorisnik.getId())) {
+                return new ResponseEntity<>("Name for shelf is used!", HttpStatus.BAD_REQUEST);
             }
+            policaService.create(policaAddDto, loggedKorisnik.getId());
+            return new ResponseEntity<>("Shelf added successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Error adding book on shelf", HttpStatus.OK);
         }
-        return new ResponseEntity<>("Vi niste taj citalac", HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/api/autor/{autorId}/police-add")
-    public ResponseEntity<?> addPolicaAutor(@PathVariable Long autorId, @RequestBody PolicaAddDto policaAddDto, HttpSession session) {
+    @DeleteMapping("/api/citalac/police/{policaId}")
+    public ResponseEntity<?> deletePolica(@PathVariable Long policaId,HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(autorId == loggedKorisnik.getId()) {
-            if (loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR) {
-                if (policaService.existsPolicaInKorisnik(policaAddDto.getNaziv(), autorId)) {
-                    return new ResponseEntity<>("Name for shelf is used!", HttpStatus.BAD_REQUEST);
-                }
-                policaService.create(policaAddDto, loggedKorisnik.getId());
-                return new ResponseEntity<>("Shelf added successfully", HttpStatus.OK);
+        if (loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC  || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR ) {
+            if (policaService.deletePolica(loggedKorisnik.getId(), policaId)) {
+                return new ResponseEntity<>("Shelf deleted successfully", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Shelf is not deleted, it is primary", HttpStatus.OK);
             }
+        } else {
+        return new ResponseEntity<>("Error deleting shelf", HttpStatus.OK);
         }
-            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
-    }
-    @DeleteMapping("/api/citalac/{citalacId}/police/{policaId}")
-    public ResponseEntity<?> deletePolicaCitalac(@PathVariable Long citalacId,@PathVariable Long policaId,HttpSession session) throws ChangeSetPersister.NotFoundException {
-        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(citalacId == loggedKorisnik.getId()) {
-            if (loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC) {
-                if (policaService.deletePolica(citalacId, policaId) == true) {
-                    return new ResponseEntity<>("Shelf deleted successfully", HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<>("Shelf is not deleted, it is primary", HttpStatus.OK);
-                }
-            }
-        }
-            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
-    }
-
-    @DeleteMapping("/api/autor/{autorId}/police/{policaId}")
-    public ResponseEntity<?> deletePolicaAutor(@PathVariable Long autorId,@PathVariable Long policaId,HttpSession session) throws ChangeSetPersister.NotFoundException {
-        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(autorId == loggedKorisnik.getId()) {
-            if (loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR) {
-                if (policaService.deletePolica(autorId, policaId) == true) {
-                    return new ResponseEntity<>("Shelf deleted successfully", HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<>("Shelf is not deleted, it is primary ", HttpStatus.OK);
-                }
-            }
-        }
-            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
     }
 
 }

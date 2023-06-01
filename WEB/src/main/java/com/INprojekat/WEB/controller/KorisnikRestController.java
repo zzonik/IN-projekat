@@ -106,26 +106,14 @@ public class KorisnikRestController {
         return ResponseEntity.ok(korisnik);
     }
 
-    @PutMapping("api/citalac/{citalacId}/update-korisnik")
-    public ResponseEntity<?> updateUser(@PathVariable long citalacId, @RequestBody UpdateDto updateDto,HttpSession session) {
+    @PutMapping("api/citalac/update-korisnik")
+    public ResponseEntity<?> updateUser(@RequestBody UpdateDto updateDto,HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(citalacId == loggedKorisnik.getId()) {
-            if (loggedKorisnik != null || loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC) {
-                korisnikService.updateUser(citalacId, updateDto);
-                return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
-            }
+        if (loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC  || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR ) {
+            korisnikService.updateUser(loggedKorisnik.getId(), updateDto);
+            return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
         }
-        return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
-    }
-    @PutMapping("api/autor/{autorId}/update-autor")
-    public ResponseEntity<?> updateUser(@PathVariable Long autorId, @RequestBody UpdateDto updateDto,HttpSession session) {
-        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(autorId == loggedKorisnik.getId()) {
-            if (loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR) {
-                korisnikService.updateUser(autorId, updateDto);
-                return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
-            }
-        }
+
         return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
     }
 
@@ -306,68 +294,47 @@ public class KorisnikRestController {
             return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/api/citalac/{citalacId}/polica/{policaId}/knjiga/{knjigaId}/knjiga-add-polica")
-    public ResponseEntity<?> addKnjigaPolicaCitalac(@PathVariable Long citalacId, @PathVariable Long knjigaId,@PathVariable Long policaId,RecenzijaDto recenzijaDto, HttpSession session) throws ChangeSetPersister.NotFoundException {
+    @PostMapping("/api/citalac/polica/{policaId}/knjiga/{knjigaId}/knjiga-add-polica")
+    public ResponseEntity<?> addKnjigaPolica(@PathVariable Long knjigaId,@PathVariable Long policaId,RecenzijaDto recenzijaDto, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(citalacId == loggedKorisnik.getId()) {
-            if (loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC) {
-                Polica polica = policaService.findOneById(policaId);
 
-                if(polica.isPrimarna()){ // Polica je primarna
-                    if(knjigaService.findKnjigaOnPrimarnaPolica(citalacId, knjigaId)) {
-                        return new ResponseEntity<>("Knjiga vec postoji na nekoj od primarnih polica", HttpStatus.BAD_REQUEST);
-                    } else{
-                        // Ovde moras paziti da li je stavlja na READ policu
-                        if(polica.getNaziv() == "Read"){
-                            policaService.addKnjigaOnPolica(policaId, knjigaId);
-                            return new ResponseEntity<>("Knjiga je dodata na 'Read' policu", HttpStatus.OK);
-                        } else {
-                            policaService.addKnjigaOnPolica(policaId, knjigaId);
-                            return new ResponseEntity<>("Knjiga je dodata na primarnu policu", HttpStatus.OK);
-                        }
-                    }
-                } else { // Polica nije primarna
-                    if(knjigaService.findKnjigaOnPrimarnaPolica(citalacId, knjigaId)){
+        if (loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC  || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR ) {
+            Polica polica = policaService.findOneById(policaId);
+
+            if(polica.isPrimarna()){ // Polica je primarna
+                if(knjigaService.findKnjigaOnPrimarnaPolica(loggedKorisnik.getId(), knjigaId)) {
+                    return new ResponseEntity<>("Knjiga vec postoji na nekoj od primarnih polica", HttpStatus.BAD_REQUEST);
+                } else{
+                    // Ovde moras paziti da li je stavlja na READ policu
+                    if(polica.getNaziv() == "Read"){
                         policaService.addKnjigaOnPolica(policaId, knjigaId);
-                        return new ResponseEntity<>("Knjiga je dodata na policu koja nije primarna", HttpStatus.OK);
+                        return new ResponseEntity<>("Knjiga je dodata na 'Read' policu", HttpStatus.OK);
                     } else {
-                        return new ResponseEntity<>("Moras je prvo staviti na neku od primarnih polica", HttpStatus.BAD_REQUEST);
+                        policaService.addKnjigaOnPolica(policaId, knjigaId);
+                        return new ResponseEntity<>("Knjiga je dodata na primarnu policu", HttpStatus.OK);
                     }
                 }
+            } else { // Polica nije primarna
+                if(knjigaService.findKnjigaOnPrimarnaPolica(loggedKorisnik.getId(), knjigaId)){
+                    policaService.addKnjigaOnPolica(policaId, knjigaId);
+                    return new ResponseEntity<>("Knjiga je dodata na policu koja nije primarna", HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>("Moras je prvo staviti na neku od primarnih polica", HttpStatus.BAD_REQUEST);
+                }
             }
+
         }
         return new ResponseEntity<>("Vi niste taj citalac", HttpStatus.BAD_REQUEST);
     }
-    @PostMapping("/api/autor/{autorId}/knjiga/{knjigaId}/knjiga-add-polica/{policaId}")
-    public ResponseEntity<?> addKnjigaPolicaAutor(@PathVariable Long autorId, @PathVariable Long knjigaId,@PathVariable Long policaId, RecenzijaDto recenzijaDto,HttpSession session) throws ChangeSetPersister.NotFoundException {
-        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if (autorId == loggedKorisnik.getId()) {
-            if (loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR) {
-                Polica polica = policaService.findOneById(policaId);
 
-                if (polica.isPrimarna()) { // Polica je primarna
-                    if (knjigaService.findKnjigaOnPrimarnaPolica(autorId, knjigaId)) {
-                        return new ResponseEntity<>("Knjiga vec postoji na nekoj od primarnih polica", HttpStatus.BAD_REQUEST);
-                    } else {
-                        // Ovde moras paziti da li je stavlja na READ policu
-                        if (polica.getNaziv() == "Read") {
-                            policaService.addKnjigaOnPolica(policaId, knjigaId);
-                            return new ResponseEntity<>("Knjiga je dodata na 'Read' policu", HttpStatus.OK);
-                        } else {
-                            policaService.addKnjigaOnPolica(policaId, knjigaId);
-                            return new ResponseEntity<>("Knjiga je dodata na primarnu policu", HttpStatus.OK);
-                        }
-                    }
-                } else { // Polica nije primarna
-                    if (knjigaService.findKnjigaOnPrimarnaPolica(autorId, knjigaId)) {
-                        policaService.addKnjigaOnPolica(policaId, knjigaId);
-                        return new ResponseEntity<>("Knjiga je dodata na policu koja nije primarna", HttpStatus.OK);
-                    } else {
-                        return new ResponseEntity<>("Moras je prvo staviti na neku od primarnih polica", HttpStatus.BAD_REQUEST);
-                    }
-                }
-            }
+    @GetMapping("api/search-users/{string}")
+    public ResponseEntity<?> searchUser(@PathVariable String string) {
+        List<KorisnikDto> dtos = korisnikService.searchUsers(string);
+        if (dtos.isEmpty()) {
+            return ResponseEntity.badRequest().body("Ne postoji");
+        } else {
+            return ResponseEntity.ok(dtos);
         }
-        return new ResponseEntity<>("Vi niste taj autor", HttpStatus.BAD_REQUEST);
     }
+
 }

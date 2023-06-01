@@ -128,11 +128,23 @@ public class KorisnikService {
 
         return save(korisnik);
     }
+    public Korisnik save(Korisnik korisnik) { return korisnikRepository.save(korisnik); }
 
     public Boolean existsMail(String mail) { return korisnikRepository.existsByMail(mail); }
     public Boolean existsLozinka(String lozinka) { return korisnikRepository.existsByLozinka(lozinka); }
     public Boolean existsKorisnickoIme(String korisnickoIme) { return korisnikRepository.existsByKorisnickoIme(korisnickoIme); }
-    public Korisnik save(Korisnik korisnik) { return korisnikRepository.save(korisnik); }
+
+    public List<KorisnikDto> searchUsers(String string){
+        List<KorisnikDto> korisnici = findAll();
+        List<KorisnikDto> korisniciIzdvojeno = new ArrayList<>();
+        for(KorisnikDto dto : korisnici){
+            if(dto.getIme().toLowerCase().contains(string.toLowerCase()) || dto.getPrezime().toLowerCase().contains(string.toLowerCase()) || dto.getKorisnickoIme().toLowerCase().contains(string.toLowerCase())){
+                korisniciIzdvojeno.add(dto);
+            }
+        }
+        return korisniciIzdvojeno;
+    }
+
 /*
         1. Trazenje jednog korisnika
         2. Izlistavanje svih korisnika
@@ -142,5 +154,6 @@ public class KorisnikService {
         6. Provera postojanja lozinke
         7. Provera postojanja korisnickog imena
         8. Save za cuvanje korisnika
+        9. Pretraga korisnika
  */
 }

@@ -1,9 +1,11 @@
 package com.INprojekat.WEB.controller;
 
+import com.INprojekat.WEB.dto.KnjigaDto;
 import com.INprojekat.WEB.dto.RecenzijaDto;
 import com.INprojekat.WEB.dto.ZanrDto;
 import com.INprojekat.WEB.entity.Recenzija;
 import com.INprojekat.WEB.entity.Zanr;
+import com.INprojekat.WEB.service.KnjigaService;
 import com.INprojekat.WEB.service.ZanrService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class ZanrRestController {
 
     @Autowired
     private ZanrService zanrService;
+    @Autowired
+    private KnjigaService knjigaService;
 
 
     @GetMapping("/api/zanr/{id}")
@@ -32,6 +36,16 @@ public class ZanrRestController {
     public ResponseEntity<List<ZanrDto>> getZanrovi(HttpSession session){
         List<ZanrDto> dtos = zanrService.findAll();
         return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("api/search-knjigeByZanr/{string}")
+    public ResponseEntity<?> searchKnjigeByZanr(@PathVariable String string) {
+        List<KnjigaDto> dtos = knjigaService.searchKnjigeByZanr(string);
+        if (dtos.isEmpty()) {
+            return ResponseEntity.badRequest().body("Ne postoji");
+        } else {
+            return ResponseEntity.ok(dtos);
+        }
     }
 
 }
