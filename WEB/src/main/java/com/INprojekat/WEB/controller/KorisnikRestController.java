@@ -118,10 +118,16 @@ public class KorisnikRestController {
     }
 
     @PostMapping("api/zahtev-create")
-    public ResponseEntity<?> zahtev(@RequestBody ZahtevDto zahtevDto) {
-        if(zahtevZaAktivacijuNalogaAutoraService.create(zahtevDto) == null)
-            return new ResponseEntity<>("There is no autor with this name", HttpStatus.BAD_REQUEST);
-        return ResponseEntity.ok("Request added");
+    public ResponseEntity<?> zahtev(@RequestBody ZahtevDto zahtevDto, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik == null){
+            if(zahtevZaAktivacijuNalogaAutoraService.create(zahtevDto) == null)
+                return new ResponseEntity<>("There is no autor with this name", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.ok("Request added");
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are already logged in.");
+        }
     }
     @PostMapping("/api/admin/zahtev/{zahtevId}/accept")
     public ResponseEntity<?> zahtevAccept(@PathVariable Long zahtevId, HttpSession session) {

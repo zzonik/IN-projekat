@@ -103,7 +103,7 @@ public class PolicaRestController {
         }
     }
 
-    @DeleteMapping("/api/citalac/police/{policaId}")
+    @DeleteMapping("/api/citalac/polica-remove/{policaId}")
     public ResponseEntity<?> deletePolica(@PathVariable Long policaId,HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
         if (loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC  || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR ) {
