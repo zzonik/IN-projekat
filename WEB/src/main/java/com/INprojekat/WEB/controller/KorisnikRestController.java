@@ -82,7 +82,7 @@ public class KorisnikRestController {
         if(korisnikService.existsMail(registerDto.getMail())){
             return new ResponseEntity<>("Mail already used!", HttpStatus.BAD_REQUEST);
         }
-        if(korisnikService.existsKorisnickoIme(registerDto.getMail())){
+        if(korisnikService.existsKorisnickoIme(registerDto.getKorisnickoIme())){
             return new ResponseEntity<>("Username already used!", HttpStatus.BAD_REQUEST);
         }
         if(korisnikService.existsLozinka(registerDto.getLozinka())){

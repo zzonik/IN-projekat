@@ -40,7 +40,7 @@ public class AutorRestController {
             }
             autorService.create(autorRegisterDto);
 
-            return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+            return new ResponseEntity<>("Autor registered successfully", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }

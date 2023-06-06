@@ -146,6 +146,7 @@ public class KnjigaService {
         return save(knjiga.get());
     }
 
+    // FIX DIS
     public void deleteKnjiga(Long citalac_autor_Id, Long policaId, Long knjigaId) throws ChangeSetPersister.NotFoundException {
         Knjiga knjiga = knjigaRepository.findById(knjigaId)
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
@@ -190,9 +191,11 @@ public class KnjigaService {
         Set<Polica> korisnikovePolice = korisnik.getPolice();
 
         for (Polica p : korisnikovePolice) {
-            for (StavkaPolice stavka : p.getStavkePolica()) {
-                if (stavka.getKnjiga().getId() == knjigaId) {
-                    return true;
+            if(p.isPrimarna()){
+                for (StavkaPolice stavka : p.getStavkePolica()) {
+                    if (stavka.getKnjiga().getId() == knjigaId) {
+                        return true;
+                    }
                 }
             }
         }
