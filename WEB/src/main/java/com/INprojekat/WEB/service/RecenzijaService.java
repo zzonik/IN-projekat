@@ -65,6 +65,7 @@ public class RecenzijaService {
             recenzija.setKorisnik(korisnik);
 
             Knjiga knjiga = stavka.getKnjiga();
+            recenzija.setKnjiga(knjiga);
 
             List<Long> indeksiPolica = recenzijaAddDto.getPolice();
             for (Long indeks : indeksiPolica) {

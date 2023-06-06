@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Recenzija implements Serializable {
@@ -22,6 +24,30 @@ public class Recenzija implements Serializable {
     @JsonIgnore
     @JoinColumn(name="korisnik_id")
     private Korisnik korisnik;
+
+    @OneToMany(mappedBy = "recenzija", cascade = CascadeType.REMOVE)
+    private Set<StavkaPolice> stavkePolice = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name="knjiga_id")
+    private Knjiga knjiga;
+
+
+    public Set<StavkaPolice> getStavkePolice() {
+        return stavkePolice;
+    }
+
+    public void setStavkePolice(Set<StavkaPolice> stavkePolice) {
+        this.stavkePolice = stavkePolice;
+    }
+
+    public Knjiga getKnjiga() {
+        return knjiga;
+    }
+
+    public void setKnjiga(Knjiga knjiga) {
+        this.knjiga = knjiga;
+    }
 
     public int getOcena() { return ocena; }
 

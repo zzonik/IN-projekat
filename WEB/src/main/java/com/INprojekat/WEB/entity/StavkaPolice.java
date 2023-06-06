@@ -11,8 +11,8 @@ public class StavkaPolice implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name="recenzija_id")
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "recenzija_id")
     private Recenzija recenzija;
 
     @ManyToOne
