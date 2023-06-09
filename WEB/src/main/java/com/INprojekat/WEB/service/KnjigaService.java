@@ -146,7 +146,6 @@ public class KnjigaService {
         return save(knjiga.get());
     }
 
-    // FIX DIS
     public void deleteKnjiga(Long citalac_autor_Id, Long policaId, Long knjigaId) throws ChangeSetPersister.NotFoundException {
         Knjiga knjiga = knjigaRepository.findById(knjigaId)
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
@@ -185,6 +184,47 @@ public class KnjigaService {
             }
         }
     }
+
+/*
+public void deleteKnjiga(Long citalac_autor_Id, Long policaId, Long knjigaId) throws ChangeSetPersister.NotFoundException {
+        Knjiga knjiga = knjigaRepository.findById(knjigaId)
+                .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
+        Korisnik korisnik = korisnikService.findOne(citalac_autor_Id);
+        Polica polica = policaService.findOneById(policaId);
+        Set<Polica> korisnikovePolice = korisnik.getPolice();
+        if(polica.isPrimarna()){
+            if(polica.getNaziv().equals("Read")){
+                for (Polica p : korisnikovePolice) {
+                    if (p.getStavkePolica().stream().anyMatch(stavka -> stavka.getKnjiga().equals(knjiga))) {
+                        for (StavkaPolice stavka : p.getStavkePolica()) {
+                            if (stavka.getKnjiga().equals(knjiga)) {
+                                stavkaPoliceService.deleteStavkaPolice(p.getId(), stavka.getId());
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                for (Polica p : korisnikovePolice) {
+                    if (p.getStavkePolica().stream().anyMatch(stavka -> stavka.getKnjiga().equals(knjiga))) {
+                        for (StavkaPolice stavka : p.getStavkePolica()) {
+                            if (stavka.getKnjiga().equals(knjiga)) {
+                                stavka.setKnjiga(null);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            for (StavkaPolice stavka : polica.getStavkePolica()) {
+                if (stavka.getKnjiga().equals(knjiga)) {
+                    stavkaPoliceService.deleteStavkaPolice(policaId, stavka.getId());
+                }
+            }
+        }
+    }
+ */
 
     public boolean findKnjigaOnPrimarnaPolica(Long citalacId, Long knjigaId){
         Korisnik korisnik = korisnikService.findOne(citalacId);

@@ -35,8 +35,10 @@ public class Knjiga implements Serializable {
     @JsonIgnore
     private Set<StavkaPolice> stavka_polica = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "knjiga",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnore
     private Set<Recenzija> recenzije = new HashSet<>();
+
     @ManyToOne
     @JsonIgnore
     private Autor autor;

@@ -10,12 +10,15 @@ public class RecenzijaAddDto {
     private String tekst;
     private Long korisnikId;
 
-    public RecenzijaAddDto(int ocena, Date datum, List<Long> police, String tekst, Long korisnikId) {
+    private Long knjigaId;
+
+    public RecenzijaAddDto(int ocena, Date datum, List<Long> police, String tekst, Long korisnikId, Long knjigaId) {
         this.ocena = ocena;
         this.datum = datum;
         this.police = police;
         this.tekst = tekst;
         this.korisnikId = korisnikId;
+        this.knjigaId = knjigaId;
     }
 
     public RecenzijaAddDto() {}
@@ -59,4 +62,8 @@ public class RecenzijaAddDto {
     public void setKorisnikId(Long korisnikId) {
         this.korisnikId = korisnikId;
     }
+
+    public Long getKnjigaId() { return knjigaId; }
+
+    public void setKnjigaId(Long knjigaId) { this.knjigaId = knjigaId; }
 }

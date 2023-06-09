@@ -2,6 +2,7 @@ package com.INprojekat.WEB.service;
 
 import com.INprojekat.WEB.dto.*;
 import com.INprojekat.WEB.entity.*;
+import com.INprojekat.WEB.repository.KnjigaRepository;
 import com.INprojekat.WEB.repository.KorisnikRepository;
 import com.INprojekat.WEB.repository.RecenzijaRepository;
 import com.INprojekat.WEB.repository.StavkaPoliceRepository;
@@ -33,6 +34,8 @@ public class RecenzijaService {
 
     @Autowired
     private RecenzijaService recenzijaService;
+    @Autowired
+    private KnjigaRepository knjigaRepository;
 
     public Recenzija findOne(Long id){
         Optional<Recenzija> foundRecenzija = recenzijaRepository.findById(id);
@@ -63,8 +66,9 @@ public class RecenzijaService {
             recenzija.setTekst(recenzijaAddDto.getTekst());
             Korisnik korisnik = korisnikRepository.getById(recenzijaAddDto.getKorisnikId());
             recenzija.setKorisnik(korisnik);
-
             Knjiga knjiga = stavka.getKnjiga();
+            recenzija.setKnjiga(knjiga);
+
 
             List<Long> indeksiPolica = recenzijaAddDto.getPolice();
             for (Long indeks : indeksiPolica) {
@@ -104,6 +108,15 @@ public class RecenzijaService {
         Recenzija recenzija = recenzijaRepository.findById(id)
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
         recenzijaRepository.delete(recenzija);
+    }
+
+    public void deleteRecenzijeByKnjigaId(Long knjigaId) {
+        List<Recenzija> recenzije = recenzijaRepository.findAll();
+        for (Recenzija recenzija : recenzije) {
+            if(recenzija.getKnjiga().getId() == knjigaId) {
+                recenzijaRepository.delete(recenzija);
+            }
+        }
     }
 
     public Recenzija save(Recenzija recenzija) { return recenzijaRepository.save(recenzija);}

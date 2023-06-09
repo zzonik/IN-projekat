@@ -3,10 +3,7 @@ package com.INprojekat.WEB.service;
 import com.INprojekat.WEB.dto.StavkaPoliceAddDto;
 import com.INprojekat.WEB.dto.StavkaPoliceDto;
 import com.INprojekat.WEB.dto.ZanrDto;
-import com.INprojekat.WEB.entity.Korisnik;
-import com.INprojekat.WEB.entity.Polica;
-import com.INprojekat.WEB.entity.StavkaPolice;
-import com.INprojekat.WEB.entity.Zanr;
+import com.INprojekat.WEB.entity.*;
 import com.INprojekat.WEB.entity.StavkaPolice;
 import com.INprojekat.WEB.repository.PolicaRepository;
 import com.INprojekat.WEB.repository.StavkaPoliceRepository;
@@ -27,6 +24,8 @@ public class StavkaPoliceService {
 
     @Autowired
     private PolicaService policaService;
+    @Autowired
+    private RecenzijaService recenzijaService;
 
     public StavkaPoliceDto findOne(Long id){
         Optional<StavkaPolice> foundStavka = stavkaPoliceRepository.findById(id);
@@ -68,17 +67,38 @@ public class StavkaPoliceService {
 
     }
 
-    public void deleteStavkaPolice(Long policaId,Long stavkaId) throws ChangeSetPersister.NotFoundException {
+//    public void deleteStavkaPolice(Long policaId,Long stavkaId) throws ChangeSetPersister.NotFoundException {
+//        StavkaPolice stavkaPolice = stavkaPoliceRepository.findById(stavkaId)
+//                .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
+//        Polica polica = policaService.findOneById(policaId);
+//        Set<StavkaPolice> stavkePolice = polica.getStavkePolica();
+//        Recenzija recenzija = stavkaPolice.getRecenzija();
+//        if(recenzija != null) {
+//            recenzijaService.deleteRecenzija(recenzija.getId());
+//        }
+//        stavkePolice.remove(stavkaPolice);
+//        stavkaPoliceRepository.delete(stavkaPolice);
+//        polica.setStavkePolica(stavkePolice);
+//        policaService.save(polica);
+//
+//    }
+
+    public void deleteStavkaPolice(Long policaId, Long stavkaId) throws ChangeSetPersister.NotFoundException {
         StavkaPolice stavkaPolice = stavkaPoliceRepository.findById(stavkaId)
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
         Polica polica = policaService.findOneById(policaId);
-        Set<StavkaPolice> stavkePolice = polica.getStavkePolica();
-        stavkePolice.remove(stavkaPolice);
-        stavkaPoliceRepository.delete(stavkaPolice);
-        polica.setStavkePolica(stavkePolice);
-        policaService.save(polica);
 
+        // Uklanjanje veze sa Recenzija
+        Recenzija recenzija = stavkaPolice.getRecenzija();
+        recenzija.getStavkePolice().remove(stavkaPolice);
+
+        // Uklanjanje veze sa Polica
+        polica.getStavkePolica().remove(stavkaPolice);
+
+        // Brisanje stavke
+        stavkaPoliceRepository.delete(stavkaPolice);
     }
+
     public StavkaPolice save(StavkaPolice stavka) { return  stavkaPoliceRepository.save(stavka);}
 
 /*
