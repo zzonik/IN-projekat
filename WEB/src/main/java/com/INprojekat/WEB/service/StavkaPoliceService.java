@@ -27,6 +27,7 @@ public class StavkaPoliceService {
     @Autowired
     private RecenzijaService recenzijaService;
 
+
     public StavkaPoliceDto findOne(Long id){
         Optional<StavkaPolice> foundStavka = stavkaPoliceRepository.findById(id);
         if (foundStavka.isPresent()) {
@@ -66,6 +67,7 @@ public class StavkaPoliceService {
         policaService.save(polica);
 
     }
+
 
 //    public void deleteStavkaPolice(Long policaId,Long stavkaId) throws ChangeSetPersister.NotFoundException {
 //        StavkaPolice stavkaPolice = stavkaPoliceRepository.findById(stavkaId)

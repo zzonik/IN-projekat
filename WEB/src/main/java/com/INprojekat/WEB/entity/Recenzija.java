@@ -25,12 +25,29 @@ public class Recenzija implements Serializable {
     @JoinColumn(name="korisnik_id")
     private Korisnik korisnik;
 
+    @OneToMany(mappedBy = "recenzija", cascade = CascadeType.REMOVE)
+    private Set<StavkaPolice> stavkePolice = new HashSet<>();
+
     @ManyToOne
-    @JoinColumn(name = "knjiga_id")
+    @JoinColumn(name="knjiga_id")
     private Knjiga knjiga;
 
-    @OneToMany(mappedBy = "recenzija",cascade = CascadeType.REMOVE)
-    private Set<StavkaPolice> stavkePolice = new HashSet<>();
+
+    public Set<StavkaPolice> getStavkePolice() {
+        return stavkePolice;
+    }
+
+    public void setStavkePolice(Set<StavkaPolice> stavkePolice) {
+        this.stavkePolice = stavkePolice;
+    }
+
+    public Knjiga getKnjiga() {
+        return knjiga;
+    }
+
+    public void setKnjiga(Knjiga knjiga) {
+        this.knjiga = knjiga;
+    }
 
     public int getOcena() { return ocena; }
 
