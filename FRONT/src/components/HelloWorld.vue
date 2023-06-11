@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
-    <title>BookBuddy</title>
-</head>
-<body>
-    
-<header>
+<template>
+ <header>
     <div class="pre-header">
         <div class="container1">
             <div class="row1">
@@ -45,28 +34,31 @@
         </div>
     </div>
 </header>
-
-<footer>
-  <p>&copy; 2023 BookBuddy. Sva prava zadržana.</p>
-</footer>
+</template>
 
 <script>
-    document.getElementById("pocetna").addEventListener("click", function() {
-      window.location.href = "BookBuddy.html";
-    });
+export default {
+  name: 'HelloWorld',
+  props: {
+    msg: String
+  }
+}
+</script>
 
-    document.getElementById("pretraga").addEventListener("click", function() {
-      window.location.href = "pretraga.html";
-    });
-
-    document.getElementById("prijava").addEventListener("click", function() {
-      window.location.href = "login.html";
-    });
-
-    document.getElementById("zahtev").addEventListener("click", function() {
-      window.location.href = "aktivacija.html";
-    });
-  </script>
-
-</body>
-</html>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h3 {
+  margin: 40px 0 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
+</style>
