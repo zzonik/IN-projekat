@@ -25,10 +25,8 @@
             <div class="row2">
                 <div>
                     <ul class="menu">
-                        <li id="pocetna"><a href="#">Pocetna</a></li>
-                        <li id="pretraga"><a href="#">Pretraga</a></li>
-                        <li id="prijava"><a href="#">Log in</a></li>
-                        <li id="zahtev"><a href="#">Zahtev za aktivaciju naloga</a></li>
+                        <li id="pocetna"><a href="/">Pocetna</a></li>
+                        <li id="pretraga"><a href="/pretraga">Pretraga 🔍</a></li>
                     </ul>
                 </div>
             </div>
@@ -118,5 +116,9 @@ footer {
     text-align: center;
     margin-top: 40px;
     font-weight: bold;
+}
+
+.search-section ::placeholder{
+    text-align: center;
 }
 </style>

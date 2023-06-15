@@ -1,60 +1,62 @@
 <template>
-  <header>
-    <div class="pre-header">
-        <div class="container1">
-            <div class="row1">
-                <div class="imageheader1">
-                    <div class="col-md-4">
-                        <img src="../assets/headerLeftRight.png">
-                    </div>
-                </div>  
-                <div class="imagelogo">
-                    <div class="col-md-4">
-                        <img src="../assets/logo.png">
-                    </div>
-                </div> 
-                <div class="imageheader2">
-                    <div class="col-md-4">
-                      <img src="../assets/headerLeftRight.png">
-                    </div>
-                </div> 
-            </div>
-        </div>
+  <div class="pre-log">
+    <div class="container3">
+      <section class="login-section">
+        <form>
+          <div class="row3">
+            <h1>Log In</h1>
+          </div>
+          <div class="row4">
+            <input type="email" placeholder="Unesite Vas e-mail" v-model="mail">
+          </div>
+          <div class="row5">
+            <input type="password" placeholder="Unesite Vasu lozinku" v-model="lozinka">
+          </div>
+          <div class="row6">
+            <button v-on:click="submit()">submit</button>
+          </div>
+        </form>
+      </section>
     </div>
-    <div class="container2">
-        <div class="row2">
-            <div>
-                <ul class="menu">
-                    <li id="pocetna"><a href="/">Pocetna</a></li>
-                    <li id="pretraga"><a href="/pretraga">Pretraga 🔍</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</header>
-
-<LoginSection />
-<RegisterSection />
-
-<footer>
-    <p>&copy; 2023 BookBuddy. Sva prava zadržana.</p>
-</footer>
-
+  </div>
 </template>
 
-<script>
-import LoginSection from '@/components/LoginSection.vue';
-import RegisterSection from '@/components/RegisterSection.vue';
+  
+  <script>
+  import axios from 'axios';
 
-export default {
-  components: {
-    LoginSection,
-    RegisterSection
+  export default {
+    name: 'LoginSection',
+    
+    data() {
+    return {
+      mail: '',
+      lozinka: '',
+    };
+  },
+  methods: {
+    submit: function() {
+  const payload = {
+    mail: this.mail,
+    lozinka: this.lozinka
+  };
+
+  axios
+    .post("http://localhost:9090/api/login", payload)
+    .then((res) => {
+      console.log(res);
+      this.$router.push("/pretraga");
+    })
+    .catch((err) => {
+      console.log(err);
+      alert("Something went wrong!");
+    });
+    }
   }
-};
-</script>
-
-<style>
+}
+  </script>
+  
+  <style>
 * {
     margin: 0;
     padding: 0;
@@ -238,5 +240,4 @@ footer {
     text-align: center;
     margin-top: 40px;
     font-weight: bold;
-}
-</style>
+}  </style>
