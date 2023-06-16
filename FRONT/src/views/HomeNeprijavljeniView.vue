@@ -25,8 +25,8 @@
         <div class="row2">
             <div>
                 <ul class="menu">
-                    <li id="pocetna"><a href="/">Pocetna</a></li>
-                    <li id="pretraga"><a href="/pretraga">Pretraga 🔍</a></li>
+                    <li id="pocetna"><a href="/">Prijavi se</a></li>
+                    <li id="pretraga"><a href="/pretragaNeprijavljeni">Pretraga 🔍</a></li>
                 </ul>
             </div>
         </div>
@@ -39,7 +39,6 @@
 <footer>
     <p>&copy; 2023 BookBuddy. Sva prava zadržana.</p>
 </footer>
-
 </template>
 
 <script>

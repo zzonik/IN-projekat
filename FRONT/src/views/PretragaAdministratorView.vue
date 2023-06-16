@@ -25,8 +25,8 @@
             <div class="row2">
                 <div>
                     <ul class="menu">
-                        <li id="pocetna"><a href="/">Pocetna</a></li>
-                        <li id="pretraga"><a href="/pretraga">Pretraga 🔍</a></li>
+                        <li id="pocetna"><a href="/homeAdministrator">Početna</a></li>
+                        <li id="pretraga"><a href="/pretragaAdministrator">Pretraga 🔍</a></li>
                     </ul>
                 </div>
             </div>

@@ -13,48 +13,56 @@
             <input type="password" placeholder="Unesite Vasu lozinku" v-model="lozinka">
           </div>
           <div class="row6">
-            <button v-on:click="submit()">submit</button>
+            <button @click.prevent="submit">submit</button>
           </div>
         </form>
       </section>
     </div>
   </div>
 </template>
+<script>
+import axios from 'axios';
 
-  
-  <script>
-  import axios from 'axios';
-
-  export default {
-    name: 'LoginSection',
-    
-    data() {
+export default {
+  name: 'LoginSection',
+  data() {
     return {
       mail: '',
-      lozinka: '',
+      lozinka: ''
     };
   },
   methods: {
-    submit: function() {
-  const payload = {
-    mail: this.mail,
-    lozinka: this.lozinka
-  };
+    submit() {
+      const payload = {
+        mail: this.mail,
+        lozinka: this.lozinka
+      };
 
-  axios
-    .post("http://localhost:9090/api/login", payload)
-    .then((res) => {
-      console.log(res);
-      this.$router.push("/pretraga");
-    })
-    .catch((err) => {
-      console.log(err);
-      alert("Something went wrong!");
-    });
+      axios
+        .post("http://localhost:9090/api/login", payload)
+        .then((res) => {
+          console.log(res);
+
+          // Redirect user based on their role
+          if (res.data.uloga === 'CITALAC') {
+            this.$router.push('/homeCitalac');
+          } else if (res.data.uloga === 'AUTOR') {
+            this.$router.push('/homeAutor');
+          } else if (res.data.uloga === 'ADMINISTRATOR') {
+            this.$router.push('/homeAdministrator');
+          } else {
+            // Redirect to a default home page for unrecognized roles
+            this.$router.push('/');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Something went wrong!");
+        });
     }
   }
-}
-  </script>
+};
+</script>
   
   <style>
 * {
