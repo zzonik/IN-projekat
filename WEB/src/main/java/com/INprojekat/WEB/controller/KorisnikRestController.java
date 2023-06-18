@@ -20,6 +20,11 @@ import java.util.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+@CrossOrigin
 @RestController
 public class KorisnikRestController {
     @Autowired
@@ -44,26 +49,40 @@ public class KorisnikRestController {
     }
 
     @PostMapping("api/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto, HttpSession session){
-        if(loginDto.getMail().isEmpty() || loginDto.getLozinka().isEmpty())
-            return new ResponseEntity("Invalid login data", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<KorisnikDto> login(@RequestBody LoginDto loginDto, HttpSession session) {
+        if (loginDto.getMail().isEmpty() || loginDto.getLozinka().isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
 
         String mail = loginDto.getMail();
         List<AutorDto> autori = autorService.findAll();
         for(AutorDto dto : autori){
             if((Objects.equals(dto.getMail(), mail))) {
                 if (dto.isAktivnost() == false) {
-                    return new ResponseEntity<>("Autor nije aktivan", HttpStatus.BAD_REQUEST);
+                    return ResponseEntity.badRequest().body(null);
                 }
             }
         }
         Korisnik loggedKorisnik = korisnikService.login(loginDto.getMail(), loginDto.getLozinka());
-        if (loggedKorisnik == null)
-            return new ResponseEntity<>("User does not exist!", HttpStatus.NOT_FOUND);
+        if (loggedKorisnik == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        KorisnikDto korisnikDto = new KorisnikDto();
+        korisnikDto.setId(loggedKorisnik.getId());
+        korisnikDto.setIme(loggedKorisnik.getIme());
+        korisnikDto.setPrezime(loggedKorisnik.getPrezime());
+        korisnikDto.setKorisnickoIme(loggedKorisnik.getKorisnickoIme());
+        korisnikDto.setDatumRodjenja(loggedKorisnik.getDatumRodjenja());
+        korisnikDto.setProfilnaSlika(loggedKorisnik.getProfilnaSlika());
+        korisnikDto.setOpis(loggedKorisnik.getOpis());
+        korisnikDto.setUloga(loggedKorisnik.getUloga());
+        korisnikDto.setPolice(loggedKorisnik.getPolice());
 
         session.setAttribute("employee", loggedKorisnik);
-        return ResponseEntity.ok("Successfully logged in!");
+        return ResponseEntity.ok(korisnikDto);
     }
+
 
     @PostMapping("api/logout")
     public ResponseEntity Logout(HttpSession session){
