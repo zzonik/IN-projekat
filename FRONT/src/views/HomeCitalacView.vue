@@ -27,6 +27,7 @@
                   <ul class="menu">
                       <li id="pocetna"><a href="/homeCitalac">Početna</a></li>
                       <li id="pretraga"><a href="/pretragaCitalac">Pretraga 🔍</a></li>
+                      <li><Logout/></li>
                   </ul>
               </div>
           </div>
@@ -39,14 +40,13 @@
   </template>
   
   <script>
-  import LoginSection from '@/components/LoginSection.vue';
-  import RegisterSection from '@/components/RegisterSection.vue';
+  import Logout from '@/components/Logout.vue';
   
   export default {
+    name: 'HomeCitalacView',
     components: {
-      LoginSection,
-      RegisterSection
-    }
+      Logout
+    },
   };
   </script>
   

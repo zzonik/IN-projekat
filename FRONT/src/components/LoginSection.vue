@@ -21,8 +21,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-
 export default {
   name: 'LoginSection',
   data() {
@@ -38,32 +36,44 @@ export default {
         lozinka: this.lozinka
       };
 
-      axios
-        .post("http://localhost:9090/api/login", payload)
+      fetch('http://localhost:9090/api/login', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
         .then((res) => {
           console.log(res);
-
-          // Redirect user based on their role
-          if (res.data.uloga === 'CITALAC') {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw new Error('Login failed');
+          }
+        })
+        .then((data) => {
+          console.log(data);
+          localStorage.setItem('user', JSON.stringify(data));
+          if (data.uloga === 'CITALAC') {
             this.$router.push('/homeCitalac');
-          } else if (res.data.uloga === 'AUTOR') {
+          } else if (data.uloga === 'AUTOR') {
             this.$router.push('/homeAutor');
-          } else if (res.data.uloga === 'ADMINISTRATOR') {
+          } else if (data.uloga === 'ADMINISTRATOR') {
             this.$router.push('/homeAdministrator');
           } else {
-            // Redirect to a default home page for unrecognized roles
             this.$router.push('/');
           }
         })
         .catch((err) => {
           console.log(err);
-          alert("Something went wrong!");
+          alert('Something went wrong!');
         });
     }
   }
 };
+
 </script>
-  
   <style>
 * {
     margin: 0;
