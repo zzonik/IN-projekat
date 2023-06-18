@@ -10,6 +10,7 @@ import com.INprojekat.WEB.entity.Korisnik;
 import com.INprojekat.WEB.entity.ZahtevZaAktivacijuNalogaAutora;
 import com.INprojekat.WEB.repository.KorisnikRepository;
 import com.INprojekat.WEB.service.*;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -52,7 +53,7 @@ public class KorisnikRestController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        Korisnik loggedKorisnik = korisnikService.login(loginDto.getMail(), loginDto.getLozinka());
+        Korisnik loggedKorisnik = korisnikService.login(loginDto.getMail(), loginDto.getLozinka(), session);
         if (loggedKorisnik == null) {
             return ResponseEntity.notFound().build();
         }
@@ -68,21 +69,24 @@ public class KorisnikRestController {
         korisnikDto.setUloga(loggedKorisnik.getUloga());
         korisnikDto.setPolice(loggedKorisnik.getPolice());
 
-        session.setAttribute("employee", loggedKorisnik);
+        //session.setAttribute("employee", loggedKorisnik);
         return ResponseEntity.ok(korisnikDto);
     }
 
 
     @PostMapping("api/logout")
-    public ResponseEntity Logout(HttpSession session){
+    public ResponseEntity<String> logout(HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
 
-        if (loggedKorisnik == null)
-            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
-
+        if (loggedKorisnik == null) {
+            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+        }
         session.invalidate();
-        return new ResponseEntity("Successfully logged out", HttpStatus.OK);
+        return new ResponseEntity<>("Successfully logged out", HttpStatus.OK);
     }
+
+
+
 
     @PostMapping("api/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterDto registerDto){

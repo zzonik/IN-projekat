@@ -14,6 +14,7 @@ import com.INprojekat.WEB.entity.Zanr;
 import com.INprojekat.WEB.entity.Polica;
 import com.INprojekat.WEB.repository.KorisnikRepository;
 import jakarta.persistence.Id;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -30,12 +31,16 @@ public class KorisnikService {
     @Autowired
     private PolicaService policaService;
 
-    public Korisnik login(String username, String password) {
+    public Korisnik login(String username, String password, HttpSession session) {
         Korisnik korisnik = korisnikRepository.getByMail(username);
-        if(korisnik == null || !korisnik.getLozinka().equals(password))
+        if (korisnik == null || !korisnik.getLozinka().equals(password)) {
             return null;
-        return  korisnik;
+        }
+
+        session.setAttribute("employee", korisnik);
+        return korisnik;
     }
+
 
     public Korisnik create(RegisterDto registerDto) {
         Korisnik korisnik = new Korisnik();

@@ -27,6 +27,7 @@
                     <ul class="menu">
                         <li id="pocetna"><a href="/homeAdministrator">Početna</a></li>
                         <li id="pretraga"><a href="/pretragaAdministrator">Pretraga 🔍</a></li>
+                        <li><Logout/></li>
                     </ul>
                 </div>
             </div>
@@ -50,7 +51,15 @@
 </template>
 
 <script>
-</script>
+  import Logout from '@/components/Logout.vue';
+  
+  export default {
+    name: 'HomeAdministratorView',
+    components: {
+      Logout
+    },
+  };
+  </script>
 
 <style>
     * {

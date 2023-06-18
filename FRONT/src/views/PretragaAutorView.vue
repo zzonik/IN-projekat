@@ -27,6 +27,7 @@
                     <ul class="menu">
                         <li id="pocetna"><a href="/homeAutor">Početna</a></li>
                         <li id="pretraga"><a href="/pretragaAutor">Pretraga 🔍</a></li>
+                        <li><Logout/></li>
                     </ul>
                 </div>
             </div>
@@ -50,6 +51,14 @@
 </template>
 
 <script>
+import Logout from '@/components/Logout.vue';
+
+export default {
+  name: 'HomeAutorView',
+  components: {
+    Logout
+  },
+};
 </script>
 
 <style>

@@ -3,10 +3,12 @@ import HomeNeprijavljeniView from '../views/HomeNeprijavljeniView.vue';
 import HomeCitalacView from '../views/HomeCitalacView.vue';
 import HomeAutorView from '../views/HomeAutorView.vue';
 import HomeAdministratorView from '../views/HomeAdministratorView.vue';
+
 import PretragaNeprijavljeniView from '../views/PretragaNeprijavljeniView.vue';
 import PretragaCitalacView from '../views/PretragaCitalacView.vue';
 import PretragaAutorView from '../views/PretragaAutorView.vue';
 import PretragaAdministratorView from '../views/PretragaAdministratorView.vue';
+
 import LoginSection from '../components/LoginSection.vue';
 import RegisterSection from '../components/RegisterSection.vue';
 
@@ -99,7 +101,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const pageTitle = to.meta.title || 'My Website'; // Use the default title if no title is defined for the route
+  const pageTitle = to.meta.title || 'Book Buddy'; 
   document.title = pageTitle;
   next();
 });

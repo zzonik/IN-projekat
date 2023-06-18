@@ -25,13 +25,43 @@
           <div class="row2">
               <div>
                   <ul class="menu">
-                      <li id="pocetna"><a href="/homeAdministrator">Početna</a></li>
-                      <li id="pretraga"><a href="/pretragaAdministrator">Pretraga 🔍</a></li>
+                    <li id="pocetna"><a href="/homeAdministrator">Početna</a></li>
+                    <li id="pretraga"><a href="/pretragaAdministrator">Pretraga 🔍</a></li>
+                    <li><Logout/></li>
                   </ul>
               </div>
           </div>
       </div>
   </header>
+  <h3 style="text-align: center; padding-top: 10px; padding-bottom: 10px;">Knjige</h3>
+  <div class="knjige-table">
+    <table class="center">
+        <thead>
+            <tr>
+            <th>ID</th>
+            <th>Naslov</th>
+            <th>ISBN</th>
+            <th>Broj Strana</th>
+            <th>Datum Objavljivanja</th>
+            <th>Opis</th>
+            <th>Ocena</th>
+            <th>Zanr</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="knjiga in knjige" :key="knjiga.id">
+            <td>{{ knjiga.id }}</td>
+            <td>{{ knjiga.naslov }}</td>
+            <td>{{ knjiga.isbn }}</td>
+            <td>{{ knjiga.brojStrana }}</td>
+            <td>{{ knjiga.datumObjavljivanja }}</td>
+            <td>{{ knjiga.opis }}</td>
+            <td>{{ knjiga.ocena }}</td>
+            <td>{{ knjiga.zanr }}</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
   
   <footer>
       <p>&copy; 2023 BookBuddy. Sva prava zadržana.</p>
@@ -39,16 +69,37 @@
   </template>
   
   <script>
-  import LoginSection from '@/components/LoginSection.vue';
-  import RegisterSection from '@/components/RegisterSection.vue';
-  
-  export default {
-    components: {
-      LoginSection,
-      RegisterSection
-    }
-  };
-  </script>
+import axios from 'axios';
+import Logout from '@/components/Logout.vue';
+
+// Define the getKnjige function outside the export default block
+function getKnjige() {
+  axios.get('http://localhost:9090/api/knjige', { withCredentials: true })
+    .then((response) => {
+      this.knjige = response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      alert('Failed to fetch knjige');
+    });
+}
+
+export default {
+  name: 'HomeAdministratorView',
+  components: {
+      Logout
+    },
+  data() {
+    return {
+      knjige: []
+    };
+  },
+  mounted() {
+    // Call the getKnjige function directly within the mounted hook
+    getKnjige.call(this);
+  }
+};
+</script>
   
   <style>
   * {
@@ -234,6 +285,33 @@
       text-align: center;
       margin-top: 40px;
       font-weight: bold;
+  }
+  .knjige-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.knjige-table th,
+.knjige-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.knjige-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.knjige-table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+table.center {
+    margin-left:auto; 
+    margin-right:auto;
   }
   </style>
   
