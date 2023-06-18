@@ -35,32 +35,82 @@
     </header>
     
     <section class="search-section">
-        <h2>Pretraga</h2>
-        <form>
-          <input type="text" placeholder="Pretraga recenzija">
-          <input type="text" placeholder="Pretraga knjiga">
-          <input type="text" placeholder="Pretraga korisnika">
-          <input type="text" placeholder="Pretraga polica">
-          <button type="submit">Pretraži</button>
-        </form>
-    </section>
-    
-    <footer>
-        <p>&copy; 2023 BookBuddy. Sva prava zadržana.</p>
-    </footer>
+    <h2>Pretraga</h2>
+    <form @submit.prevent="searchKnjige">
+      <input type="text" placeholder="Pretraga knjiga" v-model="searchQuery">
+      <button type="submit">Pretraži</button>
+    </form>
+  </section>
+
+  <div v-if="searched && knjige.length > 0">
+    <div class="knjige-table">
+      <table class="center">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Naslov</th>
+            <th>ISBN</th>
+            <th>Broj Strana</th>
+            <th>Datum Objavljivanja</th>
+            <th>Opis</th>
+            <th>Ocena</th>
+            <th>Zanr</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="knjiga in knjige" :key="knjiga.id">
+            <td>{{ knjiga.id }}</td>
+            <td>{{ knjiga.naslov }}</td>
+            <td>{{ knjiga.isbn }}</td>
+            <td>{{ knjiga.brojStrana }}</td>
+            <td>{{ knjiga.datumObjavljivanja }}</td>
+            <td>{{ knjiga.opis }}</td>
+            <td>{{ knjiga.ocena }}</td>
+            <td>{{ knjiga.zanr?.naziv }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
 
 <script>
-  import Logout from '@/components/Logout.vue';
-  
-  export default {
-    name: 'HomeAdministratorView',
-    components: {
-      Logout
-    },
-  };
-  </script>
+import axios from 'axios';
+import Logout from '@/components/Logout.vue';
 
+export default {
+  name: 'HomeAdministratorView',
+  components: {
+    Logout
+  },
+  data() {
+    return {
+      searchQuery: '',
+      knjige: [],
+      searched: false
+    };
+  },
+  methods: {
+    searchKnjige() {
+      axios
+        .get(`http://localhost:9090/api/search-knjige/${this.searchQuery}`)
+        .then((response) => {
+            if (response.data.length == 0) {
+                alert('Ne postoji knjiga sa tim imenom');
+                this.searched = false; // Set searched to false if knjige array is empty
+            } else {
+                this.knjige = response.data;
+                this.searched = true;
+            }
+        })
+        .catch((error) => {
+        console.log(error);
+        alert('Ne postoji ta knjiga');
+});
+    }
+  }
+};
+</script>
 <style>
     * {
     margin: 0;

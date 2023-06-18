@@ -33,70 +33,104 @@
           </div>
       </div>
   </header>
-  <h3 style="text-align: center; padding-top: 10px; padding-bottom: 10px;">Knjige</h3>
+  <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px;">Knjige</h3>
   <div class="knjige-table">
     <table class="center">
         <thead>
             <tr>
-            <th>ID</th>
             <th>Naslov</th>
             <th>ISBN</th>
             <th>Broj Strana</th>
             <th>Datum Objavljivanja</th>
             <th>Opis</th>
             <th>Ocena</th>
+            <th>Autor</th>
             <th>Zanr</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="knjiga in knjige" :key="knjiga.id">
-            <td>{{ knjiga.id }}</td>
             <td>{{ knjiga.naslov }}</td>
             <td>{{ knjiga.isbn }}</td>
             <td>{{ knjiga.brojStrana }}</td>
             <td>{{ knjiga.datumObjavljivanja }}</td>
             <td>{{ knjiga.opis }}</td>
             <td>{{ knjiga.ocena }}</td>
-            <td>{{ knjiga.zanr }}</td>
+            <td>{{ knjiga.autor.ime }}</td>
+            <td>{{ knjiga.zanr.naziv }}</td>
             </tr>
         </tbody>
-    </table>
+        </table>
     </div>
-  
-  <footer>
-      <p>&copy; 2023 BookBuddy. Sva prava zadržana.</p>
-  </footer>
-  </template>
-  
-  <script>
+    <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px;">Korisnici</h3>
+    <div class="korisnici-table">
+        <table class="center">
+        <thead>
+            <tr>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Korisnicko Ime</th>
+            <th>Datum Rodjenja</th>
+            <th>Opis</th>
+            <th>Uloga</th>
+            <!-- Add more table headers for other properties -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="korisnik in korisnici" :key="korisnik.id">
+            <td>{{ korisnik.ime }}</td>
+            <td>{{ korisnik.prezime }}</td>
+            <td>{{ korisnik.korisnickoIme }}</td>
+            <td>{{ korisnik.datumRodjenja }}</td>
+            <td>{{ korisnik.opis }}</td>
+            <td>{{ korisnik.uloga }}</td>
+            <!-- Add more table cells for other properties -->
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</template>
+
+<script>
 import axios from 'axios';
 import Logout from '@/components/Logout.vue';
-
-// Define the getKnjige function outside the export default block
-function getKnjige() {
-  axios.get('http://localhost:9090/api/knjige', { withCredentials: true })
-    .then((response) => {
-      this.knjige = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-      alert('Failed to fetch knjige');
-    });
-}
 
 export default {
   name: 'HomeAdministratorView',
   components: {
-      Logout
-    },
+    Logout
+  },
   data() {
     return {
-      knjige: []
+      knjige: [],
+      korisnici: []
     };
   },
   mounted() {
-    // Call the getKnjige function directly within the mounted hook
-    getKnjige.call(this);
+    this.getKnjige();
+    this.getKorisnici();
+  },
+  methods: {
+    getKnjige() {
+      axios.get('http://localhost:9090/api/knjige', { withCredentials: true })
+        .then((response) => {
+          this.knjige = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('Failed to fetch knjige');
+        });
+    },
+    getKorisnici() {
+      axios.get('http://localhost:9090/api/korisnici', { withCredentials: true })
+        .then((response) => {
+          this.korisnici = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('Failed to fetch korisnici');
+        });
+    }
   }
 };
 </script>
@@ -286,27 +320,30 @@ export default {
       margin-top: 40px;
       font-weight: bold;
   }
-  .knjige-table {
+  .knjige-table,
+.korisnici-table {
   width: 100%;
   border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-
+  margin-bottom: 20px;
 }
 
 .knjige-table th,
-.knjige-table td {
+.knjige-table td,
+.korisnici-table th,
+.korisnici-table td {
   padding: 8px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-.knjige-table th {
+.knjige-table th,
+.korisnici-table th {
   background-color: #f2f2f2;
   font-weight: bold;
 }
 
-.knjige-table tbody tr:hover {
+.knjige-table tbody tr:hover,
+.korisnici-table tbody tr:hover {
   background-color: #f5f5f5;
 }
 table.center {

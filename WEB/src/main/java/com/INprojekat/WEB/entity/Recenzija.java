@@ -32,23 +32,6 @@ public class Recenzija implements Serializable {
     @JoinColumn(name="knjiga_id")
     private Knjiga knjiga;
 
-
-    public Set<StavkaPolice> getStavkePolice() {
-        return stavkePolice;
-    }
-
-    public void setStavkePolice(Set<StavkaPolice> stavkePolice) {
-        this.stavkePolice = stavkePolice;
-    }
-
-    public Knjiga getKnjiga() {
-        return knjiga;
-    }
-
-    public void setKnjiga(Knjiga knjiga) {
-        this.knjiga = knjiga;
-    }
-
     public int getOcena() { return ocena; }
 
     public void setOcena(int ocena) { this.ocena = ocena; }

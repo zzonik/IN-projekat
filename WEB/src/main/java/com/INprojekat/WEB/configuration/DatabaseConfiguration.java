@@ -35,8 +35,8 @@ public class DatabaseConfiguration {
 
     @Bean
     public boolean instantiate() throws ParseException {
-        Korisnik autorK1 = new Korisnik("Mico", "Roknic", "Mico1389", "micomico@gmail.com", "brizaou",  "/dejdo", Korisnik.Uloga.AUTOR);
-        Korisnik autorK2 = new Korisnik("Dule", "Savic", "Dule_Rana", "dulesavic55@gmail.com", "1234crvenkapa",  "/slika1.jpg", Korisnik.Uloga.AUTOR);
+        Korisnik autorK1 = new Korisnik("Mićo", "Roknić", "Mico1389", "micomico@gmail.com", "brizaou",  "/dejdo", Korisnik.Uloga.AUTOR);
+        Korisnik autorK2 = new Korisnik("Dule", "Savić", "Dule_Rana", "dulesavic55@gmail.com", "1234crvenkapa",  "/slika1.jpg", Korisnik.Uloga.AUTOR);
 
         Autor autor1 = new Autor(autorK1, false);
         Autor autor2 = new Autor(autorK2, false);

@@ -68,11 +68,12 @@ public class KnjigaRestController {
         }
     }
 
-    @GetMapping("api/search-knjige/{string}")
-    public ResponseEntity<?> searchKnjige(@PathVariable String string) {
-        List<KnjigaDto> dtos = knjigaService.searchKnjige(string);
+    @GetMapping("api/search-knjige/{name}")
+    public ResponseEntity<?> searchKnjige(@PathVariable String name) {
+        List<KnjigaDto> dtos = knjigaService.searchKnjige(name);
+
         if (dtos.isEmpty()) {
-            return ResponseEntity.badRequest().body("Ne postoji");
+            return ResponseEntity.ok(dtos);
         } else {
             return ResponseEntity.ok(dtos);
         }
