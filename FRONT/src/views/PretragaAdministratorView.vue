@@ -72,6 +72,10 @@
       </table>
     </div>
   </div>
+
+<footer>
+    <p>&copy; 2023 BookBuddy. Sva prava zadržana.</p>
+</footer>
 </template>
 
 <script>

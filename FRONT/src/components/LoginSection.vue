@@ -13,7 +13,7 @@
             <input type="password" placeholder="Unesite Vasu lozinku" v-model="lozinka">
           </div>
           <div class="row6">
-            <button @click.prevent="submit">submit</button>
+            <button @click.prevent="submit">Log in</button>
           </div>
         </form>
       </section>
