@@ -48,6 +48,7 @@ public class AutorDto {
         this.profilnaSlika = autor.getProfilnaSlika();
         this.korisnickoIme = autor.getKorisnickoIme();
         this.datumRodjenja = autor.getDatumRodjenja();
+        this.opis = autor.getOpis();
         this.mail = autor.getMail();
     }
     public AutorDto() {

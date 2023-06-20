@@ -10,15 +10,13 @@ public class AutorRegisterDto {
     private String mail;
 
     private String lozinka;
-    private String profilnaSlika;
 
-    public AutorRegisterDto(String ime, String prezime, String korisnickoIme, String mail, String lozinka, String profilnaSlika) {
+    public AutorRegisterDto(String ime, String prezime, String korisnickoIme, String mail, String lozinka) {
         this.ime = ime;
         this.prezime = prezime;
         this.korisnickoIme = korisnickoIme;
         this.mail = mail;
         this.lozinka = lozinka;
-        this.profilnaSlika = profilnaSlika;
     }
 
     public String getMail() {
@@ -64,11 +62,4 @@ public class AutorRegisterDto {
         this.korisnickoIme = korisnickoIme;
     }
 
-    public String getProfilnaSlika() {
-        return profilnaSlika;
-    }
-
-    public void setProfilnaSlika(String profilnaSlika) {
-        this.profilnaSlika = profilnaSlika;
-    }
 }

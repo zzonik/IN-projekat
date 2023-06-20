@@ -142,6 +142,7 @@ public class KnjigaService {
         knjiga.get().setDatumObjavljivanja(updateKnjigaDto.getDatumObjavljivanja());
         knjiga.get().setBrojStrana(updateKnjigaDto.getBrojStrana());
         knjiga.get().setOpis(updateKnjigaDto.getOpis());
+        knjiga.get().setAutor(autorRepository.findAutorById(updateKnjigaDto.getAutorId()));
         knjiga.get().setZanr(zanrRepository.findZanrById(updateKnjigaDto.getZanrId()));
         return save(knjiga.get());
     }

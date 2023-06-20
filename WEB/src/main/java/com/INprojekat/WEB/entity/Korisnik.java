@@ -42,13 +42,14 @@ public class Korisnik implements Serializable{
     @OneToMany(mappedBy = "korisnik", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Polica> police;
 
-    public Korisnik(String ime, String prezime, String korisnickoIme, String mail, String lozinka, String profilnaSlika, Uloga uloga) {
+    public Korisnik(String ime, String prezime, String korisnickoIme, String mail, String lozinka, String profilnaSlika, String opis, Uloga uloga) {
         this.ime = ime;
         this.prezime = prezime;
         this.korisnickoIme = korisnickoIme;
         this.mail = mail;
         this.lozinka = lozinka;
         this.profilnaSlika = profilnaSlika;
+        this.opis = opis;
         this.uloga = uloga;
     }
     public Korisnik() {

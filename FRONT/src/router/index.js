@@ -3,6 +3,7 @@ import HomeNeprijavljeniView from '../views/HomeNeprijavljeniView.vue';
 import HomeCitalacView from '../views/HomeCitalacView.vue';
 import HomeAutorView from '../views/HomeAutorView.vue';
 import HomeAdministratorView from '../views/HomeAdministratorView.vue';
+import KnjigaView from '../views/KnjigaView.vue';
 
 import PretragaNeprijavljeniView from '../views/PretragaNeprijavljeniView.vue';
 import PretragaCitalacView from '../views/PretragaCitalacView.vue';
@@ -91,6 +92,14 @@ const routes = [
     component: RegisterSection,
     meta: {
       title: 'Pretraga'
+    }
+  },
+  {
+    path: '/knjiga/:id',
+    name: 'knjiga',
+    component: KnjigaView,
+    meta: {
+      title: 'Knjiga'
     }
   }
 ];

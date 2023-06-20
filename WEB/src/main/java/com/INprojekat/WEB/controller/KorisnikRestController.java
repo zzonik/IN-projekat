@@ -300,13 +300,9 @@ public class KorisnikRestController {
 
     @PutMapping("api/admin/knjiga/{knjigaId}/update_knjiga")
     public ResponseEntity<?> updateKnjigaAdmin(@RequestBody UpdateKnjigaDto updateKnjigaDto,@PathVariable Long knjigaId, HttpSession session) {
-        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
-            knjigaService.updateKnjigaAdmin(knjigaId, updateKnjigaDto);
-            return new ResponseEntity<>("Book updated successfully", HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
-        }
+        knjigaService.updateKnjigaAdmin(knjigaId, updateKnjigaDto);
+        return new ResponseEntity<>("Book updated successfully", HttpStatus.OK);
+
     }
 
     @PutMapping("/api/admin/update_autor/{autorId}")

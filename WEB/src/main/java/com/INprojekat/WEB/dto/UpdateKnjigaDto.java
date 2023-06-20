@@ -13,18 +13,37 @@ public class UpdateKnjigaDto {
     private Date datumObjavljivanja;
     private int brojStrana;
     private String opis;
+    private Long autorId;
     private Long zanrId;
 
-    public UpdateKnjigaDto(String naslov, String naslovnaFotografija, String isbn, Date datumObjavljivanja, int brojStrana, String opis, Long zanrId) {
+    public UpdateKnjigaDto(String naslov, String naslovnaFotografija, String isbn, Date datumObjavljivanja, int brojStrana, String opis, Long autorId, Long zanrId) {
         this.naslov = naslov;
         this.naslovnaFotografija = naslovnaFotografija;
         this.isbn = isbn;
         this.datumObjavljivanja = datumObjavljivanja;
         this.brojStrana = brojStrana;
         this.opis = opis;
+        this.autorId = autorId;
         this.zanrId = zanrId;
     }
+
     public UpdateKnjigaDto() {
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public Long getAutorId() {
+        return autorId;
+    }
+
+    public void setAutorId(Long autorId) {
+        this.autorId = autorId;
     }
 
     public String getNaslov() {

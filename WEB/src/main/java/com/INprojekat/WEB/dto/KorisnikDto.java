@@ -19,18 +19,6 @@ public class KorisnikDto {
     private Korisnik.Uloga uloga;
     private Set<Polica> police = new HashSet<>();
 
-    public KorisnikDto(Long id, String ime, String prezime, String korisnickoIme, Date datumRodjenja, String profilnaSlika, String opis, Korisnik.Uloga uloga, Set<Polica> police) {
-        this.id = id;
-        this.ime = ime;
-        this.prezime = prezime;
-        this.korisnickoIme = korisnickoIme;
-        this.datumRodjenja = datumRodjenja;
-        this.profilnaSlika = profilnaSlika;
-        this.opis = opis;
-        this.uloga = uloga;
-        this.police = police;
-    }
-
     public KorisnikDto(Korisnik korisnik) {
         this.id = korisnik.getId();
         this.ime = korisnik.getIme();

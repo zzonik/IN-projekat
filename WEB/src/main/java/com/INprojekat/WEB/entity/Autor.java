@@ -19,8 +19,8 @@ public class Autor extends Korisnik implements Serializable {
     @JsonIgnore
     private Set<Knjiga> knjige = new HashSet<>();
 
-    public Autor(String ime, String prezime, String korisnickoIme, String mail, String lozinka, String profilnaSlika, Uloga uloga, boolean aktivnost) {
-        super(ime, prezime, korisnickoIme, mail, lozinka, profilnaSlika, uloga);
+    public Autor(String ime, String prezime, String korisnickoIme, String mail, String lozinka, String profilnaSlika, String opis, Uloga uloga, boolean aktivnost) {
+        super(ime, prezime, korisnickoIme, mail, lozinka, profilnaSlika, opis, uloga);
         this.aktivnost = aktivnost;
     }
 
@@ -32,6 +32,7 @@ public class Autor extends Korisnik implements Serializable {
         this.setMail(korisnik.getMail());
         this.setLozinka(korisnik.getLozinka());
         this.setProfilnaSlika(korisnik.getProfilnaSlika());
+        this.setOpis(korisnik.getOpis());
         this.setUloga(korisnik.getUloga());
         this.aktivnost = aktivnost;
     }
@@ -41,7 +42,6 @@ public class Autor extends Korisnik implements Serializable {
         this.setKorisnickoIme(dto.getKorisnickoIme());
         this.setMail(dto.getMail());
         this.setLozinka(dto.getLozinka());
-        this.setProfilnaSlika(dto.getProfilnaSlika());
         this.setUloga(Uloga.AUTOR);
     }
     public Autor(boolean aktivnost, Set<Knjiga> knjige) {
