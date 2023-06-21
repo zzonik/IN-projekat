@@ -299,7 +299,7 @@ public class KorisnikRestController {
     }
 
     @PutMapping("api/admin/knjiga/{knjigaId}/update_knjiga")
-    public ResponseEntity<?> updateKnjigaAdmin(@RequestBody UpdateKnjigaDto updateKnjigaDto,@PathVariable Long knjigaId, HttpSession session) {
+    public ResponseEntity<?> updateKnjigaAdmin(@RequestBody UpdateKnjigaDto updateKnjigaDto,@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException  {
         knjigaService.updateKnjigaAdmin(knjigaId, updateKnjigaDto);
         return new ResponseEntity<>("Book updated successfully", HttpStatus.OK);
 
@@ -307,8 +307,6 @@ public class KorisnikRestController {
 
     @PutMapping("/api/admin/update_autor/{autorId}")
     public ResponseEntity<?> updateAutor(@RequestBody UpdateDto updateDto, @PathVariable Long autorId, HttpSession session) throws ChangeSetPersister.NotFoundException {
-        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
             Autor autor = autorService.findOne(autorId);
             if(!autor.getAktivnost()){
                 autorService.updateAutor(autorId, updateDto);
@@ -316,9 +314,6 @@ public class KorisnikRestController {
             } else {
                 return new ResponseEntity<>("Autor is active", HttpStatus.BAD_REQUEST);
             }
-        }else {
-            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
-        }
     }
     @PostMapping("/api/citalac/polica/{policaId}/knjiga/{knjigaId}/knjiga-add-polica")
     public ResponseEntity<?> addKnjigaPolica(@PathVariable Long knjigaId,@PathVariable Long policaId,RecenzijaDto recenzijaDto, HttpSession session) throws ChangeSetPersister.NotFoundException {

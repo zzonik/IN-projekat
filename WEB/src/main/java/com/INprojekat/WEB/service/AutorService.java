@@ -51,7 +51,7 @@ public class AutorService {
     public Autor updateAutor(Long id, UpdateDto updateDto){
         Autor autor = findOne(id);
 
-        if(updateDto.getLozinka().equals(updateDto.getNewlozinka())){
+        if(!updateDto.getLozinka().equals(updateDto.getNewlozinka())){
             throw new IllegalArgumentException("Lozinka se ne podudara");
         }
 

@@ -4,6 +4,7 @@ import HomeCitalacView from '../views/HomeCitalacView.vue';
 import HomeAutorView from '../views/HomeAutorView.vue';
 import HomeAdministratorView from '../views/HomeAdministratorView.vue';
 import KnjigaView from '../views/KnjigaView.vue';
+import AutorEditView from '../views/AutorEditView.vue';
 
 import PretragaNeprijavljeniView from '../views/PretragaNeprijavljeniView.vue';
 import PretragaCitalacView from '../views/PretragaCitalacView.vue';
@@ -100,6 +101,14 @@ const routes = [
     component: KnjigaView,
     meta: {
       title: 'Knjiga'
+    }
+  },
+  {
+    path: '/autor/:id',
+    name: 'autor',
+    component: AutorEditView,
+    meta: {
+      title: 'Autor'
     }
   }
 ];

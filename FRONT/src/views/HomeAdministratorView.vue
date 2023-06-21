@@ -390,6 +390,9 @@ export default {
                 });
  
         },
+        azurirajAutora(autorId) {
+            this.$router.push(`/autor/${autorId}`);
+        },
         getZanrovi() {
             axios
                 .get("http://localhost:9090/api/zanrovi", { withCredentials: true })
