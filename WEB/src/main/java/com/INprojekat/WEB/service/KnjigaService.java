@@ -281,6 +281,16 @@ public void deleteKnjiga(Long citalac_autor_Id, Long policaId, Long knjigaId) th
         }
         return knjigeIzdvojeno;
     }
+    public List<KnjigaDto> searchKnjigeByAutor(Long autorId){
+        List<KnjigaDto> knjige = findAll();
+        List<KnjigaDto> knjigeIzdvojeno = new ArrayList<>();
+        for(KnjigaDto dto : knjige){
+            if(dto.getAutor().getId() == autorId){
+                knjigeIzdvojeno.add(dto);
+            }
+        }
+        return knjigeIzdvojeno;
+    }
 
 
 /*

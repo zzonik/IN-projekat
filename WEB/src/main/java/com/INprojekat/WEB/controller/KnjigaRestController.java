@@ -78,6 +78,17 @@ public class KnjigaRestController {
             return ResponseEntity.ok(dtos);
         }
     }
+    @GetMapping("api/search-knjigeByAutor/{autorId}")
+    public ResponseEntity<?> searchKnjigeByAutor(@PathVariable Long autorId) {
+        List<KnjigaDto> dtos = knjigaService.searchKnjigeByAutor(autorId);
+
+        if (dtos.isEmpty()) {
+            return ResponseEntity.ok(dtos);
+        } else {
+            return ResponseEntity.ok(dtos);
+        }
+    }
+
 
 
 }

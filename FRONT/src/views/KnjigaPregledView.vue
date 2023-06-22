@@ -18,15 +18,6 @@
         <p><strong>Korisnik:</strong> {{ recenzija.korisnik?.ime }} {{ recenzija.korisnik?.prezime }}</p>
       </li>
     </ul>
-    <h2>Policas of Korisnik</h2>
-    <ul>
-      <li v-for="polica in knjiga.policas" :key="polica.id">
-        <p><strong>ID:</strong> {{ polica.id }}</p>
-        <p><strong>Naziv:</strong> {{ polica.naziv }}</p>
-        <p><strong>Primarna:</strong> {{ polica.primarna }}</p>
-        <!-- Add other Polica details here -->
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -71,21 +62,8 @@ export default {
           console.log(error);
           alert('Failed to fetch book reviews');
         });
-    },
-    getPolicasOfKorisnik() {
-      const korisnikId = this.knjiga.korisnik.id; // Assuming korisnik is an object with an 'id' property
-
-      axios
-        .get(`http://localhost:9090/api/korisnici/${korisnikId}/police`)
-        .then((response) => {
-          const police = response.data;
-          this.knjiga.policas = police;
-        })
-        .catch((error) => {
-          console.log(error);
-          alert('Failed to fetch user policas');
-        });
-    },
+    }
+    
   }
 };
 </script>

@@ -25,9 +25,16 @@
           <div class="row2">
               <div>
                   <ul class="menu">
-                      <li id="pocetna"><a href="/homeAutor">Početna</a></li>
-                      <li id="pretraga"><a href="/pretragaAutor">Pretraga 🔍</a></li>
-                      <li><Logout/></li>
+                    <li id="pocetna">
+                    <router-link :to="{ path: '/homeAutor', query: { autorId: autorId } }">Početna</router-link>
+                    </li>
+                    <li id="pocetna">
+                        <router-link :to="{ path: '/autorKnjige', query: { autorId: autorId } }">Moje knjige</router-link>
+                    </li>
+                    <li id="pretraga">
+                        <router-link :to="{ path: '/pretragaAutor', query: { autorId: autorId } }">Pretraga 🔍</router-link>
+                    </li>
+                    <li><Logout/></li>
                   </ul>
               </div>
           </div>
@@ -40,15 +47,27 @@
   </template>
   
   <script>
-  import Logout from '@/components/Logout.vue';
-  
-  export default {
-    name: 'HomeAutorView',
-    components: {
-      Logout
-    },
-  };
-  </script>
+import Logout from '@/components/Logout.vue';
+
+export default {
+  name: 'HomeAutorView',
+  components: {
+    Logout
+  },
+  data() {
+    return {
+      autorId: null
+    };
+  },
+  mounted() {
+    this.autorId = this.$route.query.korisnikId;
+    if(this.autorId == null){
+        this.autorId = this.$route.query.autorId;
+    }
+  },
+};
+</script>
+
   
   <style>
   * {

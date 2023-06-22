@@ -8,6 +8,7 @@ import AutorEditView from '../views/AutorEditView.vue';
 import KnjigaPregledView from '../views/KnjigaPregledView.vue';
 import KorisnikPregledView from '../views/KorisnikPregledView.vue';
 import ZahtevView from '../views/ZahtevView.vue';
+import AutorKnjigeView from '../views/AutorKnjigeView.vue';
 
 import PretragaNeprijavljeniView from '../views/PretragaNeprijavljeniView.vue';
 import PretragaCitalacView from '../views/PretragaCitalacView.vue';
@@ -146,6 +147,14 @@ const routes = [
     component: ZahtevView,
     meta: {
       title: 'Zahtev'
+    }
+  },
+  {
+    path: '/autorKnjige',
+    name: 'autorKnjige',
+    component: AutorKnjigeView,
+    meta: {
+      title: 'Knjige'
     }
   }
 ];
