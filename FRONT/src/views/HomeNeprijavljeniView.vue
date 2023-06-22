@@ -26,6 +26,7 @@
             <div>
                 <ul class="menu">
                     <li id="pocetna"><a href="/">Prijavi se</a></li>
+                    <li id="pocetna"><a href="/pregledNeprijavljeni">Pregled</a></li>
                     <li id="pretraga"><a href="/pretragaNeprijavljeni">Pretraga 🔍</a></li>
                 </ul>
             </div>
@@ -168,7 +169,7 @@ h2 {
     margin: 4px 2px;
     cursor: pointer;
     margin-bottom: 20px;
-    margin-left: 8px;
+    margin-left: 43px;
     border-radius: 8px;
 }
 

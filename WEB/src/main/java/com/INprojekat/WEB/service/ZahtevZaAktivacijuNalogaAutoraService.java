@@ -3,6 +3,7 @@ package com.INprojekat.WEB.service;
 import com.INprojekat.WEB.dto.ZahtevDto;
 import com.INprojekat.WEB.dto.ZahtevZaAktivacijuNalogaAutoraDto;
 import com.INprojekat.WEB.entity.*;
+import com.INprojekat.WEB.repository.AutorRepository;
 import com.INprojekat.WEB.repository.KorisnikRepository;
 import com.INprojekat.WEB.repository.ZahtevZaAktiavcijuNalogaAutoraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class ZahtevZaAktivacijuNalogaAutoraService {
 
     @Autowired
     private KorisnikRepository korisnikRepository;
+    @Autowired
+    AutorRepository autorRepository;
     public ZahtevZaAktivacijuNalogaAutoraDto findOne(Long id){
         Optional<ZahtevZaAktivacijuNalogaAutora> foundZahtev = zahtevZaAktiavcijuNalogaAutoraRepository.findById(id);
         if (foundZahtev.isPresent()) {
@@ -43,6 +46,7 @@ public class ZahtevZaAktivacijuNalogaAutoraService {
         return zahtevZaAktiavcijuNalogaAutoraRepository.save(zana);
     }
     public ZahtevZaAktivacijuNalogaAutora create(ZahtevDto zahtev) {
+        if(autorRepository.findAutorById(zahtev.getKorisnik_id()).getAktivnost()){return null;}
         ZahtevZaAktivacijuNalogaAutora zana = new ZahtevZaAktivacijuNalogaAutora();
         zana.setEmail(zahtev.getMail());
         zana.setTelefon(zahtev.getBrojTelefona());

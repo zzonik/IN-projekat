@@ -144,6 +144,7 @@ public class KorisnikRestController {
     @PostMapping("api/zahtev-create")
     public ResponseEntity<?> zahtev(@RequestBody ZahtevDto zahtevDto, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+
         if(loggedKorisnik == null){
             if(zahtevZaAktivacijuNalogaAutoraService.create(zahtevDto) == null)
                 return new ResponseEntity<>("There is no autor with this name", HttpStatus.BAD_REQUEST);

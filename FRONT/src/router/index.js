@@ -3,13 +3,18 @@ import HomeNeprijavljeniView from '../views/HomeNeprijavljeniView.vue';
 import HomeCitalacView from '../views/HomeCitalacView.vue';
 import HomeAutorView from '../views/HomeAutorView.vue';
 import HomeAdministratorView from '../views/HomeAdministratorView.vue';
-import KnjigaView from '../views/KnjigaView.vue';
+import KnjigaEditView from '../views/KnjigaEditView.vue';
 import AutorEditView from '../views/AutorEditView.vue';
+import KnjigaPregledView from '../views/KnjigaPregledView.vue';
+import KorisnikPregledView from '../views/KorisnikPregledView.vue';
+import ZahtevView from '../views/ZahtevView.vue';
 
 import PretragaNeprijavljeniView from '../views/PretragaNeprijavljeniView.vue';
 import PretragaCitalacView from '../views/PretragaCitalacView.vue';
 import PretragaAutorView from '../views/PretragaAutorView.vue';
 import PretragaAdministratorView from '../views/PretragaAdministratorView.vue';
+
+import PregledNeprijavljeniView from '../views/PregledNeprijavljeniView.vue';
 
 import LoginSection from '../components/LoginSection.vue';
 import RegisterSection from '../components/RegisterSection.vue';
@@ -96,9 +101,17 @@ const routes = [
     }
   },
   {
-    path: '/knjiga/:id',
-    name: 'knjiga',
-    component: KnjigaView,
+    path: '/knjigaEdit/:id',
+    name: 'knjigaEdit',
+    component: KnjigaEditView,
+    meta: {
+      title: 'Knjiga'
+    }
+  },
+  {
+    path: '/knjigaPregled/:id',
+    name: 'knjigaPregled',
+    component: KnjigaPregledView,
     meta: {
       title: 'Knjiga'
     }
@@ -109,6 +122,30 @@ const routes = [
     component: AutorEditView,
     meta: {
       title: 'Autor'
+    }
+  },
+  {
+    path: '/pregledNeprijavljeni',
+    name: 'pregledNeprijavljeni',
+    component: PregledNeprijavljeniView,
+    meta: {
+      title: 'Pregled'
+    }
+  },
+  {
+    path: '/korisnikPregled/:id',
+    name: 'korisnikPregled',
+    component: KorisnikPregledView,
+    meta: {
+      title: 'Korisnik'
+    }
+  },
+  {
+    path: '/zahtev',
+    name: 'zahtev',
+    component: ZahtevView,
+    meta: {
+      title: 'Zahtev'
     }
   }
 ];

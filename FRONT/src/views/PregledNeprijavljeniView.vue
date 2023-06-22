@@ -25,10 +25,9 @@
             <div class="row2">
                 <div>
                     <ul class="menu">
-                        <li id="pocetna"><a href="/homeAdministrator">Početna</a></li>
-                        <li>
-                            <Logout />
-                        </li>
+                        <li id="pocetna"><a href="/">Prijavi se</a></li>
+                        <li id="pocetna"><a href="/pregledNeprijavljeni">Pregled</a></li>
+                        <li id="pretraga"><a href="/pretragaNeprijavljeni">Pretraga 🔍</a></li>
                     </ul>
                 </div>
             </div>
@@ -49,8 +48,6 @@
                     <th>Ocena</th>
                     <th>Autor</th>
                     <th>Zanr</th>
-                    <th>Ažuriraj knjigu</th>
-                    <th>Obriši knjigu</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,64 +61,11 @@
                     <td>{{ knjiga.autor.ime }}</td>
                     <td>{{ knjiga.zanr?.naziv }}</td>
                     <td>
-                        <button @click="azurirajKnjigu(knjiga.id)">Ažuriraj knjigu</button>
-                    </td>
-                    <td>
-                    <button @click="obrisiKnjigu(knjiga.id)">Obriši knjigu</button>
+                        <button @click="seeMoreKnjiga(knjiga.id)">Vidi još</button>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <div class="add-book">
-            <div class="container3">
-                <section class="add-book">
-                    <form>
-                        <div class="row5">
-                            <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight:bold;">
-                                Dodaj novu knjigu</h4>
-                        </div>
-                        <div class="row6">
-                            <input type="text" placeholder="Unesite naslov" v-model="knjigaNaslov">
-                        </div>
-                        <div class="row6">
-                            <input type="text" placeholder="Unesite ISBN" v-model="knjigaIsbn">
-                        </div>
-                        <div class="row6">
-                            <input type="text" placeholder="Unesite broj strana" v-model="knjigaBrojStrana">
-                        </div>
-                        <div class="row6">
-                            <input type="date" placeholder="Unesite datum" v-model="knjigaDatum">
-                        </div>
-                        <div class="row6">
-                            <input type="text" placeholder="Unesite opis" v-model="knjigaOpis">
-                        </div>
-                        <div class="row6">
-                            <div class="select-wrapper">
-                                <select class="custom-select" v-model="knjigaAutor">
-                                    <option value="" disabled>Odaberite autora</option>
-                                    <option v-for="autor in availableAutors" :value="autor.id" :key="autor.id">{{ autor.ime }} {{ autor.prezime }}</option>
-                                </select>
-                            </div>
-                        </div>
-
-
-
-
-                        <div class="row6">
-                            <div class="select-wrapper">
-                                <select class="custom-select" v-model="knjigaZanr">
-                                    <option value="">Odaberite žanr</option>
-                                    <option v-for="zanr in zanrovi" :value="zanr.id" :key="zanr.id">{{ zanr.naziv }}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                </section>
-            </div>
-        </div>
-        <div class="dodaj_knjigu">
-            <button @click="dodajKnjigu">Dodaj knjigu</button>
-        </div>
     </div>
 
     <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold;">
@@ -137,7 +81,6 @@
                     <th>Datum Rodjenja</th>
                     <th>Opis</th>
                     <th>Uloga</th>
-                    <th>Ažuriraj autora</th>
                 </tr>
             </thead>
             <tbody>
@@ -148,79 +91,15 @@
                     <td>{{ korisnik.datumRodjenja }}</td>
                     <td>{{ korisnik.opis }}</td>
                     <td>{{ korisnik.uloga }}</td>
+                    <td>
+                        <button @click="seeMoreKorisnik(korisnik.id)">Vidi još</button>
+                    </td>
                     <td v-if="korisnik.uloga === 'AUTOR'">
-                        <button @click="azurirajAutora(korisnik.id)">Ažuriraj autora</button>
+                        <ZahtevView :id="korisnik.id"></ZahtevView>
                     </td>
                 </tr>
             </tbody>
         </table>
-    </div>
-
-    <div class="container4">
-        <section class="add-autor">
-            <form>
-                <div class="row5">
-                    <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight:bold;">
-                        Dodaj novog autora</h4>
-                </div>
-                <div class="row6">
-                    <input type="text" placeholder="Unesite Ime" v-model="autorIme">
-                </div>
-                <div class="row7">
-                    <input type="text" placeholder="Unesite prezime" v-model="autorPrezime">
-                </div>
-                <div class="row8">
-                    <input type="text" placeholder="Unesite korisnicko ime" v-model="autorKorisnickoIme">
-                </div>
-                <div class="row9">
-                    <input type="text" placeholder="Unesite mail" v-model="autorMail">
-                </div>
-                <div class="row10">
-                    <input type="text" placeholder="Unesite lozinku" v-model="autorLozinka">
-                </div>
-            </form>
-        </section>
-        <div class="dodaj_autora">
-            <button @click="dodajAutora">Dodaj autora</button>
-        </div>
-    </div>
-
-    <div>
-        <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold;">
-            Zahtevi za aktivaciju
-        </h3>
-        <div class="zahtevi-table">
-        <table class="center">
-            <thead>
-                <tr>
-                    <th>Ime</th>
-                    <th>E-mail</th>
-                    <th>Telefon</th>
-                    <th>Poruka</th>
-                    <th>Datum</th>
-                    <th>Status</th>
-                    <th>Accept</th>
-                    <th>Decline</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="zahtev in zahtevi" :key="zahtev.id">
-                    <td>{{ zahtev.korisnik.ime }}</td>
-                    <td>{{ zahtev.email }}</td>
-                    <td>{{ zahtev.telefon }}</td>
-                    <td>{{ zahtev.poruka }}</td>
-                    <td>{{ zahtev.datum }}</td>
-                    <td>{{ zahtev.status }}</td>
-                    <td>
-                        <button @click="acceptZahtev(zahtev.id)">Accept</button>
-                    </td>
-                    <td>
-                        <button @click="declineZahtev(zahtev.id)">Decline</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
     </div>
 
     <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold;">
@@ -239,10 +118,6 @@
                 </tr>
             </tbody>
         </table>
-        <div class="dodaj_zanr">
-            <input type="text" v-model="noviZanrNaziv" placeholder="Unesite naziv zanra">
-            <button @click="dodajZanr">Dodaj zanr</button>
-        </div>
     </div>
 
     <footer>
@@ -252,12 +127,13 @@
 
 <script>
 import axios from "axios";
-import Logout from "@/components/Logout.vue";
+import ZahtevView from './ZahtevView.vue';
+
 
 export default {
-    name: "HomeAdministratorView",
+    name: "PregledNeprijavljeniView",
     components: {
-        Logout,
+        ZahtevView,
     },
     data() {
         return {
@@ -277,10 +153,18 @@ export default {
         this.getKnjige();
         this.getKorisnici();
         this.getZanrovi();
-        this.getZahtevi();
         this.getAutori();
     },
     methods: {
+        podnesiZahtev(korisnikId) {
+        this.$router.push({ path: '/zahtev', params: { id: korisnikId } });
+        },
+        seeMoreKnjiga(knjigaId) {
+            this.$router.push(`/knjigaPregled/${knjigaId}`);
+        },
+        seeMoreKorisnik(korisnikId) {
+            this.$router.push(`/korisnikPregled/${korisnikId}`);
+        },
         getKnjige() {
             axios
                 .get("http://localhost:9090/api/knjige", { withCredentials: true })
@@ -291,55 +175,6 @@ export default {
                     console.log(error);
                     alert("Failed to fetch knjige");
                 });
-        },
-        dodajKnjigu() {
-        const novaKnjiga = {
-            naslov: this.knjigaNaslov,
-            naslovnaFotografija: this.naslovnaFotografija,
-            isbn: this.knjigaIsbn,
-            brojStrana: this.knjigaBrojStrana,
-            datumObjavljivanja: this.knjigaDatum,
-            opis: this.knjigaOpis,
-            autorId: this.knjigaAutor,
-            zanrId: this.knjigaZanr
-        };
-        
-
-            axios
-                .post("http://localhost:9090/api/admin/knjiga-add", novaKnjiga, { withCredentials: true })
-                .then((response) => {
-                    this.getKnjige();
-                    this.knjigaNaslov = "";
-                    this.naslovnaFotografija = "";
-                    this.knjigaIsbn = "";
-                    this.knjigaBrojStrana = "";
-                    this.knjigaDatum = "";
-                    this.knjigaOpis = "";
-                    this.knjigaAutor = "";
-                    this.knjigaZanr = "";
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert("Failed to add knjiga");
-                });
-            },
-        obrisiKnjigu(knjigaId) {
-            axios
-            .delete(`http://localhost:9090/api/admin/${knjigaId}`, { withCredentials: true })
-            .then((response) => {
-                // Handle the success case, such as displaying a success message or refreshing the list of books
-                console.log("Book deleted successfully");
-                this.getKnjige(); // Refresh the list of books after deletion
-            })
-            .catch((error) => {
-                // Handle the error case, such as displaying an error message
-                console.log(error);
-                alert("Failed to delete the book");
-            });
-        },
-        azurirajKnjigu(knjigaId) {
-        // Redirect to the book page for updating
-        this.$router.push(`/knjigaEdit/${knjigaId}`);
         },
         getKorisnici() {
             axios
@@ -363,35 +198,6 @@ export default {
                     console.log(error);
                     alert("Failed to fetch korisnici");
                 });
-            },
-        dodajAutora() {
-            const noviAutor = {
-                ime: this.autorIme,
-                prezime: this.autorPrezime,
-                korisnickoIme: this.autorKorisnickoIme,
-                mail: this.autorMail,
-                lozinka: this.autorLozinka,
-            };
-            
-            axios
-                .post("http://localhost:9090/api/autor-register", noviAutor, { withCredentials: true })
-                .then((response) => {
-                    
-                    this.getKorisnici();
-                    this.autorIme = "";
-                    this.autorPrezime = "";
-                    this.autorKorisnickoIme = "";
-                    this.autorMail = "";
-                    this.autorLozinka = "";
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert("Neuspešno dodavanje autora");
-                });
- 
-        },
-        azurirajAutora(autorId) {
-            this.$router.push(`/autor/${autorId}`);
         },
         getZanrovi() {
             axios
@@ -404,61 +210,7 @@ export default {
                     alert("Failed to fetch zanrovi");
                 });
         },
-        dodajZanr() {
-            if (this.noviZanrNaziv.trim() !== "") {
-                const noviZanr = { naziv: this.noviZanrNaziv };
-
-                axios
-                    .post("http://localhost:9090/api/admin/zanr-add", noviZanr, { withCredentials: true })
-                    .then((response) => {
-                        
-                        this.getZanrovi();
-                        this.noviZanrNaziv = "";
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        alert("Neuspešno dodavanje žanra");
-                    });
-            } else {
-                alert("Unesite naziv žanra");
-            }
-        },
-        getZahtevi() {
-            axios
-                .get("http://localhost:9090/api/zahtev-getAll", { withCredentials: true })
-                .then((response) => {
-                    this.zahtevi = response.data;
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert("Failed to fetch zahtevi");
-                });
-        },
-        acceptZahtev(zahtevId) {
-            axios
-                .post(`http://localhost:9090/api/admin/zahtev/${zahtevId}/accept`, null, { withCredentials: true })
-                .then((response) => {
-                    alert('Zahtev je prihvaćen.');
-                    this.getZahtevi();
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert('Failed to accept the activation request');
-                });
-            },
-
-        declineZahtev(zahtevId) {
-            axios
-                .post(`http://localhost:9090/api/admin/zahtev/${zahtevId}/decline`, null, { withCredentials: true })
-                .then((response) => {
-                    alert('Zahtev je odbijen.');
-                    this.getZahtevi();
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert('Failed to decline the activation request');
-                });
-            },
+        
         },
 };
 </script>
