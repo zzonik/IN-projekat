@@ -147,7 +147,7 @@ public class KorisnikRestController {
 
         if(loggedKorisnik == null){
             if(zahtevZaAktivacijuNalogaAutoraService.create(zahtevDto) == null)
-                return new ResponseEntity<>("There is no autor with this name", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Autor je aktivan", HttpStatus.BAD_REQUEST);
             return ResponseEntity.ok("Request added");
         }
         else{

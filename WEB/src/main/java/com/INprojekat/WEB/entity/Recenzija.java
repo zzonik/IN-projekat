@@ -26,11 +26,24 @@ public class Recenzija implements Serializable {
     private Korisnik korisnik;
 
     @OneToMany(mappedBy = "recenzija", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private Set<StavkaPolice> stavkePolice = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name="knjiga_id")
     private Knjiga knjiga;
+
+    public Recenzija(Long id, int ocena, String tekst, Date datum, Korisnik korisnik, Set<StavkaPolice> stavkePolice, Knjiga knjiga) {
+        this.id = id;
+        this.ocena = ocena;
+        this.tekst = tekst;
+        this.datum = datum;
+        this.korisnik = korisnik;
+        this.stavkePolice = stavkePolice;
+        this.knjiga = knjiga;
+    }
+    public Recenzija(){
+    }
 
     public int getOcena() { return ocena; }
 

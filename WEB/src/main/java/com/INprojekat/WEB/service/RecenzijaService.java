@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class RecenzijaService {
@@ -89,7 +86,7 @@ public class RecenzijaService {
 
             // Save the Knjiga entity
             knjigaService.save(knjiga);
-        } return;
+        }
 
     }
 
@@ -121,11 +118,19 @@ public class RecenzijaService {
 
     public Recenzija save(Recenzija recenzija) { return recenzijaRepository.save(recenzija);}
 
-    public Set<Recenzija> searchRecenzijeKnjige(Long knjigaId){
+    public Set<RecenzijaDto> searchRecenzijeKnjige(Long knjigaId) {
         KnjigaDto knjiga = knjigaService.findOne(knjigaId);
         Set<Recenzija> recenzije = knjiga.getRecenzije();
-        return recenzije;
+        Set<RecenzijaDto> dtos = new HashSet<>();
+
+        for (Recenzija rec : recenzije) {
+            RecenzijaDto dto = new RecenzijaDto(rec);
+            dtos.add(dto);
+        }
+
+        return dtos;
     }
+
 /*
         1. Trazenje jedne recenzije
         2. Izlistavanje svih recenzija

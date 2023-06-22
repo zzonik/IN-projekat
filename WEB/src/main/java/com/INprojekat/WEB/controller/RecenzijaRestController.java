@@ -36,11 +36,12 @@ public class RecenzijaRestController {
     }
 
     @GetMapping("/api/recenzija/{id}")
-    public ResponseEntity<Recenzija> getRecenzija(@PathVariable Long id){
+    public ResponseEntity<RecenzijaDto> getRecenzija(@PathVariable Long id){
 
         Recenzija recenzija = recenzijaService.findOne(id);
+        RecenzijaDto dto = new RecenzijaDto(recenzija);
 
-        return ResponseEntity.ok(recenzija);
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping("/api/citalac/polica/{policaId}/stavka-police/{stavkaPoliceId}/add-recenzija")
@@ -75,7 +76,7 @@ public class RecenzijaRestController {
 
     @GetMapping("api/search-recenzijeKnjige/{knjigaId}")
     public ResponseEntity<?> searchRecenzijeKnjige(@PathVariable Long knjigaId) {
-        Set<Recenzija> recenzije = recenzijaService.searchRecenzijeKnjige(knjigaId);
+        Set<RecenzijaDto> recenzije = recenzijaService.searchRecenzijeKnjige(knjigaId);
         if (recenzije.isEmpty()) {
             return ResponseEntity.badRequest().body("Ne postoji");
         } else {

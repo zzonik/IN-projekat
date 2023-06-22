@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h3>Submit Zahtev</h3>
+      <h3>Zahtev za aktivaciju autora</h3>
       <form @submit="submitZahtev">
         <div>
           <label>Email:</label>

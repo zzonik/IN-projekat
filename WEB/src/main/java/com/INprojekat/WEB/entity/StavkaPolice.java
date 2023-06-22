@@ -13,12 +13,10 @@ public class StavkaPolice implements Serializable {
     private Long id;
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "recenzija_id")
-
     private Recenzija recenzija;
 
     @ManyToOne
     @JoinColumn(name="knjiga_id")
-    @JsonIgnore
     private Knjiga knjiga;
 
     public Recenzija getRecenzija() { return recenzija; }

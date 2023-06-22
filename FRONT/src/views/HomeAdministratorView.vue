@@ -110,7 +110,7 @@
                         <div class="row6">
                             <div class="select-wrapper">
                                 <select class="custom-select" v-model="knjigaZanr">
-                                    <option value="">Odaberite žanr</option>
+                                    <option value="" disabled>Odaberite žanr</option>
                                     <option v-for="zanr in zanrovi" :value="zanr.id" :key="zanr.id">{{ zanr.naziv }}</option>
                                 </select>
                             </div>
