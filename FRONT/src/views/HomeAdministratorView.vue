@@ -67,7 +67,7 @@
                         <button @click="azurirajKnjigu(knjiga.id)">Ažuriraj knjigu</button>
                     </td>
                     <td>
-                    <button @click="obrisiKnjigu(knjiga.id)">Obriši knjigu</button>
+                        <button @click="obrisiKnjigu(knjiga.id)">Obriši knjigu</button>
                     </td>
                 </tr>
             </tbody>
@@ -81,39 +81,28 @@
                                 Dodaj novu knjigu</h4>
                         </div>
                         <div class="row6">
-                            <input type="text" placeholder="Unesite naslov" v-model="knjigaNaslov">
+                            <input type="naslov" placeholder="Unesite naslov" v-model="mail">
                         </div>
                         <div class="row6">
-                            <input type="text" placeholder="Unesite ISBN" v-model="knjigaIsbn">
+                            <input type="isbn" placeholder="Unesite ISBN" v-model="mail">
                         </div>
                         <div class="row6">
-                            <input type="text" placeholder="Unesite broj strana" v-model="knjigaBrojStrana">
+                            <input type="brojstrana" placeholder="Unesite broj strana" v-model="mail">
                         </div>
                         <div class="row6">
-                            <input type="date" placeholder="Unesite datum" v-model="knjigaDatum">
+                            <input type="datum" placeholder="Unesite datum" v-model="mail">
                         </div>
                         <div class="row6">
-                            <input type="text" placeholder="Unesite opis" v-model="knjigaOpis">
+                            <input type="opis" placeholder="Unesite opis" v-model="mail">
                         </div>
                         <div class="row6">
-                            <div class="select-wrapper">
-                                <select class="custom-select" v-model="knjigaAutor">
-                                    <option value="" disabled>Odaberite autora</option>
-                                    <option v-for="autor in availableAutors" :value="autor.id" :key="autor.id">{{ autor.ime }} {{ autor.prezime }}</option>
-                                </select>
-                            </div>
+                            <input type="ocena" placeholder="Unesite unesite pocetnu ocenu" v-model="mail">
                         </div>
-
-
-
-
                         <div class="row6">
-                            <div class="select-wrapper">
-                                <select class="custom-select" v-model="knjigaZanr">
-                                    <option value="" disabled>Odaberite žanr</option>
-                                    <option v-for="zanr in zanrovi" :value="zanr.id" :key="zanr.id">{{ zanr.naziv }}</option>
-                                </select>
-                            </div>
+                            <input type="autor" placeholder="Unesite ime autora" v-model="mail">
+                        </div>
+                        <div class="row6">
+                            <input type="zanr" placeholder="Unesite zanr" v-model="mail">
                         </div>
                     </form>
                 </section>
@@ -164,24 +153,24 @@
                         Dodaj novog autora</h4>
                 </div>
                 <div class="row6">
-                    <input type="text" placeholder="Unesite Ime" v-model="autorIme">
+                    <input type="ime" placeholder="Unesite Ime" v-model="mail">
                 </div>
                 <div class="row7">
-                    <input type="text" placeholder="Unesite prezime" v-model="autorPrezime">
+                    <input type="prezime" placeholder="Unesite prezime" v-model="mail">
                 </div>
                 <div class="row8">
-                    <input type="text" placeholder="Unesite korisnicko ime" v-model="autorKorisnickoIme">
+                    <input type="korisnickoime" placeholder="Unesite korisnicko ime" v-model="mail">
                 </div>
                 <div class="row9">
-                    <input type="text" placeholder="Unesite mail" v-model="autorMail">
+                    <input type="datumrodjenja" placeholder="Unesite datum rodjenja" v-model="mail">
                 </div>
                 <div class="row10">
-                    <input type="text" placeholder="Unesite lozinku" v-model="autorLozinka">
+                    <input type="opis" placeholder="Unesite opis" v-model="mail">
                 </div>
             </form>
         </section>
         <div class="dodaj_autora">
-            <button @click="dodajAutora">Dodaj autora</button>
+            <button @click="DodajAutora">Dodaj autora</button>
         </div>
     </div>
 
@@ -265,12 +254,6 @@ export default {
             korisnici: [],
             zanrovi: [],
             zahtevi: [],
-            availableAutors: [],
-            autorIme: '',
-            autorPrezime: '',
-            autorMail: '',
-            autorKorisnickoIme: '',
-            autorLozinka: '',
         };
     },
     mounted() {
@@ -278,10 +261,9 @@ export default {
         this.getKorisnici();
         this.getZanrovi();
         this.getZahtevi();
-        this.getAutori();
     },
     methods: {
-        getKnjige() {
+    getKnjige() {
             axios
                 .get("http://localhost:9090/api/knjige", { withCredentials: true })
                 .then((response) => {
@@ -292,56 +274,8 @@ export default {
                     alert("Failed to fetch knjige");
                 });
         },
-        dodajKnjigu() {
-        const novaKnjiga = {
-            naslov: this.knjigaNaslov,
-            naslovnaFotografija: this.naslovnaFotografija,
-            isbn: this.knjigaIsbn,
-            brojStrana: this.knjigaBrojStrana,
-            datumObjavljivanja: this.knjigaDatum,
-            opis: this.knjigaOpis,
-            autorId: this.knjigaAutor,
-            zanrId: this.knjigaZanr
-        };
-        
 
-            axios
-                .post("http://localhost:9090/api/admin/knjiga-add", novaKnjiga, { withCredentials: true })
-                .then((response) => {
-                    this.getKnjige();
-                    this.knjigaNaslov = "";
-                    this.naslovnaFotografija = "";
-                    this.knjigaIsbn = "";
-                    this.knjigaBrojStrana = "";
-                    this.knjigaDatum = "";
-                    this.knjigaOpis = "";
-                    this.knjigaAutor = "";
-                    this.knjigaZanr = "";
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert("Failed to add knjiga");
-                });
-            },
-        obrisiKnjigu(knjigaId) {
-            axios
-            .delete(`http://localhost:9090/api/admin/${knjigaId}`, { withCredentials: true })
-            .then((response) => {
-                // Handle the success case, such as displaying a success message or refreshing the list of books
-                console.log("Book deleted successfully");
-                this.getKnjige(); // Refresh the list of books after deletion
-            })
-            .catch((error) => {
-                // Handle the error case, such as displaying an error message
-                console.log(error);
-                alert("Failed to delete the book");
-            });
-        },
-        azurirajKnjigu(knjigaId) {
-        // Redirect to the book page for updating
-        this.$router.push(`/knjigaEdit/${knjigaId}`);
-        },
-        getKorisnici() {
+    getKorisnici() {
             axios
                 .get("http://localhost:9090/api/korisnici", { withCredentials: true })
                 .then((response) => {
@@ -352,48 +286,7 @@ export default {
                     alert("Failed to fetch korisnici");
                 });
         },
-        getAutori() {
-            axios
-                .get("http://localhost:9090/api/korisnici", { withCredentials: true })
-                .then((response) => {
-                    this.korisnici = response.data;
-                    this.availableAutors = response.data.filter((korisnik) => korisnik.uloga === "AUTOR");
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert("Failed to fetch korisnici");
-                });
-            },
-        dodajAutora() {
-            const noviAutor = {
-                ime: this.autorIme,
-                prezime: this.autorPrezime,
-                korisnickoIme: this.autorKorisnickoIme,
-                mail: this.autorMail,
-                lozinka: this.autorLozinka,
-            };
-            
-            axios
-                .post("http://localhost:9090/api/autor-register", noviAutor, { withCredentials: true })
-                .then((response) => {
-                    
-                    this.getKorisnici();
-                    this.autorIme = "";
-                    this.autorPrezime = "";
-                    this.autorKorisnickoIme = "";
-                    this.autorMail = "";
-                    this.autorLozinka = "";
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert("Neuspešno dodavanje autora");
-                });
- 
-        },
-        azurirajAutora(autorId) {
-            this.$router.push(`/autor/${autorId}`);
-        },
-        getZanrovi() {
+    getZanrovi() {
             axios
                 .get("http://localhost:9090/api/zanrovi", { withCredentials: true })
                 .then((response) => {
@@ -404,14 +297,14 @@ export default {
                     alert("Failed to fetch zanrovi");
                 });
         },
-        dodajZanr() {
+    dodajZanr() {
             if (this.noviZanrNaziv.trim() !== "") {
                 const noviZanr = { naziv: this.noviZanrNaziv };
 
                 axios
                     .post("http://localhost:9090/api/admin/zanr-add", noviZanr, { withCredentials: true })
                     .then((response) => {
-                        
+                        alert("Žanr je uspešno dodat.");
                         this.getZanrovi();
                         this.noviZanrNaziv = "";
                     })
@@ -423,8 +316,8 @@ export default {
                 alert("Unesite naziv žanra");
             }
         },
-        getZahtevi() {
-            axios
+    getZahtevi() {
+        axios
                 .get("http://localhost:9090/api/zahtev-getAll", { withCredentials: true })
                 .then((response) => {
                     this.zahtevi = response.data;
@@ -434,32 +327,31 @@ export default {
                     alert("Failed to fetch zahtevi");
                 });
         },
-        acceptZahtev(zahtevId) {
-            axios
-                .post(`http://localhost:9090/api/admin/zahtev/${zahtevId}/accept`, null, { withCredentials: true })
-                .then((response) => {
-                    alert('Zahtev je prihvaćen.');
-                    this.getZahtevi();
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert('Failed to accept the activation request');
-                });
-            },
-
-        declineZahtev(zahtevId) {
-            axios
-                .post(`http://localhost:9090/api/admin/zahtev/${zahtevId}/decline`, null, { withCredentials: true })
-                .then((response) => {
-                    alert('Zahtev je odbijen.');
-                    this.getZahtevi();
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert('Failed to decline the activation request');
-                });
-            },
-        },
+    acceptZahtev(zahtevId) {
+      axios
+        .post(`http://localhost:9090/api/admin/zahtev/{zahtevId}/accept`, null, { withCredentials: true })
+        .then((response) => {
+          alert('Zahtev je prihvaćen.');
+          this.getActivationRequests();
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('Failed to accept the activation request');
+        });
+    },
+    declineZahtev(zahtevId) {
+      axios
+        .post(`http://localhost:9090/api/admin/zahtev/{zahtevId}/decline`, null, { withCredentials: true })
+        .then((response) => {
+          alert('Zahtev je odbijen.');
+          this.getActivationRequests();
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('Failed to decline the activation request');
+        });
+    },
+    },
 };
 </script>
 
@@ -580,8 +472,6 @@ h2 {
     margin-bottom: 20px;
     margin-left: 8px;
     border-radius: 8px;
-    display: flex;
-    align-items: center;
 }
 
 .row8 input {
@@ -773,7 +663,5 @@ td {
     border-radius: 8px;
     color: black;
 }
-
-
 
 </style>
