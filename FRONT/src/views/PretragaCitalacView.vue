@@ -22,23 +22,20 @@
             </div>
         </div>
         <div class="container2">
-            <div class="row2">
-                <div>
-                    <ul class="menu">
-                        <li id="pocetna">
-                        <router-link :to="{ path: '/homeAutor', query: { autorId: autorId } }">Početna</router-link>
-                        </li>
-                        <li id="pocetna">
-                            <router-link :to="{ path: '/autorKnjige', query: { autorId: autorId } }">Moje knjige</router-link>
-                        </li>
-                        <li id="pretraga">
-                            <router-link :to="{ path: '/pretragaAutor', query: { autorId: autorId } }">Pretraga 🔍</router-link>
-                        </li>
-                        <li><Logout/></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+          <div class="row2">
+              <div>
+                <ul class="menu">
+                <li id="pocetna">
+                    <router-link :to="{ path: '/homeCitalac', query: { korisnikId: korisnikId } }">Početna</router-link>
+                </li>
+                <li id="pretraga">
+                    <router-link :to="{ path: '/pretragaCitalac', query: { korisnikId: korisnikId } }">Pretraga 🔍</router-link>
+                </li>
+                <li><Logout/></li>
+                </ul>
+              </div>
+          </div>
+      </div>
     </header>
     
     <section class="search-section">
@@ -94,14 +91,14 @@ export default {
   components: { Logout },
   data() {
     return {
-      autorId: null,
-      searchQuery: '',
-      knjige: [],
-      searched: false
+        korisnikId: null,
+        searchQuery: '',
+        knjige: [],
+        searched: false
     };
   },
   mounted() {
-        this.autorId = this.$route.query.autorId;
+        this.korisnikId = this.$route.query.korisnikId;
      },
   methods: {
     searchKnjige() {

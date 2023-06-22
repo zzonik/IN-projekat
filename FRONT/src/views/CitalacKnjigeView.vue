@@ -26,17 +26,13 @@
               <div>
                 <ul class="menu">
                 <li id="pocetna">
-                    <router-link :to="{ path: '/homeAutor', query: { autorId: autorId } }">Početna</router-link>
-                </li>
-                <li id="pocetna">
-                    <router-link :to="{ path: '/autorKnjige', query: { autorId: autorId } }">Moje knjige</router-link>
+                    <router-link :to="{ path: '/homeCitalac', query: { korisnikId: korisnikId } }">Početna</router-link>
                 </li>
                 <li id="pretraga">
-                    <router-link :to="{ path: '/pretragaAutor', query: { autorId: autorId } }">Pretraga 🔍</router-link>
+                    <router-link :to="{ path: '/pretragaCitalac', query: { korisnikId: korisnikId } }">Pretraga 🔍</router-link>
                 </li>
                 <li><Logout/></li>
                 </ul>
-
               </div>
           </div>
       </div>
@@ -88,17 +84,17 @@
     data() {
         return {
             knjige: [],
-            autorId: null
+            korisnikId: null
         };
     },
     mounted() {
-        this.autorId = this.$route.query.autorId;
+        this.korisnikId = this.$route.query.korisnikId;
         // Retrieve the author's books here or in another lifecycle hook
         this.getKnjige();
      },
     methods: {
         getKnjige() {
-            const id = this.autorId;
+            const id = this.korisnikId;
             axios
             .get(`http://localhost:9090/api/search-knjigeByAutor/${id}`, { withCredentials: true })
             .then((response) => {

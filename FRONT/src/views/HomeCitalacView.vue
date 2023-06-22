@@ -24,18 +24,15 @@
       <div class="container2">
           <div class="row2">
               <div>
-                  <ul class="menu">
-                    <li id="pocetna">
-                    <router-link :to="{ path: '/homeCitalac', query: { citalacId: citalacId } }">Početna</router-link>
-                    </li>
-                    <li id="pocetna">
-                        <router-link :to="{ path: '/citalacKnjige', query: { citalacId: citalacId } }">Moje knjige</router-link>
-                    </li>
-                    <li id="pretraga">
-                        <router-link :to="{ path: '/pretragaCitalac', query: { citalacId: citalacId } }">Pretraga 🔍</router-link>
-                    </li>
-                    <li><Logout/></li>
-                  </ul>
+                <ul class="menu">
+                <li id="pocetna">
+                    <router-link :to="{ path: '/homeCitalac', query: { korisnikId: korisnikId } }">Početna</router-link>
+                </li>
+                <li id="pretraga">
+                    <router-link :to="{ path: '/pretragaCitalac', query: { korisnikId: korisnikId } }">Pretraga 🔍</router-link>
+                </li>
+                <li><Logout/></li>
+                </ul>
               </div>
           </div>
       </div>
@@ -56,13 +53,13 @@ export default {
   },
   data() {
     return {
-      citalacId: null
+        korisnikId: null
     };
   },
   mounted() {
-    this.citalacId = this.$route.query.korisnikId;
-    if(this.citalacId == null){
-        this.citalacId = this.$route.query.autorId;
+    this.korisnikId = this.$route.query.korisnikId;
+    if(this.korisnikId == null){
+        this.korisnikId = this.$route.query.korisnikId;
     }
   },
 };
