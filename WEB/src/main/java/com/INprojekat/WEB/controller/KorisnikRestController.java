@@ -307,15 +307,13 @@ public class KorisnikRestController {
                 return new ResponseEntity<>("Autor is active", HttpStatus.BAD_REQUEST);
             }
     }
-    @PostMapping("/api/citalac/polica/{policaId}/knjiga/{knjigaId}/knjiga-add-polica")
-    public ResponseEntity<?> addKnjigaPolica(@PathVariable Long knjigaId,@PathVariable Long policaId,RecenzijaDto recenzijaDto, HttpSession session) throws ChangeSetPersister.NotFoundException {
+    @PostMapping("/api/citalac/{citalacId}/polica/{policaId}/knjiga/{knjigaId}/knjiga-add-polica")
+    public ResponseEntity<?> addKnjigaPolica(@PathVariable Long citalacId, @PathVariable Long knjigaId,@PathVariable Long policaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-
-        if (loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC  || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR ) {
-            Polica polica = policaService.findOneById(policaId);
+         Polica polica = policaService.findOneById(policaId);
 
             if(polica.isPrimarna()){ // Polica je primarna
-                if(knjigaService.findKnjigaOnPrimarnaPolica(loggedKorisnik.getId(), knjigaId)) {
+                if(knjigaService.findKnjigaOnPrimarnaPolica(citalacId, knjigaId)) {
                     return new ResponseEntity<>("Knjiga vec postoji na nekoj od primarnih polica", HttpStatus.BAD_REQUEST);
                 } else{
                     // Ovde moras paziti da li je stavlja na READ policu
@@ -328,16 +326,13 @@ public class KorisnikRestController {
                     }
                 }
             } else { // Polica nije primarna
-                if(knjigaService.findKnjigaOnPrimarnaPolica(loggedKorisnik.getId(), knjigaId)){
+                if(knjigaService.findKnjigaOnPrimarnaPolica(citalacId, knjigaId)){
                     policaService.addKnjigaOnPolica(policaId, knjigaId);
                     return new ResponseEntity<>("Knjiga je dodata na policu koja nije primarna", HttpStatus.OK);
                 } else {
                     return new ResponseEntity<>("Moras je prvo staviti na neku od primarnih polica", HttpStatus.BAD_REQUEST);
                 }
             }
-
-        }
-        return new ResponseEntity<>("Vi niste taj citalac", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("api/search-users/{string}")

@@ -114,59 +114,6 @@
                     </tr>
                 </tbody>
             </table>
-
-            <h2 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
-                Dodaj knjigu na police:
-            </h2>
-            <div class="blok-dodavanje">
-                <div class="containerB">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="select-wrapper">
-                                <select class="custom-select" v-model="Knjiga">
-                                    <option value="" disabled>Odaberite knjigu</option>
-                                    <option v-for="knjiga in knjige" :value="knjiga.id" :key="knjiga.id">{{ knjiga.naslov }}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <table class="table3">
-                                <thead>
-                                <tr>
-                                    <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px; background-color: rgb(137, 149, 146);">
-                                    Naziv police
-                                    </th>
-                                    <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px; background-color: rgb(137, 149, 146);">
-                                    Odaberi police
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="polica in policeDodavanje" :key="polica.id">
-                                    <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">
-                                    {{ polica.naziv }}
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <input type="checkbox" class="selector-lg" v-model="selectedPolice" :value="polica.id" />
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="dugmeDodaj">
-                                <div class="dugme">
-                                    <button @click.once="dodajPolicu">Dodaj novu policu</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            </div>
-
             <h2 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
                 Dodaj novu policu:
             </h2>
@@ -178,10 +125,46 @@
                     <input type="text" v-model="novaPolicaNaziv" placeholder="Unesite naziv police" name="nazivPolice">
                 </div>
                 <div class="dugme1">
-                    <button @click.once="dodajPolicu">Dodaj novu policu</button>
+                    <button @click.prevent="addPolica">Dodaj novu policu</button>
                 </div>
             </form>
+
+            <h2 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
+                Dodaj knjigu na police:
+            </h2>
+            <div class="blok-dodavanje">
+                <div class="containerB">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="select-wrapper">
+                            <select class="custom-select" v-model="selectedKnjiga">
+                                <option v-for="knjiga in knjige" :value="knjiga.id" :key="knjiga.id">{{ knjiga.naslov }}</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="select-wrapper">
+                                <select class="custom-select" v-model="selectedPolica" :value="selectedPolica">
+                                    <option v-for="polica in policeDodavanje" :value="polica" :key="polica.id">{{ polica.naziv }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="dugmeDodaj">
+                                <div class="dugme">
+                                    <button @click.prevent="addKnjigaPolica(selectedKnjiga.id, selectedPolica.id)">Dodaj knjigu na policu</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            </div>
     </main>
+    
 
     <footer>
         <p>&copy; 2023 BookBuddy. Sva prava zadržana.</p>
@@ -203,7 +186,9 @@ export default {
       police: [],
       police2: [],
       policeDodavanje: [],
-      knjige: []
+      knjige: [],
+      selectedPolica: null,
+      selectedKnjiga: null
     };
   },
     mounted() {
@@ -307,8 +292,8 @@ export default {
             axios
                 .delete(`http://localhost:9090/api/citalac/polica-remove/${policaId}`, { withCredentials: true })
                 .then((response) => {
-                    this.getPolice(); // Osvježavanje podataka o policama
-                    this.getPolice2(); // Osvježavanje podataka o primarnim policama
+                    this.getPolice(); // Osvežavanje podataka o policama
+                    this.getPolice2(); // Osvežavanje podataka o primarnim policama
                     console.log("Shelf deleted seccessfully");
                 })
                 .catch((error) => {
@@ -321,6 +306,30 @@ export default {
             const knjigaId = this.selectedStavka.knjiga.id;
             this.$router.push(`/knjigaPregled/${knjigaId}`);
             }
+        },
+        addKnjigaPolica(knjigaId, policaId) {
+            const recenzijaDto = {}; // Set your recenzijaDto object data if needed
+            const polica = this.selectedPolica;
+            const knjiga = this.selectedKnjiga;
+            const citalac = this.citalacId;
+            axios
+                .post(`http://localhost:9090/api/citalac/${citalac}/polica/${policaId}/knjiga/${knjiga}/knjiga-add-polica`, recenzijaDto)
+                .then((response) => {
+                // Handle the successful response from the backend
+                //this.getPolice(); // Osvežavanje podataka o policama
+                //this.getPolice2(); // Osvežavanje podataka o primarnim policama
+                if(polica.naziv == "Read"){
+                    this.$router.push(`/recenzija/${knjigaId}`);
+                }
+                console.log(polica.naziv);
+                console.log(response.data);
+                // Update the necessary data in the Vue component or perform any other actions
+                })
+                .catch((error) => {
+                // Handle the error response from the backend
+                console.error(error);
+                // Display an error message to the user or perform any other error handling
+                });
         }
     }
 };
