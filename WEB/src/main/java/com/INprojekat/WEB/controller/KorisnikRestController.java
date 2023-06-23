@@ -158,8 +158,6 @@ public class KorisnikRestController {
     public ResponseEntity<?> zahtevAccept(@PathVariable Long zahtevId, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
 
-        if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
-
             ZahtevZaAktivacijuNalogaAutoraDto zanaDto = zahtevZaAktivacijuNalogaAutoraService.findOne(zahtevId);
             String meil = zanaDto.getEmail();
             String meilAutora = zanaDto.getKorisnik().getMail();
@@ -214,14 +212,9 @@ public class KorisnikRestController {
                 return new ResponseEntity<>("Failed to send email", HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
-        }else {
-            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }
-    }
     @PostMapping("/api/admin/zahtev/{zahtevId}/decline")
     public ResponseEntity<?> zahtevDecline(@PathVariable Long zahtevId, HttpSession session) {
-        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
 
             ZahtevZaAktivacijuNalogaAutoraDto zanaDto = zahtevZaAktivacijuNalogaAutoraService.findOne(zahtevId);
             String meil = zanaDto.getEmail();
@@ -270,10 +263,7 @@ public class KorisnikRestController {
                 e.printStackTrace();
                 return new ResponseEntity<>("Failed to send email", HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        }else {
-            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }
-    }
     @GetMapping("api/zahtev-getAll")
     public ResponseEntity<?> zahtevGet(HttpSession session) {
         List<ZahtevZaAktivacijuNalogaAutoraDto> dtos = zahtevZaAktivacijuNalogaAutoraService.findAll();

@@ -63,6 +63,11 @@
         </div>
         <div class="form-group">
         <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+            Mail:</h4>
+        <input type="text" v-model="mail" placeholder="Unesite mail" name="mail">
+        </div>
+        <div class="form-group">
+        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
             Datum rođenja:</h4>
         <input type="date" v-model="datumRodjenja" name="datumRodjenja">
         </div>
@@ -118,31 +123,34 @@ export default {
       trenutnaLozinka: '',
       novaLozinka: '',
       ponoviNovuLozinku: '',
+      mail: '',
     };
   },
   mounted() {
-    this.citalacId = this.$route.query.korisnikId;
-            if(this.citalacId == null){
-                this.citalacId = this.$route.query.citalacId;
-            }
+    this.citalacId = this.$route.query.citalacId;
   },
   methods: {
+    
     azurirajCitaoca() {
-      const updateDto = {
+        if (this.novaLozinka !== this.ponoviNovuLozinku) {
+        alert("Passwords do not match. Please make sure to enter the same password twice.");
+        return;
+        }
+        const updateDto = {
         ime: this.ime,
         prezime: this.prezime,
         datumRodjenja: this.datumRodjenja,
-        oMeni: this.oMeni,
-        trenutnaLozinka: this.trenutnaLozinka,
-        novaLozinka: this.novaLozinka,
-        ponoviNovuLozinku: this.ponoviNovuLozinku
+        opis: this.oMeni,
+        mail: this.mail,
+        lozinka: this.trenutnaLozinka,
+        newlozinka: this.ponoviNovuLozinku,
       };
 
       axios
         .put('http://localhost:9090/api/citalac/update-korisnik', updateDto, { withCredentials: true })
         .then(response => {
           console.log(response.data); // Možete prilagoditi postupanje s odgovorom
-          alert('Korisnik uspješno ažuriran.');
+          alert('Korisnik uspešno ažuriran.');
         })
         .catch(error => {
           console.log(error);

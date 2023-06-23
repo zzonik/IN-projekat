@@ -49,8 +49,8 @@
     <!-- Display other book properties -->
 
     <!-- Button to save the updated book details -->
-    <button @click="sacuvajIzmene">Sacuvaj izmene</button>
   </div>
+  <button class="dugme" @click="sacuvajIzmene">Sacuvaj izmene</button>
 </template>
 
 <script>
@@ -165,3 +165,8 @@ export default {
   },
 };
 </script>
+<style>
+.dugme{
+  margin-top: auto;
+}
+</style>

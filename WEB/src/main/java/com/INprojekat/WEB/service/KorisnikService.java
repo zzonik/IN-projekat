@@ -120,12 +120,7 @@ public class KorisnikService {
         korisnik.setProfilnaSlika(updateDto.getNaslovnaFotografija());
         korisnik.setDatumRodjenja(updateDto.getDatumRodjenja());
         korisnik.setOpis(updateDto.getOpis());
-        korisnik.setUloga(Korisnik.Uloga.CITALAC);
-
-        if(korisnik.getLozinka() != null && !updateDto.getLozinka().isEmpty()) {
-
-            korisnik.setLozinka(updateDto.getLozinka());
-        }
+        korisnik.setLozinka(updateDto.getNewlozinka());
 
         if(korisnik.getMail() != null && !updateDto.getMail().isEmpty()){
 

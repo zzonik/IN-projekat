@@ -44,7 +44,7 @@ export default {
         .post('http://localhost:9090/api/zahtev-create', this.zahtev, { withCredentials: true })
         .then((response) => {
           console.log(response.data);
-          // Handle successful response
+          alert("Zahtev poslat");
         })
         .catch((error) => {
           console.error(error);

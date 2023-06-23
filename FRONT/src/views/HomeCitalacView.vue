@@ -214,7 +214,7 @@ export default {
                     })
                     .catch((error) => {
                         console.log(error);
-                        // Greška prilikom dodavanja police
+                        alert("Polica sa datim imenom vec postoji");
                     });
             }
         },

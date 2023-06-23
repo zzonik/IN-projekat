@@ -1,13 +1,14 @@
 <template>
   <div v-if="knjiga">
     <h1>{{ knjiga.naslov }}</h1>
-    <p><strong>Naslovna fotografija:</strong> {{ knjiga.naslovnaFotografija }}</p>
-    <p><strong>ISBN:</strong> {{ knjiga.ISBN }}</p>
+    <img :src="'../assets/logo.png'" alt="Naslovna fotografija" />
+    <p><strong>ISBN:</strong> {{ knjiga.isbn }}</p>
     <p><strong>Datum objavljivanja:</strong> {{ knjiga.datumObjavljivanja }}</p>
     <p><strong>Broj strana:</strong> {{ knjiga.brojStrana }}</p>
     <p><strong>Opis:</strong> {{ knjiga.opis }}</p>
     <p><strong>Ocena:</strong> {{ knjiga.ocena }}</p>
     <p><strong>Zanr:</strong> {{ knjiga.zanr.naziv }}</p>
+    
 
     <h2>Recenzije</h2>
     <ul>

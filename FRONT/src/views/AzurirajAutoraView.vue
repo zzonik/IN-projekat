@@ -54,7 +54,7 @@
     <h2 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
     Ažuriraj autora:
     </h2>
-    <form @submit="azurirajAutora">
+    <form @submit="azurirajCitaoca">
         <div class="form-group">
         <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
             Ime:</h4>
@@ -64,6 +64,11 @@
         <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
             Prezime:</h4>
         <input type="text" v-model="prezime" placeholder="Unesite prezime" name="prezime">
+        </div>
+        <div class="form-group">
+        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+            Mail:</h4>
+        <input type="text" v-model="mail" placeholder="Unesite mail" name="mail">
         </div>
         <div class="form-group">
         <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
@@ -96,7 +101,7 @@
         <input type="password" v-model="ponoviNovuLozinku" placeholder="Ponovite novu lozinku" name="ponoviNovuLozinku">
         </div>
         <div class="dugme1">
-        <button>Ažuriraj čitaoca</button>
+        <button>Ažuriraj autora</button>
         </div>
     </form>
 
@@ -122,31 +127,36 @@ export default {
       trenutnaLozinka: '',
       novaLozinka: '',
       ponoviNovuLozinku: '',
+      mail: '',
     };
   },
   mounted() {
-    this.autorId = this.$route.query.korisnikId;
-            if(this.autorId == null){
-                this.autorId = this.$route.query.autorId;
-            }
+    this.autorId = this.$route.query.autorId;
   },
   methods: {
+    
     azurirajCitaoca() {
-      const updateDto = {
+        if (this.novaLozinka !== this.ponoviNovuLozinku) {
+        alert("Passwords do not match. Please make sure to enter the same password twice.");
+        return;
+        }
+        const updateDto = {
         ime: this.ime,
         prezime: this.prezime,
         datumRodjenja: this.datumRodjenja,
-        oMeni: this.oMeni,
-        trenutnaLozinka: this.trenutnaLozinka,
-        novaLozinka: this.novaLozinka,
-        ponoviNovuLozinku: this.ponoviNovuLozinku
+        opis: this.oMeni,
+        mail: this.mail,
+        lozinka: this.trenutnaLozinka,
+        newlozinka: this.ponoviNovuLozinku,
       };
 
       axios
         .put('http://localhost:9090/api/citalac/update-korisnik', updateDto, { withCredentials: true })
         .then(response => {
           console.log(response.data); // Možete prilagoditi postupanje s odgovorom
-          alert('Korisnik uspješno ažuriran.');
+          alert('Korisnik uspešno ažuriran.');
+          this.$router.push(`/korisnikPregled/${this.autorId}`);
+
         })
         .catch(error => {
           console.log(error);

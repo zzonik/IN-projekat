@@ -22,7 +22,7 @@
               <input type="password" placeholder="Unesite Vasu lozinku" v-model="lozinka">
             </div>
             <div class="row13">
-              <input type="password" placeholder="Ponovite lozinku">
+              <input type="password" placeholder="Ponovite lozinku" v-model="test">
             </div>
             <div class="row14">
             <button @click="register">REGISTER</button>
@@ -44,11 +44,16 @@ export default {
       prezime: '',
       korisnickoIme: '',
       mail: '',
-      lozinka: ''
+      lozinka: '',
+      test: ''
     };
   },
   methods: {
     register() {
+      if (this.test !== this.lozinka) {
+        alert("Passwords do not match. Please make sure to enter the same password twice.");
+        return;
+      }
       const payload = {
         ime: this.ime,
         prezime: this.prezime,

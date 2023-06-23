@@ -193,8 +193,6 @@
                     <th>E-mail</th>
                     <th>Telefon</th>
                     <th>Poruka</th>
-                    <th>Datum</th>
-                    <th>Status</th>
                     <th>Accept</th>
                     <th>Decline</th>
                 </tr>
@@ -205,8 +203,6 @@
                     <td>{{ zahtev.email }}</td>
                     <td>{{ zahtev.telefon }}</td>
                     <td>{{ zahtev.poruka }}</td>
-                    <td>{{ zahtev.datum }}</td>
-                    <td>{{ zahtev.status }}</td>
                     <td>
                         <button @click="acceptZahtev(zahtev.id)">Accept</button>
                     </td>

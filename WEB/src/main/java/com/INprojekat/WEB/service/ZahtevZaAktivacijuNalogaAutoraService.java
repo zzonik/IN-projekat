@@ -35,8 +35,10 @@ public class ZahtevZaAktivacijuNalogaAutoraService {
 
         List<ZahtevZaAktivacijuNalogaAutoraDto> dtos = new ArrayList<>();
         for(ZahtevZaAktivacijuNalogaAutora zahtev : zahtevi){
-            ZahtevZaAktivacijuNalogaAutoraDto dto = new ZahtevZaAktivacijuNalogaAutoraDto(zahtev);
-            dtos.add(dto);
+            if(zahtev.getStatus() == ZahtevZaAktivacijuNalogaAutora.Status.na_cekanju){
+                ZahtevZaAktivacijuNalogaAutoraDto dto = new ZahtevZaAktivacijuNalogaAutoraDto(zahtev);
+                dtos.add(dto);
+            }
         }
         return dtos;
     }
