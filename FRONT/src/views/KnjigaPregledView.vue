@@ -1,16 +1,4 @@
 <template>
-<<<<<<< Updated upstream
-  <div v-if="knjiga">
-    <h1>{{ knjiga.naslov }}</h1>
-    <img :src="'../assets/logo.png'" alt="Naslovna fotografija" />
-    <p><strong>ISBN:</strong> {{ knjiga.isbn }}</p>
-    <p><strong>Datum objavljivanja:</strong> {{ knjiga.datumObjavljivanja }}</p>
-    <p><strong>Broj strana:</strong> {{ knjiga.brojStrana }}</p>
-    <p><strong>Opis:</strong> {{ knjiga.opis }}</p>
-    <p><strong>Ocena:</strong> {{ knjiga.ocena }}</p>
-    <p><strong>Zanr:</strong> {{ knjiga.zanr.naziv }}</p>
-    
-=======
   <div class="knjiga-card" v-if="knjiga">
     <h1 style="font-size: 40px;">{{ knjiga.naslov }}</h1>
     <img :src="require(`@/assets/${imagePath}`)">
@@ -20,7 +8,6 @@
     <p style="font-size: 20px;"><strong>Opis:</strong> {{ knjiga.opis }}</p>
     <p style="font-size: 20px;"><strong>Ocena:</strong> {{ knjiga.ocena }}</p>
     <p style="font-size: 20px;"><strong>Zanr:</strong> {{ knjiga.zanr.naziv }}</p>
->>>>>>> Stashed changes
 
     <h2 style="font-size: 30px;">Recenzije</h2>
     <ul>

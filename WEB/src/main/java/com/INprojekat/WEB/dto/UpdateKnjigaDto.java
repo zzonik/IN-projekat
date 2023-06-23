@@ -26,24 +26,7 @@ public class UpdateKnjigaDto {
         this.autorId = autorId;
         this.zanrId = zanrId;
     }
-
     public UpdateKnjigaDto() {
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public Long getAutorId() {
-        return autorId;
-    }
-
-    public void setAutorId(Long autorId) {
-        this.autorId = autorId;
     }
 
     public String getNaslov() {
@@ -62,12 +45,12 @@ public class UpdateKnjigaDto {
         this.naslovnaFotografija = naslovnaFotografija;
     }
 
-    public String getISBN() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setISBN(String ISBN) {
-        this.isbn = ISBN;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public Date getDatumObjavljivanja() {
@@ -92,6 +75,14 @@ public class UpdateKnjigaDto {
 
     public void setOpis(String opis) {
         this.opis = opis;
+    }
+
+    public Long getAutorId() {
+        return autorId;
+    }
+
+    public void setAutorId(Long autorId) {
+        this.autorId = autorId;
     }
 
     public Long getZanrId() {

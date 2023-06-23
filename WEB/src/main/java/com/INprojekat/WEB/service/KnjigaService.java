@@ -120,7 +120,7 @@ public class KnjigaService {
         knjiga.get().setNaslov(updateKnjigaDto.getNaslov());
         knjiga.get().setNaslovnaFotografija(updateKnjigaDto.getNaslovnaFotografija());
 
-        String updatedISBN = updateKnjigaDto.getISBN();
+        String updatedISBN = updateKnjigaDto.getIsbn();
         if (updatedISBN != null && !updatedISBN.isEmpty()) {
             knjiga.get().setISBN(updatedISBN);
         }
@@ -135,7 +135,7 @@ public class KnjigaService {
         knjiga.get().setNaslov(updateKnjigaDto.getNaslov());
         knjiga.get().setNaslovnaFotografija(updateKnjigaDto.getNaslovnaFotografija());
 
-        String updatedISBN = updateKnjigaDto.getISBN();
+        String updatedISBN = updateKnjigaDto.getIsbn();
         if (updatedISBN != null && !updatedISBN.isEmpty()) {
             knjiga.get().setISBN(updatedISBN);
         }
