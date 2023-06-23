@@ -1,56 +1,61 @@
 <template>
-  <div v-if="knjiga">
-    <!-- Display the book details -->
-    <h1 id="naslov">{{ knjiga.naslov }}</h1>
-    <div>
-      <label for="naslov">Naslov:</label>
-      <input type="text" id="naslov" v-model="updatedNaslov">
-    </div>
-    <div>
-      <label for="isbn">ISBN:</label>
-      <input type="text" id="isbn" v-model="updatedIsbn">
-    </div>
-    <div>
-      <label for="brojStrana">Broj strana:</label>
-      <input type="number" id="brojStrana" v-model="updatedBrojStrana">
-    </div>
-    <div>
-      <label for="datumObjavljivanja">Datum Objavljivanja:</label>
-      <input type="date" id="datumObjavljivanja" v-model="updatedDatumObjavljivanja">
-    </div>
-    <div>
-      <label for="opis">Opis:</label>
-      <input type="text" id="opis" v-model="updatedOpis">
-    </div>
-    <div>
-      <label for="ocena">Ocena:</label>
-      <input disabled type="number" id="ocena" v-model="updatedOcena">
-    </div>
-    <div class="row6">
-      <div class="select-wrapper">
-        <label for="updatedAutor">Autor:</label>
-        <select class="custom-select" id="updatedAutor" v-model="updatedAutor">
-          <option value="" disabled>Odaberite autora</option>
-          <option v-for="autor in availableAutors" :value="autor.id" :key="autor.id">{{ autor.ime }} {{ autor.prezime }}</option>
-        </select>
+  <div class="containerB">
+    <div class="rowB">
+      <div class="update-form">
+        <div class="knjiga-card" v-if="knjiga">
+          <!-- Display the book details -->
+          <h1 id="naslov">{{ knjiga.naslov }}</h1>
+          <div class="form-row">
+            <label for="naslov">Naslov:</label>
+            <input type="text" id="naslov" v-model="updatedNaslov">
+          </div>
+          <div class="form-row">
+            <label for="isbn">ISBN:</label>
+            <input type="text" id="isbn" v-model="updatedIsbn">
+          </div>
+          <div class="form-row">
+            <label for="slika">Slika:</label>
+            <input type="file" id="slika" @change="handleSlikaUpload">
+          </div>
+          <div class="form-row">
+            <label for="brojStrana">Broj strana:</label>
+            <input type="number" id="brojStrana" v-model="updatedBrojStrana">
+          </div>
+          <div class="form-row">
+            <label for="datumObjavljivanja">Datum Objavljivanja:</label>
+            <input type="date" id="datumObjavljivanja" v-model="updatedDatumObjavljivanja">
+          </div>
+          <div class="form-row">
+            <label for="opis">Opis:</label>
+            <input type="text" id="opis" v-model="updatedOpis">
+          </div>
+          <div class="form-row">
+            <label for="ocena">Ocena:</label>
+            <input disabled type="number" id="ocena" v-model="updatedOcena">
+          </div>
+          <div class="form-row">
+            <label for="updatedAutor">Autor:</label>
+            <select class="custom-select" id="updatedAutor" v-model="updatedAutor">
+              <option value="" disabled>Odaberite autora</option>
+              <option v-for="autor in availableAutors" :value="autor.id" :key="autor.id">{{ autor.ime }} {{ autor.prezime }}</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="updatedZanr">Zanr:</label>
+            <select class="custom-select" id="updatedZanr" v-model="updatedZanr">
+              <option disabled value="">Odaberite Zanr</option>
+              <option v-for="zanr in zanrovi" :value="zanr" :key="zanr.id">
+                {{ zanr.naziv }}
+              </option>
+            </select>
+          </div>
+          <div class="form-row">
+            <button class="dugme" @click="sacuvajIzmene">Sacuvaj izmene</button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="row6">
-      <div class="select-wrapper">
-        <label for="updatedZanr">Zanr:</label>
-        <select class="custom-select" id="updatedZanr" v-model="updatedZanr">
-          <option disabled value="">Odaberite Zanr</option>
-          <option v-for="zanr in zanrovi" :value="zanr" :key="zanr.id">
-            {{ zanr.naziv }}
-          </option>
-        </select>
-      </div>
-    </div>
-    <!-- Display other book properties -->
-
-    <!-- Button to save the updated book details -->
   </div>
-  <button class="dugme" @click="sacuvajIzmene">Sacuvaj izmene</button>
 </template>
 
 <script>
@@ -74,7 +79,6 @@ export default {
       zanrovi: [],
       zahtevi: [],
       availableAutors: [],
-      // Add other variables for other book properties
     };
   },
   created() {
@@ -144,7 +148,7 @@ export default {
         naslov: this.updatedNaslov,
         isbn: this.updatedIsbn,
         brojStrana: this.updatedBrojStrana,
-        naslovnaFotografija: "dsa",
+        naslovnaFotografija: "knjigaId",
         datumObjavljivanja: this.updatedDatumObjavljivanja,
         opis: this.updatedOpis,
         autorId: this.updatedAutor,
@@ -165,8 +169,60 @@ export default {
   },
 };
 </script>
+
 <style>
-.dugme{
-  margin-top: auto;
+.containerB {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.rowB {
+  display: flex;
+  justify-content: center;
+}
+
+.update-form {
+  background-color: green;
+  padding: 20px;
+}
+
+.knjiga-card {
+  background-color: rgb(150, 220, 200);
+  border: 4px solid black;
+  width: 50%;
+  margin: 10px 0;
+  padding: 20px;
+  text-align: center;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+label {
+  margin-right: 10px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  width: 200px;
+}
+
+.containerB button {
+    background-color: rgb(54, 142, 113);
+    padding: 8px 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 8px;
+    color: black;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-left: 30px;
 }
 </style>

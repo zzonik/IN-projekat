@@ -26,6 +26,7 @@ public class UpdateKnjigaDto {
         this.autorId = autorId;
         this.zanrId = zanrId;
     }
+
     public UpdateKnjigaDto() {
     }
 
