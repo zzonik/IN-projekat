@@ -61,7 +61,6 @@
                     <th>Datum Objavljivanja</th>
                     <th>Opis</th>
                     <th>Ocena</th>
-                    <th>Autor</th>
                     <th>Zanr</th>
                     <th>Ažuriraj knjigu</th>
                 </tr>
@@ -74,7 +73,6 @@
                     <td>{{ knjiga.datumObjavljivanja }}</td>
                     <td>{{ knjiga.opis }}</td>
                     <td>{{ knjiga.ocena }}</td>
-                    <td>{{ knjiga.autor.ime }}</td>
                     <td>{{ knjiga.zanr?.naziv }}</td>
                     <td>
                         <button @click="azurirajKnjigu(knjiga.id)">Ažuriraj knjigu</button>
@@ -83,6 +81,44 @@
             </tbody>
         </table>
     </div>
+    <div class="add-book">
+            <div class="container3">
+                <section class="add-book">
+                    <form>
+                        <div class="row5">
+                            <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight:bold;">
+                                Dodaj novu knjigu</h4>
+                        </div>
+                        <div class="row6">
+                            <input type="text" placeholder="Unesite naslov" v-model="knjigaNaslov">
+                        </div>
+                        <div class="row6">
+                            <input type="text" placeholder="Unesite ISBN" v-model="knjigaIsbn">
+                        </div>
+                        <div class="row6">
+                            <input type="text" placeholder="Unesite broj strana" v-model="knjigaBrojStrana">
+                        </div>
+                        <div class="row6">
+                            <input type="date" placeholder="Unesite datum" v-model="knjigaDatum">
+                        </div>
+                        <div class="row6">
+                            <input type="text" placeholder="Unesite opis" v-model="knjigaOpis">
+                        </div>
+                        <div class="row6">
+                            <div class="select-wrapper">
+                                <select class="custom-select" v-model="knjigaZanr">
+                                    <option value="" disabled>Odaberite žanr</option>
+                                    <option v-for="zanr in zanrovi" :value="zanr.id" :key="zanr.id">{{ zanr.naziv }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+        <div class="dodaj_knjigu">
+            <button @click="dodajKnjigu">Dodaj knjigu</button>
+        </div>
 
   </template>
   
@@ -98,17 +134,16 @@
     data() {
         return {
             knjige: [],
-            autorId: null
+            autorId: null,
+            zahtevi: []
         };
     },
     mounted() {
-        this.autorId = this.$route.query.korisnikId;
-            if(this.autorId == null){
-                this.autorId = this.$route.query.autorId;
-        }
+        this.autorId = this.$route.query.autorId;
         // Retrieve the author's books here or in another lifecycle hook
         this.getKnjige();
-     },
+        this.getZanrovi();
+    },
     methods: {
         getKnjige() {
             const id = this.autorId;
@@ -125,6 +160,48 @@
         azurirajKnjigu(knjigaId) {
             this.$router.push(`/knjigaEdit/${knjigaId}`);
         },
+        dodajKnjigu() {
+          const novaKnjiga = {
+              naslov: this.knjigaNaslov,
+              naslovnaFotografija: this.naslovnaFotografija,
+              isbn: this.knjigaIsbn,
+              brojStrana: this.knjigaBrojStrana,
+              datumObjavljivanja: this.knjigaDatum,
+              opis: this.knjigaOpis,
+              autorId: this.autorId,
+              zanrId: this.knjigaZanr
+          };
+          
+  
+              axios
+                  .post("http://localhost:9090/api/autor/add-knjiga", novaKnjiga, { withCredentials: true })
+                  .then((response) => {
+                      this.getKnjige();
+                      this.knjigaNaslov = "";
+                      this.naslovnaFotografija = "";
+                      this.knjigaIsbn = "";
+                      this.knjigaBrojStrana = "";
+                      this.knjigaDatum = "";
+                      this.knjigaOpis = "";
+                      this.knjigaAutor = "";
+                      this.knjigaZanr = "";
+                  })
+                  .catch((error) => {
+                      console.log(error);
+                      alert("Failed to add knjiga");
+                  });
+        },
+        getZanrovi() {
+            axios
+                .get("http://localhost:9090/api/zanrovi", { withCredentials: true })
+                .then((response) => {
+                    this.zanrovi = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert("Failed to fetch zanrovi");
+                });
+        }
 
     }
   };
