@@ -56,11 +56,11 @@ export default {
           console.log(data);
           localStorage.setItem('user', JSON.stringify(data));
           if (data.uloga === 'CITALAC') {
-            this.$router.push(`/homeCitalac?korisnikId=${data.id}`);
+            this.$router.push(`/homeCitalac?citalacId=${data.id}`);
           } else if (data.uloga === 'AUTOR') {
-            this.$router.push(`/homeAutor?korisnikId=${data.id}`);
+            this.$router.push(`/homeAutor?autorId=${data.id}`);
           } else if (data.uloga === 'ADMINISTRATOR') {
-            this.$router.push(`/homeAdministrator?korisnikId=${data.id}`);
+            this.$router.push(`/homeAdministrator?adminId=${data.id}`);
           } else {
             this.$router.push('/');
           }

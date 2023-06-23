@@ -16,6 +16,7 @@ import PretragaAutorView from '../views/PretragaAutorView.vue';
 import PretragaAdministratorView from '../views/PretragaAdministratorView.vue';
 
 import AzurirajCitaocaView from '../views/AzurirajCitaocaView.vue'
+import AzurirajAutoraView from '../views/AzurirajAutoraView.vue'
 
 import PregledNeprijavljeniView from '../views/PregledNeprijavljeniView.vue';
 
@@ -91,6 +92,14 @@ const routes = [
     path: '/azurirajCitaoca',
     name: 'azurirajCitaoca',
     component: AzurirajCitaocaView,
+    meta: {
+      title: 'Azuriraj'
+    }
+  },
+  {
+    path: '/azurirajAutora',
+    name: 'azurirajAutora',
+    component: AzurirajAutoraView,
     meta: {
       title: 'Azuriraj'
     }

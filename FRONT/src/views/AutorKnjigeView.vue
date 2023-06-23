@@ -25,16 +25,26 @@
           <div class="row2">
               <div>
                 <ul class="menu">
-                <li id="pocetna">
-                    <router-link :to="{ path: '/homeAutor', query: { autorId: autorId } }">Početna</router-link>
-                </li>
-                <li id="pocetna">
-                    <router-link :to="{ path: '/autorKnjige', query: { autorId: autorId } }">Moje knjige</router-link>
-                </li>
-                <li id="pretraga">
-                    <router-link :to="{ path: '/pretragaAutor', query: { autorId: autorId } }">Pretraga 🔍</router-link>
-                </li>
-                <li><Logout/></li>
+                    <li id="pocetna">
+                            <router-link
+                                :to="{ path: '/homeAutor', query: { autorId : autorId } }">Početna</router-link>
+                        </li>
+                        <li id="azuriraj">
+                            <router-link
+                                :to="{ path: '/azurirajAutora', query: { autorId : autorId } }">Azuriraj profil</router-link>
+                        </li>
+                        <li id="knjige">
+                        <router-link 
+                                :to="{ path: '/autorKnjige', query: { autorId: autorId } }">Moje knjige</router-link>
+                        </li>
+                        <li id="pretraga">
+                            <router-link
+                                :to="{ path: '/pretragaAutor', query: { autorId : autorId } }">Pretraga
+                                🔍</router-link>
+                        </li>
+                        <li>
+                            <Logout />
+                        </li>
                 </ul>
 
               </div>
@@ -92,7 +102,10 @@
         };
     },
     mounted() {
-        this.autorId = this.$route.query.autorId;
+        this.autorId = this.$route.query.korisnikId;
+            if(this.autorId == null){
+                this.autorId = this.$route.query.autorId;
+        }
         // Retrieve the author's books here or in another lifecycle hook
         this.getKnjige();
      },

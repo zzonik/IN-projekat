@@ -30,12 +30,11 @@
                                 :to="{ path: '/homeCitalac', query: { citalacId: citalacId } }">Početna</router-link>
                         </li>
                         <li id="azuriraj">
-                            <router-link
-                                :to="{ path: '/azurirajCitaoca', query: { citalacId: citalacId } }">Azuriraj profil</router-link>
+                            <router-link :to="{ path: '/azurirajCitaoca', query: { citalacId: citalacId } }">Azuriraj
+                                profil</router-link>
                         </li>
                         <li id="pretraga">
-                            <router-link
-                                :to="{ path: '/pretragaCitalac', query: { citalacId: citalacId } }">Pretraga
+                            <router-link :to="{ path: '/pretragaCitalac', query: { citalacId: citalacId } }">Pretraga
                                 🔍</router-link>
                         </li>
                         <li>
@@ -55,12 +54,15 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color:rgb(137, 149, 146);">Naziv primarne police</th>
+                        <th
+                            style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color:rgb(137, 149, 146);">
+                            Naziv primarne police</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="polica in police2" :key="polica.id">
-                        <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">{{ polica.naziv }}</td>
+                        <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">{{
+                            polica.naziv }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -70,18 +72,23 @@
             </h3>
             <table class="table2">
                 <thead>
-                <tr>
-                    <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">Naziv police</th>
-                    <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">Akcije</th>
-                </tr>
+                    <tr>
+                        <th
+                            style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">
+                            Naziv police</th>
+                        <th
+                            style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">
+                            Akcije</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr v-for="polica in police" :key="polica.id">
-                    <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">{{ polica.naziv }}</td>
-                    <td>
-                    <button @click="obrisiPolica(polica.id)">Obriši policu</button>
-                    </td>
-                </tr>
+                    <tr v-for="polica in police" :key="polica.id">
+                        <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">{{
+                            polica.naziv }}</td>
+                        <td>
+                            <button @click.once="obrisiPolica(polica.id)">Obriši policu</button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -89,14 +96,15 @@
             <h2 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
                 Dodaj novu policu:
             </h2>
-            <form @submit="addPolica">
+            <form @submit.prevent="addPolica">
                 <div class="form-group">
-                    <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+                    <h4
+                        style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
                         Naziv:</h4>
                     <input type="text" v-model="novaPolicaNaziv" placeholder="Unesite naziv police" name="nazivPolice">
                 </div>
                 <div class="dugme1">
-                    <button @click="dodajPolicu">Dodaj novu policu</button>
+                    <button @click.once="dodajPolicu">Dodaj novu policu</button>
                 </div>
             </form>
         </div>
@@ -124,18 +132,22 @@ export default {
         };
     },
     mounted() {
-        this.citalacId = this.$route.query.korisnikId;
-            if(this.citalacId == null){
-                this.citalacId = this.$route.query.citalacId;
-            }
+        this.citalacId = this.$route.query.citalacId;
         this.getPolice();
         this.getPolice2();
     },
     methods: {
         getPolice() {
-
+            const id = this.citalacId;
             axios
-                .get(`http://localhost:9090/api/korisnik/${this.$route.query.korisnikId}/police`, { withCredentials: true })
+            .get(`http://localhost:9090/api/citalac/${id}/police`, {
+                withCredentials: true,
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                },
+                })
                 .then((response) => {
                     this.police = response.data;
                 })
@@ -145,10 +157,16 @@ export default {
                 });
         },
         getPolice2() {
-
-
+            const id = this.citalacId;
             axios
-                .get(`http://localhost:9090/api/korisnik/${this.$route.query.korisnikId}/primarne_police`, { withCredentials: true })
+            .get(`http://localhost:9090/api/citalac/${id}/police/primarne`, {
+                withCredentials: true,
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                },
+                })
                 .then((response) => {
                     this.police2 = response.data;
                 })
@@ -162,33 +180,32 @@ export default {
                 const novaPolica = { naziv: this.novaPolicaNaziv };
 
 
-            axios
-                .post(`http://localhost:9090/api/citalac/police-add`, novaPolica, { withCredentials: true })
-                .then((response) => {
-                    this.getPolice();
-                    this.getPolice2();
-                    console.log("Polica uspešno dodata");
-                    this.novaPolicaNaziv = ''; // Resetiranje forme nakon dodavanja
-                })
-                .catch((error) => {
-                    console.log(error);
-                    // Greška prilikom dodavanja police
-                });
+                axios
+                    .post(`http://localhost:9090/api/citalac/police-add`, novaPolica, { withCredentials: true })
+                    .then((response) => {
+                        console.log(response);
+                        this.getPolice(); // Osvježavanje podataka o policama
+                        this.getPolice2(); // Osvježavanje podataka o primarnim policama
+                        console.log("Polica uspešno dodata");
+                        this.novaPolicaNaziv = ''; // Resetiranje forme nakon dodavanja
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        // Greška prilikom dodavanja police
+                    });
             }
         },
         obrisiPolica(policaId) {
             axios
                 .delete(`http://localhost:9090/api/citalac/polica-remove/${policaId}`, { withCredentials: true })
                 .then((response) => {
-                // Uklonite polici iz liste police
-                this.$router.push(`/homeCitalac?korisnikId=${this.citalacId}`);
-                console.log("Shelf deleted seccessfully");
-                this.getPolice();
-                this.getPolice2();
+                    this.getPolice(); // Osvježavanje podataka o policama
+                    this.getPolice2(); // Osvježavanje podataka o primarnim policama
+                    console.log("Shelf deleted seccessfully");
                 })
                 .catch((error) => {
-                console.log(error);
-                alert("Failed to delete the shelf");
+                    console.log(error);
+                    alert("Failed to delete the shelf");
                 });
         }
     }
@@ -367,10 +384,14 @@ a {
 table,
 th,
 td {
-    border-top: 2px solid black;;
-    border-left: 2px solid black;;
-    border-right: 2px solid black;;
-    border-bottom: 2px solid black;;
+    border-top: 2px solid black;
+    ;
+    border-left: 2px solid black;
+    ;
+    border-right: 2px solid black;
+    ;
+    border-bottom: 2px solid black;
+    ;
 }
 
 
@@ -444,7 +465,7 @@ h3 {
     margin-left: 30px;
 }
 
-.table2 button{
+.table2 button {
     background-color: aquamarine;
     padding: 8px 14px;
     text-decoration: none;
@@ -459,6 +480,5 @@ footer {
     text-align: center;
     margin-top: 40px;
     font-weight: bold;
-}
-</style>
+}</style>
   

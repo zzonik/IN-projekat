@@ -50,48 +50,56 @@
           </div>
       </div>
     </header>
-    
-    <section class="search-section">
-        <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
-            Pretraga
-        </h3>
-            <form @submit.prevent="searchKnjige">
-                <input type="text" placeholder="Pretraga knjiga" v-model="searchQuery">
-                <button @click="searchKnjige">Pretraži</button>
-            </form>
-    </section>
 
-    <div v-if="searched && knjige.length > 0">
-    <div class="knjige-table">
-      <table class="center">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Naslov</th>
-            <th>ISBN</th>
-            <th>Broj Strana</th>
-            <th>Datum Objavljivanja</th>
-            <th>Opis</th>
-            <th>Ocena</th>
-            <th>Zanr</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="knjiga in knjige" :key="knjiga.id">
-            <td>{{ knjiga.id }}</td>
-            <td>{{ knjiga.naslov }}</td>
-            <td>{{ knjiga.isbn }}</td>
-            <td>{{ knjiga.brojStrana }}</td>
-            <td>{{ knjiga.datumObjavljivanja }}</td>
-            <td>{{ knjiga.opis }}</td>
-            <td>{{ knjiga.ocena }}</td>
-            <td>{{ knjiga.zanr?.naziv }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-    
+    <h2 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
+    Ažuriraj autora:
+    </h2>
+    <form @submit="azurirajAutora">
+        <div class="form-group">
+        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+            Ime:</h4>
+        <input type="text" v-model="ime" placeholder="Unesite ime" name="ime">
+        </div>
+        <div class="form-group">
+        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+            Prezime:</h4>
+        <input type="text" v-model="prezime" placeholder="Unesite prezime" name="prezime">
+        </div>
+        <div class="form-group">
+        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+            Datum rođenja:</h4>
+        <input type="date" v-model="datumRodjenja" name="datumRodjenja">
+        </div>
+        <div class="form-group">
+        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+            Profilna slika:</h4>
+        <input type="file" @change="handleFileUpload" name="profilnaSlika">
+        </div>
+        <div class="form-group">
+        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+            O meni:</h4>
+        <textarea v-model="oMeni" placeholder="Unesite nešto o sebi" name="oMeni"></textarea>
+        </div>
+        <div class="form-group">
+        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+            Trenutna lozinka:</h4>
+        <input type="password" v-model="trenutnaLozinka" placeholder="Unesite trenutnu lozinku" name="trenutnaLozinka">
+        </div>
+        <div class="form-group">
+        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+            Nova lozinka:</h4>
+        <input type="password" v-model="novaLozinka" placeholder="Unesite novu lozinku" name="novaLozinka">
+        </div>
+        <div class="form-group">
+        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+            Ponovite novu lozinku:</h4>
+        <input type="password" v-model="ponoviNovuLozinku" placeholder="Ponovite novu lozinku" name="ponoviNovuLozinku">
+        </div>
+        <div class="dugme1">
+        <button>Ažuriraj čitaoca</button>
+        </div>
+    </form>
+
     <footer>
         <p>&copy; 2023 BookBuddy. Sva prava zadržana.</p>
     </footer>
@@ -102,14 +110,18 @@ import axios from 'axios';
 import Logout from "@/components/Logout.vue";
 
 export default {
-  name: 'PretragaNeprijavljeniView',
+  name: 'AzurirajAutoraView',
   components: { Logout },
   data() {
     return {
-        autorId: null,
-        searchQuery: '',
-        knjige: [],
-        searched: false
+      autorId: null,
+      ime: '',
+      prezime: '',
+      datumRodjenja: '',
+      oMeni: '',
+      trenutnaLozinka: '',
+      novaLozinka: '',
+      ponoviNovuLozinku: '',
     };
   },
   mounted() {
@@ -117,29 +129,30 @@ export default {
             if(this.autorId == null){
                 this.autorId = this.$route.query.autorId;
             }
-     },
+  },
   methods: {
-    searchKnjige() {
+    azurirajCitaoca() {
+      const updateDto = {
+        ime: this.ime,
+        prezime: this.prezime,
+        datumRodjenja: this.datumRodjenja,
+        oMeni: this.oMeni,
+        trenutnaLozinka: this.trenutnaLozinka,
+        novaLozinka: this.novaLozinka,
+        ponoviNovuLozinku: this.ponoviNovuLozinku
+      };
+
       axios
-        .get(`http://localhost:9090/api/search-knjige/${this.searchQuery}`)
-        .then((response) => {
-            if (response.data.length == 0) {
-                alert('Ne postoji knjiga sa tim imenom');
-                this.searched = false; // Set searched to false if knjige array is empty
-            } else {
-                this.knjige = response.data;
-                this.searched = true;
-            }
+        .put('http://localhost:9090/api/citalac/update-korisnik', updateDto, { withCredentials: true })
+        .then(response => {
+          console.log(response.data); // Možete prilagoditi postupanje s odgovorom
+          alert('Korisnik uspješno ažuriran.');
         })
-        .catch((error) => {
-            console.log(error);
-            alert('Ne postoji ta knjiga');
+        .catch(error => {
+          console.log(error);
+          alert('Greška prilikom ažuriranja korisnika.');
         });
-    },
-    seeMore(knjigaId) {
-        // Redirect to the book page for updating
-        this.$router.push(`/knjigaPregled/${knjigaId}`);
-        },
+    }
   }
 };
 </script>
@@ -202,25 +215,6 @@ a{
 .imageheader2 {
     opacity: 0.75;
     padding-top: 15px;
-}
-
-.search-section input {
-    border: 1px solid black;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    margin-left: 25px;
-    text-align: center;
-}
-
-.search-section button {
-    background-color: aquamarine;
-    padding: 8px 14px;
-    text-decoration: none;
-    cursor: pointer;
-    border-radius: 8px;
-    color: black;
-    margin-top: 15px;
-    margin-left: 30px;
 }
 
 footer {

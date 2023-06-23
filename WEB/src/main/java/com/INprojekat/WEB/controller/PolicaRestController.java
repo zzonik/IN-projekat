@@ -109,6 +109,21 @@ public class PolicaRestController {
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping("/api/autor/{autorId}/police/primarne")
+    public ResponseEntity<?> getPrimarnePoliceAutora(@PathVariable Long autorId) {
+        Korisnik korisnik = korisnikService.findOne(autorId);
+        Set<Polica> policeSet = korisnik.getPolice();
+        List<PolicaDto> dtos = new ArrayList<>();
+
+        for (Polica polica : policeSet) {
+            if(polica.isPrimarna()==true) {
+                PolicaDto dto = new PolicaDto(polica);
+                dtos.add(dto);
+            }
+        }
+        return ResponseEntity.ok(dtos);
+    }
+
     @GetMapping("/api/autor/{autorId}/police")
     public ResponseEntity<?> getPoliceAutora(@PathVariable Long autorId) {
         Korisnik korisnik = korisnikService.findOne(autorId);
@@ -116,8 +131,10 @@ public class PolicaRestController {
         List<PolicaDto> dtos = new ArrayList<>();
 
         for (Polica polica : policeSet) {
-            PolicaDto dto = new PolicaDto(polica);
-            dtos.add(dto);
+            if(polica.isPrimarna()==false) {
+                PolicaDto dto = new PolicaDto(polica);
+                dtos.add(dto);
+            }
         }
         return ResponseEntity.ok(dtos);
     }
