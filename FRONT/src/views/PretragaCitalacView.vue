@@ -25,13 +25,22 @@
           <div class="row2">
               <div>
                 <ul class="menu">
-                <li id="pocetna">
-                    <router-link :to="{ path: '/homeCitalac', query: { korisnikId: korisnikId } }">Početna</router-link>
-                </li>
-                <li id="pretraga">
-                    <router-link :to="{ path: '/pretragaCitalac', query: { korisnikId: korisnikId } }">Pretraga 🔍</router-link>
-                </li>
-                <li><Logout/></li>
+                    <li id="pocetna">
+                            <router-link
+                                :to="{ path: '/homeCitalac', query: { citalacId : citalacId } }">Početna</router-link>
+                        </li>
+                        <li id="azuriraj">
+                            <router-link
+                                :to="{ path: '/azurirajCitaoca', query: { citalacId : citalacId } }">Azuriraj profil</router-link>
+                        </li>
+                        <li id="pretraga">
+                            <router-link
+                                :to="{ path: '/pretragaCitalac', query: { citalacId : citalacId } }">Pretraga
+                                🔍</router-link>
+                        </li>
+                        <li>
+                            <Logout />
+                        </li>
                 </ul>
               </div>
           </div>
@@ -39,7 +48,9 @@
     </header>
     
     <section class="search-section">
-        <h3>Pretraga</h3>
+        <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
+            Pretraga
+        </h3>
             <form @submit.prevent="searchKnjige">
                 <input type="text" placeholder="Pretraga knjiga" v-model="searchQuery">
                 <button @click="searchKnjige">Pretraži</button>
@@ -91,14 +102,17 @@ export default {
   components: { Logout },
   data() {
     return {
-        korisnikId: null,
+        citalacId: null,
         searchQuery: '',
         knjige: [],
         searched: false
     };
   },
   mounted() {
-        this.korisnikId = this.$route.query.korisnikId;
+    this.citalacId = this.$route.query.korisnikId;
+            if(this.citalacId == null){
+                this.citalacId = this.$route.query.citalacId;
+            }
      },
   methods: {
     searchKnjige() {
@@ -184,6 +198,25 @@ a{
 .imageheader2 {
     opacity: 0.75;
     padding-top: 15px;
+}
+
+.search-section input {
+    border: 1px solid black;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    margin-left: 25px;
+    text-align: center;
+}
+
+.search-section button {
+    background-color: aquamarine;
+    padding: 8px 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 8px;
+    color: black;
+    margin-top: 15px;
+    margin-left: 30px;
 }
 
 footer {

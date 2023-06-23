@@ -21,6 +21,12 @@ public class PolicaDto {
         this.stavkePolica = stavkePolica;
     }
 
+    public PolicaDto(Long id, String naziv) {
+        this.id = id;
+        this.naziv = naziv;
+    }
+
+
     public PolicaDto(Polica polica) {
         this.id = polica.getId();
         this.naziv = polica.getNaziv();

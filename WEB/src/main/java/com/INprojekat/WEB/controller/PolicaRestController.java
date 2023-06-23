@@ -48,18 +48,67 @@ public class PolicaRestController {
         }
         return ResponseEntity.ok(dtos);
     }
-    @GetMapping("/api/korisnici/{id}/police")
-    public ResponseEntity<List<PolicaDto>> getPoliceKorisnika(@PathVariable Long id) {
-        Korisnik korisnik = korisnikService.findOne(id);
+    @GetMapping("/api/korisnik/police")
+    public ResponseEntity<List<PolicaDto>> getPoliceKorisnika(HttpSession session) {
+        Korisnik korisnik = (Korisnik) session.getAttribute("employee");
         Set<Polica> policeSet = korisnik.getPolice();
         List<PolicaDto> dtos = new ArrayList<>();
 
         for (Polica polica : policeSet) {
-            PolicaDto dto = new PolicaDto(polica);
-            dtos.add(dto);
+            if(polica.isPrimarna()==false) {
+                PolicaDto dto = new PolicaDto(polica);
+                dtos.add(dto);
+            }
         }
         return ResponseEntity.ok(dtos);
     }
+
+    @GetMapping("/api/korisnik/primarne_police")
+    public ResponseEntity<List<PolicaDto>> getPrimarnePoliceKorisnika(HttpSession session) {
+        Korisnik korisnik = (Korisnik) session.getAttribute("employee");
+        Set<Polica> policeSet = korisnik.getPolice();
+        List<PolicaDto> dtos = new ArrayList<>();
+
+        for (Polica polica : policeSet) {
+            if(polica.isPrimarna()==true) {
+                PolicaDto dto = new PolicaDto(polica);
+                dtos.add(dto);
+            }
+        }
+        return ResponseEntity.ok(dtos);
+    }
+
+
+    @GetMapping("/api/korisnik/{id}/police")
+    public ResponseEntity<List<PolicaDto>> getPoliceKorisnikaSaId(@PathVariable Long id, HttpSession session) {
+        Korisnik korisnik = (Korisnik) session.getAttribute("employee");
+        Set<Polica> policeSet = korisnik.getPolice();
+        List<PolicaDto> dtos = new ArrayList<>();
+
+        for (Polica polica : policeSet) {
+            if(polica.isPrimarna()==false) {
+                PolicaDto dto = new PolicaDto(polica);
+                dtos.add(dto);
+            }
+        }
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/api/korisnik/{id}/primarne_police")
+    public ResponseEntity<List<PolicaDto>> getPrimarnePoliceKorisnikaSaId(@PathVariable Long id ,HttpSession session) {
+        Korisnik korisnik = (Korisnik) session.getAttribute("employee");
+        Set<Polica> policeSet = korisnik.getPolice();
+        List<PolicaDto> dtos = new ArrayList<>();
+
+        for (Polica polica : policeSet) {
+            if(polica.isPrimarna()==true) {
+                PolicaDto dto = new PolicaDto(polica);
+                dtos.add(dto);
+            }
+        }
+        return ResponseEntity.ok(dtos);
+    }
+
     @GetMapping("/api/autor/{autorId}/police")
     public ResponseEntity<?> getPoliceAutora(@PathVariable Long autorId) {
         Korisnik korisnik = korisnikService.findOne(autorId);
@@ -81,8 +130,28 @@ public class PolicaRestController {
             List<PolicaDto> dtos = new ArrayList<>();
 
             for (Polica polica : policeSet) {
-                PolicaDto dto = new PolicaDto(polica);
-                dtos.add(dto);
+                if(polica.isPrimarna()==false) {
+                    PolicaDto dto = new PolicaDto(polica);
+                    dtos.add(dto);
+                }
+            }
+            return ResponseEntity.ok(dtos);
+        }
+        return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/api/citalac/{citalacId}/police/primarne")
+    public ResponseEntity<?> getPrimarnePoliceCitalaca(@PathVariable Long citalacId) {
+        Korisnik korisnik = korisnikService.findOne(citalacId);
+        Set<Polica> policeSet = korisnik.getPolice();
+        if(citalacId == korisnik.getId()) {
+            List<PolicaDto> dtos = new ArrayList<>();
+
+            for (Polica polica : policeSet) {
+                if (polica.isPrimarna()==true) {
+                    PolicaDto dto = new PolicaDto(polica);
+                    dtos.add(dto);
+                }
             }
             return ResponseEntity.ok(dtos);
         }
@@ -92,14 +161,15 @@ public class PolicaRestController {
     @PostMapping("/api/citalac/police-add")
     public ResponseEntity<?> addPolica(@RequestBody PolicaAddDto policaAddDto, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if (loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC  || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR ) {
-            if (policaService.existsPolicaInKorisnik(policaAddDto.getNaziv(), loggedKorisnik.getId())) {
-                return new ResponseEntity<>("Name for shelf is used!", HttpStatus.BAD_REQUEST);
+        Long korisnikId = loggedKorisnik.getId();
+        if (loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR) {
+            if (policaService.existsPolicaInKorisnik(policaAddDto.getNaziv(), korisnikId)) {
+                return ResponseEntity.badRequest().body("Name for shelf is used!");
             }
-            policaService.create(policaAddDto, loggedKorisnik.getId());
-            return new ResponseEntity<>("Shelf added successfully", HttpStatus.OK);
+            policaService.create(policaAddDto, korisnikId);
+            return ResponseEntity.ok("Shelf added successfully");
         } else {
-            return new ResponseEntity<>("Error adding book on shelf", HttpStatus.OK);
+            return ResponseEntity.ok("Error adding book on shelf");
         }
     }
 

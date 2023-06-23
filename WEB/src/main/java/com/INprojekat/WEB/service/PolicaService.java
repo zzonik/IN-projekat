@@ -66,7 +66,7 @@ public class PolicaService {
         return dtos;
     }
 
-    public void create(PolicaAddDto policaAddDto, Long id) {
+    public Polica create(PolicaAddDto policaAddDto, Long id) {
         Polica polica;
         polica = new Polica();
         polica.setNaziv(policaAddDto.getNaziv());
@@ -78,6 +78,8 @@ public class PolicaService {
         police.add(polica);
         korisnik.setPolice(police);
         korisnikService.save(korisnik);
+
+        return polica;
     }
 
     public void main3(){
@@ -125,7 +127,8 @@ public class PolicaService {
         return false;
     }
     public Boolean existsPolicaInKorisnik(String naziv, Long id) {
-        Set<Polica> police = korisnikService.findOne(id).getPolice();
+        Korisnik korisnik = korisnikService.findOne(id);
+        Set<Polica> police = korisnik.getPolice();
         for(Polica polica: police){
             if(Objects.equals(polica.getNaziv(), naziv)){
                 return true;

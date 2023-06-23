@@ -186,10 +186,9 @@ h2 {
     color: white;
     padding: 16px 32px;
     text-decoration: none;
-    margin: 4px 2px;
     cursor: pointer;
     margin-bottom: 20px;
-    margin-left: 8px;
+    margin-left: 70px;
     border-radius: 8px;
 }
 
