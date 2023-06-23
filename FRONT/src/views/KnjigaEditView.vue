@@ -14,6 +14,10 @@
             <input type="text" id="isbn" v-model="updatedIsbn">
           </div>
           <div class="form-row">
+            <label for="slika">Slika:</label>
+            <input type="file" id="slika" @change="handleSlikaUpload">
+          </div>
+          <div class="form-row">
             <label for="brojStrana">Broj strana:</label>
             <input type="number" id="brojStrana" v-model="updatedBrojStrana">
           </div>
@@ -44,10 +48,6 @@
                 {{ zanr.naziv }}
               </option>
             </select>
-          </div>
-          <div class="form-row">
-            <label for="slika">Slika:</label>
-            <input type="file" id="slika" @change="handleSlikaUpload">
           </div>
           <div class="form-row">
             <button class="dugme" @click="sacuvajIzmene">Sacuvaj izmene</button>
@@ -149,7 +149,7 @@ export default {
         naslov: this.updatedNaslov,
         isbn: this.updatedIsbn,
         brojStrana: this.updatedBrojStrana,
-        naslovnaFotografija: "",
+        naslovnaFotografija: "knjigaId",
         datumObjavljivanja: this.updatedDatumObjavljivanja,
         opis: this.updatedOpis,
         autorId: this.updatedAutor,
@@ -176,26 +176,23 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
 .rowB {
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .update-form {
   background-color: green;
-  padding: 15px;
-  width: 700px;
-  height: 750px;
+  padding: 20px;
 }
 
 .knjiga-card {
   background-color: rgb(150, 220, 200);
   border: 4px solid black;
-  width: 300px;
-  height: 700px;
+  width: 50%;
   margin: 10px 0;
   padding: 20px;
   text-align: center;
@@ -207,6 +204,10 @@ export default {
   margin: 10px 0;
 }
 
+label {
+  margin-right: 10px;
+}
+
 input[type="text"],
 input[type="number"],
 input[type="date"],
@@ -214,8 +215,15 @@ select {
   width: 200px;
 }
 
-.knjiga-card input{
-  margin-top: 10px;
-  margin-bottom: 10px;
+.containerB button {
+    background-color: rgb(54, 142, 113);
+    padding: 8px 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 8px;
+    color: black;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-left: 30px;
 }
 </style>
