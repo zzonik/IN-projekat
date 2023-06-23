@@ -1,10 +1,7 @@
 package com.INprojekat.WEB.controller;
 
 import com.INprojekat.WEB.dto.*;
-import com.INprojekat.WEB.entity.Knjiga;
-import com.INprojekat.WEB.entity.Korisnik;
-import com.INprojekat.WEB.entity.Polica;
-import com.INprojekat.WEB.entity.Recenzija;
+import com.INprojekat.WEB.entity.*;
 import com.INprojekat.WEB.repository.PolicaRepository;
 import com.INprojekat.WEB.service.KnjigaService;
 import com.INprojekat.WEB.service.PolicaService;
@@ -44,17 +41,20 @@ public class RecenzijaRestController {
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping("/api/citalac/polica/{policaId}/stavka-police/{stavkaPoliceId}/add-recenzija")
-    public ResponseEntity<?> addRecenzija(@PathVariable Long policaId,@PathVariable Long stavkaPoliceId ,@RequestBody RecenzijaAddDto recenzijaAddDto,HttpSession session) throws ChangeSetPersister.NotFoundException {
-        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC  || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR ) {
-            PolicaDto policaDto = policaService.findOne(policaId);
-                if (policaDto.getNaziv().equals("Read")) {
-                    recenzijaService.add(recenzijaAddDto, stavkaPoliceId);
-                    return new ResponseEntity<>("Recenzija added successfully", HttpStatus.OK);
+    @PostMapping("/api/citalac/polica/{policaId}/stavka-police/add-recenzija")
+    public ResponseEntity<?> addRecenzija(@PathVariable Long policaId,@RequestBody RecenzijaAddDto recenzijaAddDto,HttpSession session) throws ChangeSetPersister.NotFoundException {
+        PolicaDto policaDto = policaService.findOne(policaId);
+            if (policaDto.getNaziv().equals("Read")) {
+                Set<StavkaPolice> stavke = policaDto.getStavkePolica();
+                for(StavkaPolice stavka: stavke){
+                    if(stavka.getKnjiga().getId() == recenzijaAddDto.getKnjigaId()){
+                        Long id = stavka.getId();
+                        recenzijaService.add(recenzijaAddDto, id);
+                        return new ResponseEntity<>("Recenzija added successfully", HttpStatus.OK);
+                    }
                 }
-        }
-        return ResponseEntity.noContent().build();
+            }
+        return null;
     }
     @PutMapping("api/citalac/recenzija/{recenzijaId}/update-recenzija")
     public ResponseEntity<?> updateRecenzija(@PathVariable Long recenzijaId, @RequestBody UpdateRecDto updateRecDto,HttpSession session) {
