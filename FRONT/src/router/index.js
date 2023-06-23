@@ -179,7 +179,7 @@ const routes = [
     }
   },
     {
-      path: '/recenzija/:id',
+      path: '/recenzija/:knjigaId/:korisnikId/:policaId',
       name: 'recenzija',
       component: RecenzijaView,
       meta: {

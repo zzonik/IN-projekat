@@ -187,6 +187,7 @@ export default {
       police2: [],
       policeDodavanje: [],
       knjige: [],
+      stavkaPolice: [],
       selectedPolica: null,
       selectedKnjiga: null
     };
@@ -197,6 +198,7 @@ export default {
         this.getPolice2();
         this.getPoliceDodavanje();
         this.getKnjige();
+        this.police.forEach((polica) => { this.getStavkePolice(polica.policaId); });
     },
     methods: {
         getPolice() {
@@ -307,21 +309,42 @@ export default {
             this.$router.push(`/knjigaPregled/${knjigaId}`);
             }
         },
+        getStavkePolice(policaId) {
+        axios
+            .get(`http://localhost:9090/api/citalac/polica/${policaId}`, {
+                withCredentials: true,
+                headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Expires': '0',
+                },
+                })
+                .then((response) => {
+                    this.stavkePolice = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert("Failed to fetch police stavke");
+                });
+        },
+
         addKnjigaPolica(knjigaId, policaId) {
             const recenzijaDto = {}; // Set your recenzijaDto object data if needed
             const polica = this.selectedPolica;
             const knjiga = this.selectedKnjiga;
             const citalac = this.citalacId;
+            
             axios
                 .post(`http://localhost:9090/api/citalac/${citalac}/polica/${policaId}/knjiga/${knjiga}/knjiga-add-polica`, recenzijaDto)
                 .then((response) => {
                 // Handle the successful response from the backend
-                //this.getPolice(); // Osvežavanje podataka o policama
-                //this.getPolice2(); // Osvežavanje podataka o primarnim policama
+                this.getPolice(); // Osvežavanje podataka o policama
+                this.getPolice2(); // Osvežavanje podataka o primarnim policama
+                this.getPoliceDodavanje();
+                this.getStavkePolice(policaId);
                 if(polica.naziv == "Read"){
-                    this.$router.push(`/recenzija/${knjigaId}`);
+                    this.$router.push(`/recenzija/${knjiga}/${citalac}/${policaId}`);
                 }
-                console.log(polica.naziv);
                 console.log(response.data);
                 // Update the necessary data in the Vue component or perform any other actions
                 })

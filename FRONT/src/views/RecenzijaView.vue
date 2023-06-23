@@ -1,44 +1,23 @@
 <template>
     <div>
-      <h1>Edit Autor</h1>
-      <form @submit.prevent="updateAutor">
-        <div>
-          <label for="ime">Ime:</label>
-          <input type="text" id="ime" v-model="updateDto.ime" required>
-        </div>
-        <div>
-          <label for="prezime">Prezime:</label>
-          <input type="text" id="prezime" v-model="updateDto.prezime" required>
-        </div>
-        <div>
-          <label for="naslovnaFotografija">Naslovna Fotografija:</label>
-          <input type="text" id="naslovnaFotografija" v-model="updateDto.naslovnaFotografija">
-        </div>
-        <div>
-          <label for="opis">Opis:</label>
-          <input type="text" id="opis" v-model="updateDto.opis">
-        </div>
-        <div>
-          <label for="datumRodjenja">Datum Rodjenja:</label>
-          <input type="date" id="datumRodjenja" v-model="updateDto.datumRodjenja" required>
-        </div>
-        <div>
-          <label for="mail">Mail:</label>
-          <input type="email" id="mail" v-model="updateDto.mail" required>
-        </div>
-        <div>
-          <label for="lozinka">Lozinka:</label>
-          <input type="password" id="lozinka" v-model="updateDto.lozinka" required>
-        </div>
-        <div>
-          <label for="newlozinka">Nova Lozinka:</label>
-          <input type="password" id="newlozinka" v-model="updateDto.newlozinka">
-        </div>
-        <div>
-          <button type="submit">Update Autor</button>
-        </div>
+      <h1>Add Review</h1>
+      <form @submit="submitRecenzija">
+        <label for="ocena">Ocena:</label>
+        <input type="number" id="ocena" v-model="recenzija.ocena" required>
+  
+        <label for="datum">Datum:</label>
+        <input type="date" id="datum" v-model="recenzija.datum" required>
+  
+        <label for="tekst">Tekst:</label>
+        <textarea id="tekst" v-model="recenzija.tekst" required></textarea>
+  
+        <label for="polica">Polica:</label>
+        <select class="custom-select" v-model="recenzija.selectedPolica" required>
+          <option v-for="polica in recenzija.policeDodavanje" :value="polica" :key="polica.id">{{ polica.naziv }}</option>
+        </select>
+  
+        <button type="submit">Submit</button>
       </form>
-      <p>{{ message }}</p>
     </div>
   </template>
   
@@ -48,74 +27,72 @@
   export default {
     data() {
       return {
-        updateDto: {
-          ime: '',
-          prezime: '',
-          naslovnaFotografija: '',
-          opis: '',
-          datumRodjenja: '',
-          mail: '',
-          lozinka: '',
-          newlozinka: ''
+        recenzija: {
+          ocena: null,
+          datum: null,
+          tekst: '',
+          knjigaId: null,
+          korisnikId: null,
+          policaId: null,
+          police: [],
+          policeDodavanje: [],
+          selectedPolica: null
         },
-        message: ''
-      };
+      }
     },
-    created() {
-      this.getAutorDetails();
+    mounted() {
+      this.recenzija.korisnikId = this.$route.params.korisnikId;
+      this.recenzija.knjigaId = this.$route.params.knjigaId;
+      this.recenzija.policaId = this.$route.params.policaId;
+      this.getPolice();
     },
     methods: {
-      getAutorDetails() {
-        const autorId = this.$route.params.id;
-  
-        axios.get(`http://localhost:9090/api/korisnici/${autorId}`)
-          .then(response => {
-            const autor = response.data;
-            this.updateDto.ime = autor.ime;
-            this.updateDto.prezime = autor.prezime;
-            this.updateDto.naslovnaFotografija = autor.naslovnaFotografija;
-            this.updateDto.opis = autor.opis;
-            this.updateDto.datumRodjenja = autor.datumRodjenja;
-            this.updateDto.mail = autor.mail;
-            // Exclude lozinka and newlozinka properties since they should not be pre-filled for security reasons
-          })
-          .catch(error => {
-            console.error('Failed to fetch author details:', error);
-            alert('Failed to fetch author details');
-          });
-      },
-      getAutori() {
-        axios
-            .get('http://localhost:9090/api/korisnici', { withCredentials: true })
-            .then((response) => {
-            this.korisnici = response.data;
-            this.availableAutors = response.data.filter((korisnik) => korisnik.uloga === 'AUTOR');
-
-            if (this.knjiga && this.knjiga.autor) {
-                this.updatedAutor = this.knjiga.autor.id;
-            }
-            })
-            .catch((error) => {
-            console.log(error);
-            alert('Failed to fetch korisnici');
-            });
+        getPolice() {
+            const id = this.recenzija.korisnikId;
+            axios
+            .get(`http://localhost:9090/api/citalac/${id}/police`, {
+                withCredentials: true,
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                },
+                })
+                .then((response) => {
+                    this.recenzija.policeDodavanje = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert("Failed to fetch police");
+                });
         },
-
-      updateAutor() {
-        const autorId = this.$route.params.id;
+      submitRecenzija() {
+        const knjigaId = this.recenzija.knjigaId;
+        const citalacId = this.recenzija.korisnikId;
+        const polica = this.recenzija.policaId;
+        const policeD = this.recenzija.selectedPolica.id;
+        
   
-        axios.put(`http://localhost:9090/api/admin/update_autor/${autorId}`, this.updateDto)
+        const recenzijaAddDto = {
+          ocena: this.recenzija.ocena,
+          datum: this.recenzija.datum,
+          tekst: this.recenzija.tekst,
+          korisnikId: citalacId,
+          knjigaId: knjigaId,
+          police: [policeD]
+        };
+  
+        axios.post(`http://localhost:9090/api/citalac/polica/${polica}/stavka-police/add-recenzija`, recenzijaAddDto)
           .then(response => {
-            console.log('Author updated successfully');
-            // Redirect to the updated author page or any other desired route
-            this.$router.push(`/homeAdministrator`);
+            // Handle the successful response
+            console.log(response.data);
           })
           .catch(error => {
-            console.error('Failed to update author details:', error);
-            alert('Failed to update author details');
+            // Handle any errors
+            console.error(error);
           });
       }
     }
-  };
+  }
   </script>
   
