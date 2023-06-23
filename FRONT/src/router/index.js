@@ -185,7 +185,15 @@ const routes = [
       meta: {
         title: 'Recenzija'
       }
-  }
+  },
+  {
+    path: '/recenzija/:knjigaId/:korisnikId/:policaId',
+    name: 'recenzija',
+    component: RecenzijaView,
+    meta: {
+      title: 'Recenzija'
+    }
+}
 ];
 
 const router = createRouter({

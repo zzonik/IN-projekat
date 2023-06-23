@@ -172,28 +172,25 @@ export default {
 </script>
 
 <style>
+
 .containerB {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .rowB {
   display: flex;
   justify-content: center;
-}
-
-.update-form {
-  background-color: green;
-  padding: 20px;
+  align-items: center;
 }
 
 .knjiga-card {
   background-color: rgb(150, 220, 200);
-  border: 4px solid black;
-  width: 50%;
-  margin: 10px 0;
+  border: 20px solid green;
+  width: 650px;
+  height: fit-content;
+  margin-left: 8px;
   padding: 20px;
   text-align: center;
 }
@@ -216,14 +213,21 @@ select {
 }
 
 .containerB button {
-    background-color: rgb(54, 142, 113);
-    padding: 8px 14px;
-    text-decoration: none;
-    cursor: pointer;
-    border-radius: 8px;
+    background-color: aquamarine;
+    border: 5px solid green;
     color: black;
-    font-weight: bold;
-    margin-top: 15px;
-    margin-left: 30px;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    margin-left: 8px;
+    border-radius: 8px;
 }
+
+.knjiga-card input{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 </style>
