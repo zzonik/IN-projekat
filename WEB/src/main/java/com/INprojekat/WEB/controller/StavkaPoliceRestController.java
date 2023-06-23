@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class StavkaPoliceRestController {
@@ -39,6 +40,17 @@ public class StavkaPoliceRestController {
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC  || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR ){
             stavkaPoliceService.create(stavkaPoliceAddDto, policaId);
             return new ResponseEntity<>("Stavka police added successfully", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/api/citalac/polica/{policaId}")
+    public ResponseEntity<?> getStavkePolice(@PathVariable Long policaId, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+        if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC  || loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR ){
+                Set<StavkaPoliceDto> dtos = stavkaPoliceService.findAllOfOne(policaId);
+                return ResponseEntity.ok(dtos);
         }else {
             return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
         }

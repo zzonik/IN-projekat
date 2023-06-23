@@ -431,7 +431,7 @@ export default {
         },
         acceptZahtev(zahtevId) {
             axios
-                .post(`http://localhost:9090/api/admin/zahtev/${zahtevId}/accept`, null, { withCredentials: true })
+                .post(`http://localhost:9090/api/admin/zahtev/${zahtevId}/accept`, { withCredentials: true })
                 .then((response) => {
                     alert('Zahtev je prihvaćen.');
                     this.getZahtevi();
@@ -444,7 +444,7 @@ export default {
 
         declineZahtev(zahtevId) {
             axios
-                .post(`http://localhost:9090/api/admin/zahtev/${zahtevId}/decline`, null, { withCredentials: true })
+                .post(`http://localhost:9090/api/admin/zahtev/${zahtevId}/decline`,{ withCredentials: true })
                 .then((response) => {
                     alert('Zahtev je odbijen.');
                     this.getZahtevi();
@@ -769,6 +769,18 @@ td {
     color: black;
 }
 
-
+.select-wrapper{
+    display: inline-block;
+    width: 20%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    vertical-align: middle;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
 
 </style>

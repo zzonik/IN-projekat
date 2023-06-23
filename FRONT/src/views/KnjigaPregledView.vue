@@ -60,7 +60,6 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          alert('Failed to fetch book reviews');
         });
     }
     

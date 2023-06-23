@@ -157,6 +157,7 @@ public class KorisnikRestController {
     @PostMapping("/api/admin/zahtev/{zahtevId}/accept")
     public ResponseEntity<?> zahtevAccept(@PathVariable Long zahtevId, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
+
         if(loggedKorisnik.getUloga() == Korisnik.Uloga.ADMINISTRATOR){
 
             ZahtevZaAktivacijuNalogaAutoraDto zanaDto = zahtevZaAktivacijuNalogaAutoraService.findOne(zahtevId);

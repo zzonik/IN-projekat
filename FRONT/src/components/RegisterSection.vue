@@ -164,34 +164,6 @@ h2 {
     color: rgb(36, 136, 102);
 }
 
-.row4 input {
-    border: 2px solid rgb(127, 255, 212);
-    border-radius: 8px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.row5 input {
-    border: 2px solid rgb(127, 255, 212);
-    border-radius: 8px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.row6 button{
-    background-color:aquamarine;
-    border: none;
-    color: white;
-    padding: 16px 32px;
-    text-decoration: none;
-    margin: 4px 2px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    margin-left: 8px;
-    border-radius: 8px;
-}
-
 .row8 input {
     border: 2px solid rgb(127, 255, 212);
     border-radius: 8px;

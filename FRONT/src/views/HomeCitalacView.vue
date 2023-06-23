@@ -51,43 +51,66 @@
             <h1 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
                 Moje primarne police
             </h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th
-                            style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color:rgb(137, 149, 146);">
-                            Naziv primarne police</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="polica in police2" :key="polica.id">
-                        <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">{{
-                            polica.naziv }}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
-                Moje police
-            </h3>
             <table class="table2">
                 <thead>
                     <tr>
                         <th
                             style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">
-                            Naziv police</th>
+                            Naziv primarne police</th>
+                            
                         <th
                             style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">
+                            Stavke police</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="polica in police2" :key="polica.id">
+                        <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">
+                        {{ polica.naziv }}
+                        </td>
+                        <td>
+                            <select @change="redirectToKnjigaPregled" v-model="selectedStavka">
+                                <option disabled selected>Izaberi knjigu sa police</option>
+                                <option v-for="stavka in polica.stavkePolica" :key="stavka.id" :value="stavka">
+                                {{ stavka.knjiga.naslov }}
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
+                Moje police
+            </h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">
+                            Naziv police</th>
+                        <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">
+                            Stavke police</th>
+                        <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">
                             Akcije</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="polica in police" :key="polica.id">
-                        <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">{{
-                            polica.naziv }}</td>
-                        <td>
-                            <button @click.once="obrisiPolica(polica.id)">Obriši policu</button>
-                        </td>
+                    <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">
+                        {{ polica.naziv }}
+                    </td>
+                    <td>
+                        <select @change="redirectToKnjigaPregled" v-model="selectedStavka">
+                            <option disabled selected>Izaberi knjigu sa police</option>
+                            <option v-for="stavka in polica.stavkePolica" :key="stavka.id" :value="stavka">
+                            {{ stavka.knjiga.naslov }}
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <button @click.once="obrisiPolica(polica.id)">Obriši policu</button>
+                    </td>
                     </tr>
                 </tbody>
             </table>
@@ -125,12 +148,12 @@ export default {
         Logout
     },
     data() {
-        return {
-            citalacId: null,
-            police: [],
-            police2: [],
-        };
-    },
+    return {
+      citalacId: null,
+      police: [],
+      police2: []
+    };
+  },
     mounted() {
         this.citalacId = this.$route.query.citalacId;
         this.getPolice();
@@ -207,6 +230,12 @@ export default {
                     console.log(error);
                     alert("Failed to delete the shelf");
                 });
+        },
+        redirectToKnjigaPregled() {
+            if (this.selectedStavka) {
+            const knjigaId = this.selectedStavka.knjiga.id;
+            this.$router.push(`/knjigaPregled/${knjigaId}`);
+            }
         }
     }
 };
@@ -465,6 +494,18 @@ h3 {
     margin-left: 30px;
 }
 
+.table button {
+    background-color: aquamarine;
+    padding: 8px 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 8px;
+    color: black;
+    margin-top: 15px;
+    margin-left: 30px;
+
+}
+
 .table2 button {
     background-color: aquamarine;
     padding: 8px 14px;
@@ -474,6 +515,15 @@ h3 {
     color: black;
     margin-top: 15px;
     margin-left: 30px;
+}
+
+.nazivKnjige{
+    color: black;
+}
+
+select {
+    height: 30px;
+    width: 230px;
 }
 
 footer {

@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class StavkaPoliceService {
@@ -50,6 +47,19 @@ public class StavkaPoliceService {
         for(StavkaPolice stavkaPolice : stavkeList){
             StavkaPoliceDto dto = new StavkaPoliceDto(stavkaPolice);
             dtos.add(dto);
+        }
+        return dtos;
+
+    }
+
+    public Set<StavkaPoliceDto> findAllOfOne(Long policaId){
+        Polica polica = policaService.findOneById(policaId);
+        Set<StavkaPolice> stavkeSet = polica.getStavkePolica();
+
+        Set<StavkaPoliceDto> dtos = new HashSet<>();
+        for(StavkaPolice stavkaPolice : stavkeSet){
+                StavkaPoliceDto dto = new StavkaPoliceDto(stavkaPolice);
+                dtos.add(dto);
         }
         return dtos;
 

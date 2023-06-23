@@ -10,7 +10,7 @@
 
     <h2>Police</h2>
     <ul>
-      <li v-for="polica in korisnik.policas" :key="polica.id">
+      <li v-for="polica in police" :key="polica.id">
         <select>
           <option value="">{{polica.naziv}}</option>
           <option v-for="stavkaPolice in polica.stavkePolica" :key="stavkaPolice.id" :value="stavkaPolice.knjiga.naslov">{{ stavkaPolice.knjiga.naslov }}</option>
@@ -27,7 +27,8 @@ export default {
   name: 'KorisnikView',
   data() {
     return {
-      korisnik: null
+      korisnik: null,
+      police: []
     };
   },
   created() {
@@ -54,8 +55,8 @@ export default {
       axios
         .get(`http://localhost:9090/api/korisnici/${korisnikId}/police`)
         .then((response) => {
-          const police = response.data;
-          this.korisnik.policas = police; // Assign police data to this.korisnik.policas
+          const Polica = response.data;
+          this.police = Polica; // Assign police data to this.korisnik.policas
         })
         .catch((error) => {
           console.log(error);
