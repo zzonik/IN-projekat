@@ -38,7 +38,7 @@ public class PolicaRestController {
     }
 
     @GetMapping("/api/police")
-    public ResponseEntity<List<PolicaDto>> getPolice(HttpSession session) {
+    public ResponseEntity<List<PolicaDto>> getPoliceA(HttpSession session) {
         List<Polica> policeList = policaService.findAll();
         List<PolicaDto> dtos = new ArrayList<>();
 
@@ -79,17 +79,15 @@ public class PolicaRestController {
     }
 
 
-    @GetMapping("/api/korisnik/{id}/police")
+    @GetMapping("/api/korisnik/{citalacId}/police")
     public ResponseEntity<List<PolicaDto>> getPoliceKorisnikaSaId(@PathVariable Long id, HttpSession session) {
         Korisnik korisnik = (Korisnik) session.getAttribute("employee");
         Set<Polica> policeSet = korisnik.getPolice();
         List<PolicaDto> dtos = new ArrayList<>();
 
         for (Polica polica : policeSet) {
-            if(polica.isPrimarna()==false) {
                 PolicaDto dto = new PolicaDto(polica);
                 dtos.add(dto);
-            }
         }
         return ResponseEntity.ok(dtos);
     }
@@ -169,6 +167,22 @@ public class PolicaRestController {
                     PolicaDto dto = new PolicaDto(polica);
                     dtos.add(dto);
                 }
+            }
+            return ResponseEntity.ok(dtos);
+        }
+        return new ResponseEntity<>("You are not administrator", HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/api/citalac/{citalacId}/police/all")
+    public ResponseEntity<?> getPolice(@PathVariable Long citalacId) {
+        Korisnik korisnik = korisnikService.findOne(citalacId);
+        Set<Polica> policeSet = korisnik.getPolice();
+        if(citalacId == korisnik.getId()) {
+            List<PolicaDto> dtos = new ArrayList<>();
+
+            for (Polica polica : policeSet) {
+                    PolicaDto dto = new PolicaDto(polica);
+                    dtos.add(dto);
             }
             return ResponseEntity.ok(dtos);
         }

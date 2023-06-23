@@ -49,11 +49,21 @@
     
     <section class="search-section">
         <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
-            Pretraga
+            Pretraga po nazivu
         </h3>
             <form @submit.prevent="searchKnjige">
-                <input type="text" placeholder="Pretraga knjiga" v-model="searchQuery">
+                <input type="text" placeholder="Pretraga knjiga po naslovu" v-model="searchQuery">
                 <button @click="searchKnjige">Pretraži</button>
+            </form>
+    </section>
+
+    <section class="search-section2">
+        <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
+            Pretraga po zanru
+        </h3>
+            <form @submit.prevent="searchKnjige2">
+                <input type="text" placeholder="Pretraga knjiga po zanru" v-model="searchQuery2">
+                <button @click="searchKnjige2">Pretraži</button>
             </form>
     </section>
 
@@ -104,6 +114,7 @@ export default {
     return {
         citalacId: null,
         searchQuery: '',
+        searchQuery2: '',
         knjige: [],
         searched: false
     };
@@ -121,6 +132,23 @@ export default {
         .then((response) => {
             if (response.data.length == 0) {
                 alert('Ne postoji knjiga sa tim imenom');
+                this.searched = false; // Set searched to false if knjige array is empty
+            } else {
+                this.knjige = response.data;
+                this.searched = true;
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+            alert('Ne postoji ta knjiga');
+        });
+    },
+    searchKnjige2() {
+      axios
+        .get(`http://localhost:9090/api/search-knjigeByZanr/${this.searchQuery2}`)
+        .then((response) => {
+            if (response.data.length == 0) {
+                alert('Ne postoji knjiga koja pripada oom zanru');
                 this.searched = false; // Set searched to false if knjige array is empty
             } else {
                 this.knjige = response.data;
@@ -208,7 +236,26 @@ a{
     text-align: center;
 }
 
+.search-section2 input {
+    border: 1px solid black;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    margin-left: 25px;
+    text-align: center;
+}
+
 .search-section button {
+    background-color: aquamarine;
+    padding: 8px 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 8px;
+    color: black;
+    margin-top: 15px;
+    margin-left: 30px;
+}
+
+.search-section2 button {
     background-color: aquamarine;
     padding: 8px 14px;
     text-decoration: none;
@@ -229,6 +276,12 @@ footer {
     margin-top: 25px;
     text-align: center;
 }
+
+.search-section2 ::placeholder{
+    margin-top: 25px;
+    text-align: center;
+}
+
 .knjige-table{
     margin-top: 15px;
 }

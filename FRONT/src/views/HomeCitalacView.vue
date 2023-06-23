@@ -115,6 +115,57 @@
                 </tbody>
             </table>
 
+            <h2 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
+                Dodaj knjigu na police:
+            </h2>
+            <div class="blok-dodavanje">
+                <div class="containerB">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="select-wrapper">
+                                <select class="custom-select" v-model="Knjiga">
+                                    <option value="" disabled>Odaberite knjigu</option>
+                                    <option v-for="knjiga in knjige" :value="knjiga.id" :key="knjiga.id">{{ knjiga.naslov }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table3">
+                                <thead>
+                                <tr>
+                                    <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px; background-color: rgb(137, 149, 146);">
+                                    Naziv police
+                                    </th>
+                                    <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px; background-color: rgb(137, 149, 146);">
+                                    Odaberi police
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="polica in policeDodavanje" :key="polica.id">
+                                    <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">
+                                    {{ polica.naziv }}
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input type="checkbox" class="selector-lg" v-model="selectedPolice" :value="polica.id" />
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dugmeDodaj">
+                                <div class="dugme">
+                                    <button @click.once="dodajPolicu">Dodaj novu policu</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            </div>
 
             <h2 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
                 Dodaj novu policu:
@@ -130,7 +181,6 @@
                     <button @click.once="dodajPolicu">Dodaj novu policu</button>
                 </div>
             </form>
-        </div>
     </main>
 
     <footer>
@@ -151,13 +201,17 @@ export default {
     return {
       citalacId: null,
       police: [],
-      police2: []
+      police2: [],
+      policeDodavanje: [],
+      knjige: []
     };
   },
     mounted() {
         this.citalacId = this.$route.query.citalacId;
         this.getPolice();
         this.getPolice2();
+        this.getPoliceDodavanje();
+        this.getKnjige();
     },
     methods: {
         getPolice() {
@@ -198,6 +252,36 @@ export default {
                     alert("Failed to fetch primarne police");
                 });
         },
+        getPoliceDodavanje(){
+            const id = this.citalacId;
+            axios
+            .get(`http://localhost:9090/api/citalac/${id}/police/all`, {
+                withCredentials: true,
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                },
+                })
+                .then((response) => {
+                    this.policeDodavanje = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert("Failed to fetch police for adding");
+                });
+        },
+        getKnjige() {
+            axios
+                .get("http://localhost:9090/api/knjige", { withCredentials: true })
+                .then((response) => {
+                    this.knjige = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert("Failed to fetch knjige");
+                });
+        },
         addPolica() {
             if (this.novaPolicaNaziv.trim() !== "") {
                 const novaPolica = { naziv: this.novaPolicaNaziv };
@@ -209,6 +293,7 @@ export default {
                         console.log(response);
                         this.getPolice(); // Osvježavanje podataka o policama
                         this.getPolice2(); // Osvježavanje podataka o primarnim policama
+                        this.getPoliceDodavanje();
                         console.log("Polica uspešno dodata");
                         this.novaPolicaNaziv = ''; // Resetiranje forme nakon dodavanja
                     })
@@ -442,7 +527,7 @@ label {
 .table2 th,
 .table2 td {
     padding: 8px;
-    text-align: ce;
+    text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
@@ -480,7 +565,7 @@ h3 {
     border-radius: 8px;
     color: black;
     margin-top: 15px;
-    margin-left: 30px;
+    margin-left: 5px;
 }
 
 .dugme2 button {
@@ -517,18 +602,65 @@ h3 {
     margin-left: 30px;
 }
 
-.nazivKnjige{
-    color: black;
-}
-
 select {
     height: 30px;
     width: 230px;
+}
+
+
+.containerB .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerB .col-md-4 {
+    flex: 1;
+}
+
+.containerB .col-md-4:nth-child(2) {
+    display: block;
+    margin: 0 auto;
+}
+
+.containerB .custom-select {
+    width:fit-content;
+}
+
+.containerB button {
+    background-color: rgb(139, 216, 190);
+    padding: 8px 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 8px;
+    color: black;
+    margin-top: 15px;
+    margin-left: 30px;
+}
+
+.containerB .table3 {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+.containerB th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+    
+.containerB input[type="checkbox"] {
+      width: 50%;
+    }
+
+.form-group input{
+    margin-right: 20px;
 }
 
 footer {
     text-align: center;
     margin-top: 40px;
     font-weight: bold;
-}</style>
+}
+</style>
   

@@ -46,7 +46,6 @@
                             <Logout />
                         </li>
                 </ul>
-
               </div>
           </div>
       </div>

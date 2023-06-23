@@ -57,8 +57,8 @@ public class DatabaseConfiguration {
         Date d1 = df.parse("12-10-2011"); // for example, today's date
         Date d2 = df.parse("01-01-1900"); // use your own dates, of course
 
-        Knjiga knjiga1 = new Knjiga("Braca Karamazovi", "/23", "132421", 943, "Jako duga knjiga", d1, autor1, zanr1);
-        Knjiga knjiga2 = new Knjiga("Naruto", "slika.jpg", "E821932", 44, "Manga",d2 , autor1, zanr2);
+        Knjiga knjiga1 = new Knjiga("Braca Karamazovi", "Karamazovi.jpg", "132421", 943, "Jako duga knjiga", d1, autor1, zanr1);
+        Knjiga knjiga2 = new Knjiga("Naruto", "naruto_1_naruto_uzumaki_vv.jpg", "E821932", 44, "Manga",d2 , autor1, zanr2);
         knjigaRepository.saveAll(List.of(knjiga1, knjiga2));
         return true;
     }

@@ -42,6 +42,17 @@
     </form>
   </section>
 
+  <section class="search-section2">
+        <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
+            Pretraga po zanru
+        </h3>
+            <form @submit.prevent="searchKnjige2">
+                <input type="text" placeholder="Pretraga knjiga po zanru" v-model="searchQuery2">
+                <button @click="searchKnjige2">Pretraži</button>
+            </form>
+    </section>
+
+
   <div v-if="searched && knjige.length > 0">
     <div class="knjige-table">
       <table class="center">
@@ -90,6 +101,7 @@ export default {
   data() {
     return {
       searchQuery: '',
+      searchQuery2: '',
       knjige: [],
       searched: false
     };
@@ -110,8 +122,29 @@ export default {
         .catch((error) => {
         console.log(error);
         alert('Ne postoji ta knjiga');
-});
-    }
+        });
+    },
+    searchKnjige2() {
+      axios
+        .get(`http://localhost:9090/api/search-knjigeByZanr/${this.searchQuery2}`)
+        .then((response) => {
+            if (response.data.length == 0) {
+                alert('Ne postoji knjiga koja pripada oom zanru');
+                this.searched = false; // Set searched to false if knjige array is empty
+            } else {
+                this.knjige = response.data;
+                this.searched = true;
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+            alert('Ne postoji ta knjiga');
+        });
+    },
+    seeMore(knjigaId) {
+        // Redirect to the book page for updating
+        this.$router.push(`/knjigaPregled/${knjigaId}`);
+        },
   }
 };
 </script>

@@ -1,4 +1,5 @@
 <template>
+<<<<<<< Updated upstream
   <div v-if="knjiga">
     <h1>{{ knjiga.naslov }}</h1>
     <img :src="'../assets/logo.png'" alt="Naslovna fotografija" />
@@ -9,14 +10,25 @@
     <p><strong>Ocena:</strong> {{ knjiga.ocena }}</p>
     <p><strong>Zanr:</strong> {{ knjiga.zanr.naziv }}</p>
     
+=======
+  <div class="knjiga-card" v-if="knjiga">
+    <h1 style="font-size: 40px;">{{ knjiga.naslov }}</h1>
+    <img :src="require(`@/assets/${imagePath}`)">
+    <p style="font-size: 20px;"><strong>ISBN:</strong> {{ knjiga.isbn }}</p>
+    <p style="font-size: 20px;"><strong>Datum objavljivanja:</strong> {{ knjiga.datumObjavljivanja }}</p>
+    <p style="font-size: 20px;"><strong>Broj strana:</strong> {{ knjiga.brojStrana }}</p>
+    <p style="font-size: 20px;"><strong>Opis:</strong> {{ knjiga.opis }}</p>
+    <p style="font-size: 20px;"><strong>Ocena:</strong> {{ knjiga.ocena }}</p>
+    <p style="font-size: 20px;"><strong>Zanr:</strong> {{ knjiga.zanr.naziv }}</p>
+>>>>>>> Stashed changes
 
-    <h2>Recenzije</h2>
+    <h2 style="font-size: 30px;">Recenzije</h2>
     <ul>
       <li v-for="recenzija in knjiga.recenzije" :key="recenzija.id">
-        <p><strong>Ocena:</strong> {{ recenzija.ocena }}</p>
-        <p><strong>Tekst:</strong> {{ recenzija.tekst }}</p>
-        <p><strong>Datum:</strong> {{ recenzija.datum }}</p>
-        <p><strong>Korisnik:</strong> {{ recenzija.korisnik?.ime }} {{ recenzija.korisnik?.prezime }}</p>
+        <p style="font-size: 20px;"><strong>Ocena:</strong> {{ recenzija.ocena }}</p>
+        <p style="font-size: 20px;"><strong>Tekst:</strong> {{ recenzija.tekst }}</p>
+        <p style="font-size: 20px;"><strong>Datum:</strong> {{ recenzija.datum }}</p>
+        <p style="font-size: 20px;"><strong>Korisnik:</strong> {{ recenzija.korisnik?.ime }} {{ recenzija.korisnik?.prezime }}</p>
       </li>
     </ul>
   </div>
@@ -29,7 +41,8 @@ export default {
   name: 'KnjigaView',
   data() {
     return {
-      knjiga: null
+      knjiga: null,
+      imagePath: null
     };
   },
   created() {
@@ -43,6 +56,7 @@ export default {
         .get(`http://localhost:9090/api/knjige/${knjigaId}`)
         .then((response) => {
           this.knjiga = response.data;
+          this.imagePath = response.data.naslovnaFotografija;
           this.getRecenzijeKnjige();
         })
         .catch((error) => {
@@ -67,3 +81,16 @@ export default {
   }
 };
 </script>
+
+<style>
+
+.knjiga-card {
+  background-color: rgb(150, 220, 200);
+  border: 4px solid black;
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+</style>
