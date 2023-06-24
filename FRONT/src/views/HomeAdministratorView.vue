@@ -34,6 +34,7 @@
             </div>
         </div>
     </header>
+
     <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight:bold;">
         Knjige
     </h3>
@@ -97,7 +98,7 @@
                         </div>
                         <div class="row6">
                             <div class="select-wrapper">
-                                <select class="custom-select" v-model="knjigaAutor">
+                                <select style="margin-left: 18px;" class="custom-select" v-model="knjigaAutor">
                                     <option value="" disabled>Odaberite autora</option>
                                     <option v-for="autor in availableAutors" :value="autor.id" :key="autor.id">{{ autor.ime }} {{ autor.prezime }}</option>
                                 </select>
@@ -105,7 +106,7 @@
                         </div>
                         <div class="row6">
                             <div class="select-wrapper">
-                                <select class="custom-select" v-model="knjigaZanr">
+                                <select style="margin-left: 18px;" class="custom-select" v-model="knjigaZanr">
                                     <option value="" disabled>Odaberite žanr</option>
                                     <option v-for="zanr in zanrovi" :value="zanr.id" :key="zanr.id">{{ zanr.naziv }}</option>
                                 </select>
@@ -232,8 +233,10 @@
             </tbody>
         </table>
         <div class="dodaj_zanr">
-            <input type="text" v-model="noviZanrNaziv" placeholder="Unesite naziv zanra">
-            <button @click="dodajZanr">Dodaj zanr</button>
+            <div class="dugmeZanr">
+                <input style="margin-right: 10px;"  type="text" v-model="noviZanrNaziv" placeholder="Unesite naziv zanra">
+                <button style="margin-left: 10px;" @click="dodajZanr">Dodaj zanr</button>
+            </div>
         </div>
     </div>
 
@@ -719,11 +722,10 @@ td {
     color: black;
 }
 
-.zanrovi-table button {
+.dodaj_zanr button {
     background-color: aquamarine;
     padding: 8px 14px;
-    text-decoration: none;
-    margin: 4px 2px;
+    margin-left: 15px;
     cursor: pointer;
     border-radius: 8px;
     color: black;
@@ -776,7 +778,16 @@ td {
     color: #495057;
     vertical-align: middle;
     margin-top: 10px;
+    margin-left: 5px;
     margin-bottom: 25px;
+}
+
+.dodaj_zanr .dugmeZanr input {
+    border: 1px solid black;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    margin-left: 25px;
+    text-align: center;
 }
 
 </style>

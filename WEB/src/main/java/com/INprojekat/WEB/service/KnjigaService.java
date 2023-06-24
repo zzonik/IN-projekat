@@ -151,39 +151,43 @@ public class KnjigaService {
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
         Korisnik korisnik = korisnikService.findOne(citalac_autor_Id);
         Polica polica = policaService.findOneById(policaId);
-        Set<Polica> korisnikovePolice = korisnik.getPolice();
-        if(polica.isPrimarna()){
-            if(polica.getNaziv().equals("Read")){
-                for (Polica p : korisnikovePolice) {
-                    if (p.getStavkePolica().stream().anyMatch(stavka -> stavka.getKnjiga().equals(knjiga))) {
-                        for (StavkaPolice stavka : p.getStavkePolica()) {
-                            if (stavka.getKnjiga().equals(knjiga)) {
-                                stavkaPoliceService.deleteStavkaPolice(p.getId(), stavka.getId());
-                            }
+
+        // Provera da li je polica READ
+        if (polica.isPrimarna() && polica.getNaziv().equals("Read")) {
+            // Brisanje knjige sa svih polica korisnika
+            for (Polica p : korisnik.getPolice()) {
+                if (!p.getId().equals(policaId)) {
+                    for (StavkaPolice stavka : p.getStavkePolica()) {
+                        if (stavka.getKnjiga().equals(knjiga)) {
+                            // Brisanje stavke police
+                            stavkaPoliceService.deleteStavkaPolice(p.getId(), stavka.getId());
                         }
                     }
                 }
             }
-            else {
-                for (Polica p : korisnikovePolice) {
-                    if (p.getStavkePolica().stream().anyMatch(stavka -> stavka.getKnjiga().equals(knjiga))) {
-                        for (StavkaPolice stavka : p.getStavkePolica()) {
-                            if (stavka.getKnjiga().equals(knjiga)) {
-                                stavka.setKnjiga(null);
-                            }
+        } else if (polica.isPrimarna()) {
+            // Brisanje knjige sa svih ne-READ polica korisnika
+            for (Polica p : korisnik.getPolice()) {
+                if (!p.getId().equals(policaId) && !p.getNaziv().equals("Read")) {
+                    for (StavkaPolice stavka : p.getStavkePolica()) {
+                        if (stavka.getKnjiga().equals(knjiga)) {
+                            // Brisanje stavke police
+                            stavkaPoliceService.deleteStavkaPolice(p.getId(), stavka.getId());
                         }
                     }
                 }
             }
-        }
-        else {
+        } else {
+            // Brisanje knjige sa trenutne polica koja nije primarna
             for (StavkaPolice stavka : polica.getStavkePolica()) {
                 if (stavka.getKnjiga().equals(knjiga)) {
+                    // Brisanje stavke police
                     stavkaPoliceService.deleteStavkaPolice(policaId, stavka.getId());
                 }
             }
         }
     }
+
 
 /*
 public void deleteKnjiga(Long citalac_autor_Id, Long policaId, Long knjigaId) throws ChangeSetPersister.NotFoundException {

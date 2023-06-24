@@ -7,25 +7,25 @@
                         <div class="col-md-4">
                             <img src="../assets/headerLeftRight.png">
                         </div>
-                    </div>
+                    </div>  
                     <div class="imagelogo">
                         <div class="col-md-4">
                             <img src="../assets/logo.png">
                         </div>
-                    </div>
+                    </div> 
                     <div class="imageheader2">
                         <div class="col-md-4">
-                            <img src="../assets/headerLeftRight.png">
+                          <img src="../assets/headerLeftRight.png">
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </div>
         </div>
         <div class="container2">
-            <div class="row2">
-                <div>
-                    <ul class="menu">
-                        <li id="pocetna">
+          <div class="row2">
+              <div>
+                <ul class="menu">
+                    <li id="pocetna">
                             <router-link
                                 :to="{ path: '/homeAutor', query: { autorId : autorId } }">Početna</router-link>
                         </li>
@@ -45,14 +45,15 @@
                         <li>
                             <Logout />
                         </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+                </ul>
+              </div>
+          </div>
+      </div>
     </header>
 
     <main>
-        <div class="container">
+        <div class="containerHC">
+            <div class="rowHC">
             <h1 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
                 Moje primarne police
             </h1>
@@ -127,7 +128,7 @@
                     <h4
                         style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
                         Naziv:</h4>
-                    <input type="text" v-model="novaPolicaNaziv" placeholder="Unesite naziv police" name="nazivPolice">
+                    <input style="height: 30px ; width: 210px" type="text" v-model="novaPolicaNaziv" placeholder="Unesite naziv police" name="nazivPolice">
                 </div>
                 <div class="dugme1">
                     <button @click.prevent="addPolica">Dodaj novu policu</button>
@@ -141,32 +142,85 @@
                 <div class="containerB">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="select-wrapper">
-                            <select class="custom-select" v-model="selectedKnjiga">
-                                <option v-for="knjiga in knjige" :value="knjiga.id" :key="knjiga.id">{{ knjiga.naslov }}</option>
-                            </select>
+                            <div class="containerMini">
+                                <div class="rowMini">
+                                    <h9 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size:20px;">
+                                        Odaberite knjigu koju dodajete</h9>
+                                    <div class="select-wrapper">
+                                    <select style="width: 170px" class="custom-select" v-model="selectedKnjiga">
+                                        <option v-for="knjiga in knjige" :value="knjiga.id" :key="knjiga.id">{{ knjiga.naslov }}</option>
+                                    </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="select-wrapper">
-                                <select class="custom-select" v-model="selectedPolica" :value="selectedPolica">
-                                    <option v-for="polica in policeDodavanje" :value="polica" :key="polica.id">{{ polica.naziv }}</option>
-                                </select>
+                            <div class="containerMini">
+                                <div class="rowMini">
+                                    <h9 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">
+                                        Odaberite policu na koju dodajete</h9>
+                                    <div class="select-wrapper">
+                                        <select style="width: 170px"  class="custom-select" v-model="selectedPolica" :value="selectedPolica">
+                                            <option v-for="polica in policeDodavanje" :value="polica" :key="polica.id">{{ polica.naziv }}</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="col-md-4">
                             <div class="dugmeDodaj">
                                 <div class="dugme">
-                                    <button style="border: 1px solid black;background-color: aquamarine; padding: 8px 14px; text-decoration: none; cursor: pointer; border-radius: 8px; color: black; margin-top: 15px; margin-left: 30px;" @click.prevent="addKnjigaPolica(selectedKnjiga.id, selectedPolica.id)">Dodaj knjigu na policu</button>                                </div>
+                                    <button style="border: 1px solid black;background-color: aquamarine; padding: 8px 14px; text-decoration: none; cursor: pointer; border-radius: 8px; color: black; margin-top: 15px; margin-left: 85px;" @click.prevent="addKnjigaPolica(selectedKnjiga.id, selectedPolica.id)">Dodaj knjigu</button>                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
+            <h2 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
+                Obrisi knjigu sa police:
+            </h2>
+            <div class="blok-brisanje">
+                <div class="containerB">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="containerMini">
+                                <div class="rowMini">
+                                    <h9 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size:20px;">
+                                        Odaberite knjigu koju brisete</h9>
+                                    <div class="select-wrapper">
+                                    <select style="width: 170px" class="custom-select" v-model="selectedKnjigaDelete">
+                                        <option v-for="knjiga in knjige" :value="knjiga.id" :key="knjiga.id">{{ knjiga.naslov }}</option>
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="containerMini">
+                                <div class="rowMini">
+                                    <h9 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">
+                                        Odaberite policu sa koje brisete</h9>
+                                    <div class="select-wrapper">
+                                        <select style="width: 170px" class="custom-select" v-model="selectedPolicaDelete" :value="selectedPolicaDelete">
+                                            <option v-for="polica in policeDodavanje" :value="polica" :key="polica.id">{{ polica.naziv }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="dugmeDodaj">
+                                <div class="dugme">
+                                    <button style="border: 1px solid black;background-color: aquamarine; padding: 8px 14px; text-decoration: none; cursor: pointer; border-radius: 8px; color: black; margin-top: 15px; margin-left: 85px;" @click.prevent="deleteKnjigaPolica(selectedKnjigaDelete.id, selectedPolicaDelete.id)">Obrisi knjigu</button>                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            </div>
+        </div>
     </main>
     
 
@@ -193,7 +247,10 @@ export default {
       knjige: [],
       stavkaPolice: [],
       selectedPolica: null,
-      selectedKnjiga: null
+      selectedKnjiga: null,
+      selectedStavka: null,
+      selectedKnjigaDelete: null,
+      selectedPolicaDelete: null
     };
   },
     mounted() {
@@ -341,7 +398,6 @@ export default {
             axios
                 .post(`http://localhost:9090/api/citalac/${autor}/polica/${policaId}/knjiga/${knjiga}/knjiga-add-polica`, recenzijaDto)
                 .then((response) => {
-                // Handle the successful response from the backend
                 this.getPolice(); // Osvežavanje podataka o policama
                 this.getPolice2(); // Osvežavanje podataka o primarnim policama
                 this.getPoliceDodavanje();
@@ -350,12 +406,33 @@ export default {
                     this.$router.push(`/recenzija/${knjiga}/${autor}/${policaId}`);
                 }
                 console.log(response.data);
-                // Update the necessary data in the Vue component or perform any other actions
                 })
                 .catch((error) => {
-                // Handle the error response from the backend
+
                 console.error(error);
-                // Display an error message to the user or perform any other error handling
+
+                });
+        },
+        //Metoda za brisanje knjige sa police
+        deleteKnjigaPolica(knjigaId,policaId) {
+            const polica = this.selectedPolicaDelete;
+            const knjiga = this.selectedKnjigaDelete;
+            const autor = this.autorId;
+            axios
+                .delete(`http://localhost:9090/api/citalac/${autor}/polica/${policaId}/knjiga/${knjiga}`)
+                .then((response) => {
+
+                this.getPolice(); // Osvežavanje podataka o policama
+                this.getPolice2(); // Osvežavanje podataka o primarnim policama
+                this.getPoliceDodavanje();
+                this.getStavkePolice(policaId);
+                console.log(response.data);
+
+                })
+                .catch((error) => {
+
+                console.error(error);
+
                 });
         }
     }
@@ -661,17 +738,7 @@ select {
 
 .containerB .custom-select {
     width:fit-content;
-}
-
-.containerB button {
-    background-color: rgb(139, 216, 190);
-    padding: 8px 14px;
-    text-decoration: none;
-    cursor: pointer;
-    border-radius: 8px;
-    color: black;
-    margin-top: 15px;
-    margin-left: 30px;
+    margin-right: 120px;
 }
 
 .containerB .table3 {
@@ -689,8 +756,33 @@ select {
       width: 50%;
     }
 
+.containerB 
 .form-group input{
     margin-right: 20px;
+}
+
+.containerHC {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rowHC {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.containerMini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rowMini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 footer {
@@ -698,5 +790,10 @@ footer {
     margin-top: 40px;
     font-weight: bold;
 }
+
+h9{
+    margin-left: 120px;
+}
+
 </style>
   

@@ -1,45 +1,51 @@
 <template>
-    <div>
-      <h1>Edit Autor</h1>
-      <form @submit.prevent="updateAutor">
+  <div class="containerC">
+    <div class="rowC">
+      <div class="update-form">
         <div>
-          <label for="ime">Ime:</label>
-          <input type="text" id="ime" v-model="updateDto.ime" required>
+          <h1>Azuriraj autora:</h1>
+          <form @submit.prevent="updateAutor">
+            <div>
+              <label for="ime">Ime:</label>
+              <input type="text" id="ime" v-model="updateDto.ime" required>
+            </div>
+            <div>
+              <label for="prezime">Prezime:</label>
+              <input type="text" id="prezime" v-model="updateDto.prezime" required>
+            </div>
+            <div>
+              <label for="naslovnaFotografija">Naslovna Fotografija:</label>
+              <input type="text" id="naslovnaFotografija" v-model="updateDto.naslovnaFotografija">
+            </div>
+            <div>
+              <label for="opis">Opis:</label>
+              <input type="text" id="opis" v-model="updateDto.opis">
+            </div>
+            <div>
+              <label for="datumRodjenja">Datum Rodjenja:</label>
+              <input type="date" id="datumRodjenja" v-model="updateDto.datumRodjenja" required>
+            </div>
+            <div>
+              <label for="mail">Mail:</label>
+              <input type="email" id="mail" v-model="updateDto.mail" required>
+            </div>
+            <div>
+              <label for="lozinka">Lozinka:</label>
+              <input type="password" id="lozinka" v-model="updateDto.lozinka" required>
+            </div>
+            <div>
+              <label for="newlozinka">Nova Lozinka:</label>
+              <input type="password" id="newlozinka" v-model="updateDto.newlozinka">
+            </div>
+            <div>
+              <button style="margin-top: 25px; margin-right: 180px; margin-bottom: 0px;" type="submit">Azuriraj autora</button>
+            </div>
+          </form>
+          <p>{{ message }}</p>
         </div>
-        <div>
-          <label for="prezime">Prezime:</label>
-          <input type="text" id="prezime" v-model="updateDto.prezime" required>
-        </div>
-        <div>
-          <label for="naslovnaFotografija">Naslovna Fotografija:</label>
-          <input type="text" id="naslovnaFotografija" v-model="updateDto.naslovnaFotografija">
-        </div>
-        <div>
-          <label for="opis">Opis:</label>
-          <input type="text" id="opis" v-model="updateDto.opis">
-        </div>
-        <div>
-          <label for="datumRodjenja">Datum Rodjenja:</label>
-          <input type="date" id="datumRodjenja" v-model="updateDto.datumRodjenja" required>
-        </div>
-        <div>
-          <label for="mail">Mail:</label>
-          <input type="email" id="mail" v-model="updateDto.mail" required>
-        </div>
-        <div>
-          <label for="lozinka">Lozinka:</label>
-          <input type="password" id="lozinka" v-model="updateDto.lozinka" required>
-        </div>
-        <div>
-          <label for="newlozinka">Nova Lozinka:</label>
-          <input type="password" id="newlozinka" v-model="updateDto.newlozinka">
-        </div>
-        <div>
-          <button type="submit">Update Autor</button>
-        </div>
-      </form>
-      <p>{{ message }}</p>
+      </div>
     </div>
+  </div>
   </template>
   
   <script>
@@ -118,4 +124,55 @@
     }
   };
   </script>
+
+<style>
+
+.containerC {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.rowC {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rowC {
+  background-color: rgb(150, 220, 200);
+  border: 20px solid green;
+  width: 650px;
+  height: fit-content;
+  margin-left: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+label {
+  margin-right: 10px;
+}
+
+.containerC button {
+    background-color: aquamarine;
+    border: 5px solid green;
+    color: black;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-left: 185px;
+    border-radius: 8px;
+}
+
+</style>
   

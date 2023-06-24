@@ -36,27 +36,19 @@ public class KnjigaRestController {
         return ResponseEntity.ok(knjigaDto);
     }
 
-    @DeleteMapping("/api/citalac/polica/{policaId}/knjiga/{knjigaId}")
-    public ResponseEntity<?> deleteKnjigaCitalac(@PathVariable Long policaId,@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
-        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(loggedKorisnik.getUloga() == Korisnik.Uloga.CITALAC){
-            knjigaService.deleteKnjiga(loggedKorisnik.getId(), policaId,knjigaId);
+    @DeleteMapping("/api/citalac/{citalacId}/polica/{policaId}/knjiga/{knjigaId}")
+    public ResponseEntity<?> deleteKnjigaCitalac(@PathVariable Long citalacId, @PathVariable Long policaId,@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
+            knjigaService.deleteKnjiga(citalacId, policaId,knjigaId);
             return new ResponseEntity<>("Book deleted successfully", HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>("You are not administrator", HttpStatus.OK);
-        }
     }
 
     @DeleteMapping("/api/autor/polica/{policaId}/knjiga/{knjigaId}")
     public ResponseEntity<?> deleteKnjigaAutor(@PathVariable Long policaId,@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");
-        if(loggedKorisnik.getUloga() == Korisnik.Uloga.AUTOR){
             knjigaService.deleteKnjiga(loggedKorisnik.getId(), policaId,knjigaId);
             return new ResponseEntity<>("Book deleted successfully", HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>("You are not administrator", HttpStatus.OK);
-        }
     }
+
     @DeleteMapping("/api/admin/{knjigaId}")
     public ResponseEntity<?> deleteKnjigaAdmin(@PathVariable Long knjigaId, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("employee");

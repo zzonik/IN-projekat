@@ -94,7 +94,7 @@
                     <td>
                         <button @click="seeMoreKorisnik(korisnik.id)">Vidi još</button>
                     </td>
-                    <td v-if="korisnik.uloga === 'AUTOR'">
+                    <td style="display: flex; justify-content: center; align-items: center;" v-if="korisnik.uloga === 'AUTOR'">
                         <ZahtevView :id="korisnik.id"></ZahtevView>
                     </td>
                 </tr>

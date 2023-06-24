@@ -101,10 +101,19 @@ public class RecenzijaService {
         return save(recenzija);
     }
 
-    public void deleteRecenzija(Long id) throws ChangeSetPersister.NotFoundException {
-        Recenzija recenzija = recenzijaRepository.findById(id)
+    public void deleteRecenzija(Long recenzijaId) throws ChangeSetPersister.NotFoundException {
+        Recenzija recenzija = recenzijaRepository.findById(recenzijaId)
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
-        recenzijaRepository.delete(recenzija);
+
+        // Prvo se uklanja referenca na recenziju iz knjige
+        Knjiga knjiga = recenzija.getKnjiga();
+        if (knjiga != null) {
+            knjiga.setRecenzije(null);
+            knjigaRepository.save(knjiga);
+        }
+
+        // Zatim se briše recenzija
+        recenzijaRepository.deleteById(recenzijaId);
     }
 
     public void deleteRecenzijeByKnjigaId(Long knjigaId) {

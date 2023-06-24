@@ -51,12 +51,13 @@
       </div>
     </header>
     
+    
     <section class="search-section">
         <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
-            Pretraga
+            Pretraga po nazivu
         </h3>
             <form @submit.prevent="searchKnjige">
-                <input type="text" placeholder="Pretraga knjiga" v-model="searchQuery">
+                <input type="text" placeholder="Pretraga knjiga po naslovu" v-model="searchQuery">
                 <button @click="searchKnjige">Pretraži</button>
             </form>
     </section>
@@ -95,7 +96,8 @@
             <td>{{ knjiga.datumObjavljivanja }}</td>
             <td>{{ knjiga.opis }}</td>
             <td>{{ knjiga.ocena }}</td>
-            <td>{{ knjiga.zanr?.naziv }}</td><td>
+            <td>{{ knjiga.zanr?.naziv }}</td>
+            <td>
                 <button @click="seeMore(knjiga.id)">Vidi još</button>
             </td>
           </tr>
@@ -114,7 +116,7 @@ import axios from 'axios';
 import Logout from "@/components/Logout.vue";
 
 export default {
-  name: 'PretragaNeprijavljeniView',
+  name: 'PretragaAutorView',
   components: { Logout },
   data() {
     return {
@@ -126,10 +128,7 @@ export default {
     };
   },
   mounted() {
-    this.autorId = this.$route.query.korisnikId;
-            if(this.autorId == null){
-                this.autorId = this.$route.query.autorId;
-            }
+    this.autorId = this.$route.query.autorId;
      },
   methods: {
     searchKnjige() {
@@ -242,7 +241,26 @@ a{
     text-align: center;
 }
 
+.search-section2 input {
+    border: 1px solid black;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    margin-left: 25px;
+    text-align: center;
+}
+
 .search-section button {
+    background-color: aquamarine;
+    padding: 8px 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 8px;
+    color: black;
+    margin-top: 15px;
+    margin-left: 30px;
+}
+
+.search-section2 button {
     background-color: aquamarine;
     padding: 8px 14px;
     text-decoration: none;
@@ -263,6 +281,12 @@ footer {
     margin-top: 25px;
     text-align: center;
 }
+
+.search-section2 ::placeholder{
+    margin-top: 25px;
+    text-align: center;
+}
+
 .knjige-table{
     margin-top: 15px;
 }

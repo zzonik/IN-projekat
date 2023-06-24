@@ -25,7 +25,9 @@
               <input type="password" placeholder="Ponovite lozinku" v-model="test">
             </div>
             <div class="row14">
-            <button @click="register">REGISTER</button>
+            <div class="register-Dugme">
+              <button @click="register">REGISTER</button>
+            </div>
           </div>
         </form>
       </section>
@@ -217,10 +219,10 @@ h2 {
     text-align: center;
 }
 
-.row14 button{
+.container4 .register-Dugme button{
     background-color:aquamarine;
-    border: none;
-    color: white;
+    border: 1px solid black;
+    color: black;
     padding: 16px 32px;
     text-decoration: none;
     margin: 4px 2px;
@@ -228,6 +230,10 @@ h2 {
     margin-bottom: 20px;
     margin-left: 28px;
     border-radius: 8px;
+}
+
+.container4 input{
+   width: 210px;
 }
 
 footer {

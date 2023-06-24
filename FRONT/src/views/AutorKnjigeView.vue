@@ -50,7 +50,7 @@
           </div>
       </div>
   </header>
-  <div class="knjige-table">
+  <div style="margin-top: 50px;" class="knjige-table">
         <table class="center">
             <thead>
                 <tr>
@@ -105,7 +105,7 @@
                         </div>
                         <div class="row6">
                             <div class="select-wrapper">
-                                <select class="custom-select" v-model="knjigaZanr">
+                                <select style="margin-left: 18px;" class="custom-select" v-model="knjigaZanr">
                                     <option value="" disabled>Odaberite žanr</option>
                                     <option v-for="zanr in zanrovi" :value="zanr.id" :key="zanr.id">{{ zanr.naziv }}</option>
                                 </select>
@@ -118,7 +118,6 @@
         <div class="dodaj_knjigu">
             <button @click="dodajKnjigu">Dodaj knjigu</button>
         </div>
-
   </template>
   
   <script>
@@ -205,4 +204,33 @@
     }
   };
   </script>
+
+<style>
+
+.select-wrapper{
+    display: inline-block;
+    width: 20%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    vertical-align: middle;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-bottom: 25px;
+}
+
+.dodaj_knjigu button {
+    background-color: aquamarine;
+    padding: 8px 14px;
+    margin-left: 15px;
+    margin-bottom: 50px;
+    cursor: pointer;
+    border-radius: 8px;
+    color: black;
+}
+
+</style>
   

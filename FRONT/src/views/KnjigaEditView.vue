@@ -4,7 +4,7 @@
       <div class="update-form">
         <div class="knjiga-card" v-if="knjiga">
           <!-- Display the book details -->
-          <h1 id="naslov">{{ knjiga.naslov }}</h1>
+          <h1 style="margin-bottom: 15px;" id="naslov">{{ knjiga.naslov }}</h1>
           <div class="form-row">
             <label for="naslov">Naslov:</label>
             <input type="text" id="naslov" v-model="updatedNaslov">
@@ -175,13 +175,14 @@ export default {
 
 .containerB {
   display: flex;
-  justify-content: center;
+  justify-content: column;
   align-items: center;
+  margin-top: 20px;
 }
 
 .rowB {
   display: flex;
-  justify-content: center;
+  justify-content: column;
   align-items: center;
 }
 
@@ -220,8 +221,9 @@ select {
     text-decoration: none;
     margin: 4px 2px;
     cursor: pointer;
+    margin-top: 15px;
     margin-bottom: 20px;
-    margin-left: 8px;
+    margin-left: 185px;
     border-radius: 8px;
 }
 

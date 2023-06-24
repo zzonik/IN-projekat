@@ -100,9 +100,11 @@ public class StavkaPoliceService {
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
         Polica polica = policaService.findOneById(policaId);
 
-        // Uklanjanje veze sa Recenzija
+        // Uklanjanje veze sa Recenzija ako postoji
         Recenzija recenzija = stavkaPolice.getRecenzija();
-        recenzija.getStavkePolice().remove(stavkaPolice);
+        if (recenzija != null) {
+            recenzija.getStavkePolice().remove(stavkaPolice);
+        }
 
         // Uklanjanje veze sa Polica
         polica.getStavkePolica().remove(stavkaPolice);

@@ -130,14 +130,18 @@ h2 {
 
 .loginDugme button{
     background-color:aquamarine;
-    border: none;
-    color: white;
+    border: 1px solid black;
+    color: black;
     padding: 16px 32px;
     text-decoration: none;
     cursor: pointer;
     margin-bottom: 20px;
     margin-left: 25px;
     border-radius: 8px;
+}
+
+.container3 input{
+   width: 210px;
 }
 
 footer {

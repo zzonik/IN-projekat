@@ -47,60 +47,65 @@
       </div>
     </header>
 
-    <h2 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
-    Ažuriraj čitaoca:
-    </h2>
-    <form @submit="azurirajCitaoca">
-        <div class="form-group">
-        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
-            Ime:</h4>
-        <input type="text" v-model="ime" placeholder="Unesite ime" name="ime">
+    <div class="azuriranje">
+        <div class="containerAC">
+            <div class="redAC">
+                <h2 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
+                Ažuriraj citaoca:
+                </h2>
+                <form @submit="azurirajCitaoca">
+                    <div class="form-group">
+                    <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+                        Ime:</h4>
+                    <input type="text" v-model="ime" placeholder="Unesite ime" name="ime">
+                    </div>
+                    <div class="form-group">
+                    <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+                        Prezime:</h4>
+                    <input type="text" v-model="prezime" placeholder="Unesite prezime" name="prezime">
+                    </div>
+                    <div class="form-group">
+                    <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+                        Mail:</h4>
+                    <input type="text" v-model="mail" placeholder="Unesite mail" name="mail">
+                    </div>
+                    <div class="form-group">
+                    <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+                        Datum rođenja:</h4>
+                    <input type="date" v-model="datumRodjenja" name="datumRodjenja">
+                    </div>
+                    <div class="form-group">
+                    <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+                        Profilna slika:</h4>
+                    <input type="file" @change="handleFileUpload" name="profilnaSlika">
+                    </div>
+                    <div class="form-group">
+                    <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+                        O meni:</h4>
+                    <textarea v-model="oMeni" placeholder="Unesite nešto o sebi" name="oMeni"></textarea>
+                    </div>
+                    <div class="form-group">
+                    <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+                        Trenutna lozinka:</h4>
+                    <input type="password" v-model="trenutnaLozinka" placeholder="Unesite trenutnu lozinku" name="trenutnaLozinka">
+                    </div>
+                    <div class="form-group">
+                    <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+                        Nova lozinka:</h4>
+                    <input type="password" v-model="novaLozinka" placeholder="Unesite novu lozinku" name="novaLozinka">
+                    </div>
+                    <div class="form-group">
+                    <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+                        Ponovite novu lozinku:</h4>
+                    <input type="password" v-model="ponoviNovuLozinku" placeholder="Ponovite novu lozinku" name="ponoviNovuLozinku">
+                    </div>
+                    <div class="dugme1">
+                    <button>Ažuriraj autora</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="form-group">
-        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
-            Prezime:</h4>
-        <input type="text" v-model="prezime" placeholder="Unesite prezime" name="prezime">
-        </div>
-        <div class="form-group">
-        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
-            Mail:</h4>
-        <input type="text" v-model="mail" placeholder="Unesite mail" name="mail">
-        </div>
-        <div class="form-group">
-        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
-            Datum rođenja:</h4>
-        <input type="date" v-model="datumRodjenja" name="datumRodjenja">
-        </div>
-        <div class="form-group">
-        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
-            Profilna slika:</h4>
-        <input type="file" @change="handleFileUpload" name="profilnaSlika">
-        </div>
-        <div class="form-group">
-        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
-            O meni:</h4>
-        <textarea v-model="oMeni" placeholder="Unesite nešto o sebi" name="oMeni"></textarea>
-        </div>
-        <div class="form-group">
-        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
-            Trenutna lozinka:</h4>
-        <input type="password" v-model="trenutnaLozinka" placeholder="Unesite trenutnu lozinku" name="trenutnaLozinka">
-        </div>
-        <div class="form-group">
-        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
-            Nova lozinka:</h4>
-        <input type="password" v-model="novaLozinka" placeholder="Unesite novu lozinku" name="novaLozinka">
-        </div>
-        <div class="form-group">
-        <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
-            Ponovite novu lozinku:</h4>
-        <input type="password" v-model="ponoviNovuLozinku" placeholder="Ponovite novu lozinku" name="ponoviNovuLozinku">
-        </div>
-        <div class="dugme1">
-        <button>Ažuriraj čitaoca</button>
-        </div>
-    </form>
-
+    </div>
     <footer>
         <p>&copy; 2023 BookBuddy. Sva prava zadržana.</p>
     </footer>
@@ -192,7 +197,8 @@ a{
     padding-top: 8px;
 }
 
-.container1 .row1 {
+.container {
+    margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -234,4 +240,42 @@ footer {
 .knjige-table{
     margin-top: 15px;
 }
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+    width: 210px; /* Updated width for form elements */
+    text-align: center;
+   margin: 0 auto;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.dugme1 {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+input, textarea {
+    width: 210px;
+}
+
+.containerAC {
+    max-width: 750px;
+    background-color: rgb(150, 220, 200);
+    border: 20px solid green;
+    height: fit-content;
+    margin-left: 410px;
+    margin-top: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
 </style>

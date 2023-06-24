@@ -94,6 +94,7 @@ export default {
   border: 20px solid green;
   width: 650px;
   height: fit-content;
+  margin-top: 30px;
   margin-left: 8px;
   padding: 20px;
   text-align: center;

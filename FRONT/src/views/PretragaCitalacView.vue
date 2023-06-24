@@ -111,7 +111,7 @@ import axios from 'axios';
 import Logout from "@/components/Logout.vue";
 
 export default {
-  name: 'PretragaNeprijavljeniView',
+  name: 'PretragaCitalacView',
   components: { Logout },
   data() {
     return {
