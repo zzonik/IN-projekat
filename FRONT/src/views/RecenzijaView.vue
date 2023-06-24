@@ -1,26 +1,33 @@
 <template>
-    <div>
-      <h1>Add Review</h1>
-      <form @submit="submitRecenzija">
-        <label for="ocena">Ocena:</label>
-        <input type="number" id="ocena" v-model="recenzija.ocena" required>
-  
-        <label for="datum">Datum:</label>
-        <input type="date" id="datum" v-model="recenzija.datum" required>
-  
-        <label for="tekst">Tekst:</label>
-        <textarea id="tekst" v-model="recenzija.tekst" required></textarea>
-  
-        <label for="polica">Polica:</label>
-        <select class="custom-select" v-model="recenzija.selectedPolica" required>
-          <option v-for="polica in recenzija.policeDodavanje" :value="polica" :key="polica.id">{{ polica.naziv }}</option>
-        </select>
-  
-        <button type="submit">Submit</button>
-      </form>
+  <div class="containerR">
+    <div class="rowR">
+      <div class="update-form">
+        <div class="recenzija-card">
+          <h1>Dodaj Recenziju</h1>
+            <form @submit="submitRecenzija">
+              <label for="ocena">Ocena:</label>
+              <input type="number" id="ocena" v-model="recenzija.ocena" required>
+        
+              <label for="datum">Datum:</label>
+              <input type="date" id="datum" v-model="recenzija.datum" required>
+        
+              <label for="tekst">Tekst:</label>
+              <textarea id="tekst" v-model="recenzija.tekst" required></textarea>
+        
+              <label for="polica">Polica:</label>
+              <select class="custom-select" v-model="recenzija.selectedPolica" required>
+                <option v-for="polica in recenzija.policeDodavanje" :value="polica" :key="polica.id">{{ polica.naziv }}</option>
+              </select>
+              <div class="dugmeRecenzija">
+                <button type="submit">Dodaj</button>
+              </div>
+            </form>
+          </div>
+      </div>
     </div>
-  </template>
-  
+  </div> 
+</template>
+
   <script>
   import axios from 'axios';
   
@@ -95,3 +102,44 @@
     }
   }
   </script>
+
+  <style>
+
+.containerR {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rowR {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.recenzija-card {
+  background-color: rgb(150, 220, 200);
+  border: 20px solid green;
+  width: 650px;
+  height: fit-content;
+  margin-top: 30px;
+  margin-left: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+.dugmeRecenzija button {
+  background-color: aquamarine;
+    border: 5px solid green;
+    color: black;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    border-radius: 8px;
+}
+
+</style>

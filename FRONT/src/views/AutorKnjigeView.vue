@@ -62,6 +62,7 @@
                     <th>Ocena</th>
                     <th>Zanr</th>
                     <th>Ažuriraj knjigu</th>
+                    <th>Vidi</th>
                 </tr>
             </thead>
             <tbody>
@@ -75,6 +76,9 @@
                     <td>{{ knjiga.zanr?.naziv }}</td>
                     <td>
                         <button @click="azurirajKnjigu(knjiga.id)">Ažuriraj knjigu</button>
+                    </td>
+                    <td>
+                        <button @click="seeMore(knjiga.id)">Vidi još</button>
                     </td>
                 </tr>
             </tbody>
@@ -199,7 +203,11 @@
                     console.log(error);
                     alert("Failed to fetch zanrovi");
                 });
-        }
+        },
+        seeMore(knjigaId) {
+        // Redirect to the book page for updating
+        this.$router.push(`/knjigaPregled/${knjigaId}`);
+        },
 
     }
   };

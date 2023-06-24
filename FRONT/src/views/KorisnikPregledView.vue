@@ -4,22 +4,29 @@
         <div class="update-form">
           <div class="korisnik-card" v-if="korisnik">
               <h1>{{ korisnik.ime }} {{ korisnik.prezime }}</h1>
-              <img :src="require(`@/assets/${imagePath}`)">
+              <!-- <img :src="require(`@/assets/${imagePath}`)"> -->
               <p><strong>Korisnicko ime:</strong> {{ korisnik.korisnickoIme }}</p>
               <p><strong>Email:</strong> {{ korisnik.mail }}</p>
               <p><strong>Datum rodjenja:</strong> {{ korisnik.datumRodjenja }}</p>
               <p><strong>Opis:</strong> {{ korisnik.opis }}</p>
               <p><strong>Uloga:</strong> {{ korisnik.uloga }}</p>
-
-              <h2>Police</h2>
-              <ul>
-                <li v-for="polica in police" :key="polica.id">
-                  <select>
-                    <option value="">{{polica.naziv}}</option>
-                    <option v-for="stavkaPolice in polica.stavkePolica" :key="stavkaPolice.id" :value="stavkaPolice.knjiga.naslov">{{ stavkaPolice.knjiga.naslov }}</option>
-                  </select>
-                </li>
-              </ul>
+              
+              <table class="Police">
+                <thead>
+                    <tr>
+                        <th>Police</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="polica in korisnik.police" :key="polica.id">
+                        <td>{{ polica.naziv }}</td>
+                        <tr v-for="stavka in polica.stavkePolica" :key="stavka.id">
+                          <td>{{ stavka.knjiga.naslov }}</td>
+                      </tr>
+                    </tr>
+                </tbody>
+            </table>
+              
             </div>
         </div>
       </div>
