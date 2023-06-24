@@ -56,55 +56,119 @@
             <h1 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
                 Moje primarne police
             </h1>
-            <table class="table">
+            <table class="table2">
                 <thead>
                     <tr>
-                        <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color:rgb(137, 149, 146);">Naziv primarne police</th>
+                        <th
+                            style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">
+                            Naziv primarne police</th>
+                            
+                        <th
+                            style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">
+                            Stavke police</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="polica in police2" :key="polica.id">
-                        <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">{{ polica.naziv }}</td>
+                        <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">
+                        {{ polica.naziv }}
+                        </td>
+                        <td>
+                            <select @change="redirectToKnjigaPregled" v-model="selectedStavka">
+                                <option disabled selected>Izaberi knjigu sa police</option>
+                                <option v-for="stavka in polica.stavkePolica" :key="stavka.id" :value="stavka">
+                                {{ stavka.knjiga.naslov }}
+                                </option>
+                            </select>
+                        </td>
                     </tr>
                 </tbody>
             </table>
 
+
             <h3 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
                 Moje police
             </h3>
-            <table class="table2">
+            <table class="table">
                 <thead>
-                <tr>
-                    <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">Naziv police</th>
-                    <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">Akcije</th>
-                </tr>
+                    <tr>
+                        <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">
+                            Naziv police</th>
+                        <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">
+                            Stavke police</th>
+                        <th style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 30px; background-color: rgb(137, 149, 146);">
+                            Akcije</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr v-for="polica in police" :key="polica.id">
-                    <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">{{ polica.naziv }}</td>
-                    <td>
-                    <button @click="obrisiPolica(polica.id)">Obriši policu</button>
+                    <tr v-for="polica in police" :key="polica.id">
+                    <td style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-size: 20px;">
+                        {{ polica.naziv }}
                     </td>
-                </tr>
+                    <td>
+                        <select @change="redirectToKnjigaPregled" v-model="selectedStavka">
+                            <option disabled selected>Izaberi knjigu sa police</option>
+                            <option v-for="stavka in polica.stavkePolica" :key="stavka.id" :value="stavka">
+                            {{ stavka.knjiga.naslov }}
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <button @click.once="obrisiPolica(polica.id)">Obriši policu</button>
+                    </td>
+                    </tr>
                 </tbody>
             </table>
-
-
             <h2 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
                 Dodaj novu policu:
             </h2>
             <form @submit.prevent="addPolica">
                 <div class="form-group">
-                    <h4 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
+                    <h4
+                        style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 20px;">
                         Naziv:</h4>
                     <input type="text" v-model="novaPolicaNaziv" placeholder="Unesite naziv police" name="nazivPolice">
                 </div>
                 <div class="dugme1">
-                    <button @click="dodajPolicu">Dodaj novu policu</button>
+                    <button @click.prevent="addPolica">Dodaj novu policu</button>
                 </div>
             </form>
-        </div>
+
+            <h2 style="text-align: center; padding-top: 20px; padding-bottom: 10px; font-weight: bold; font-size: 40px;">
+                Dodaj knjigu na police:
+            </h2>
+            <div class="blok-dodavanje">
+                <div class="containerB">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="select-wrapper">
+                            <select class="custom-select" v-model="selectedKnjiga">
+                                <option v-for="knjiga in knjige" :value="knjiga.id" :key="knjiga.id">{{ knjiga.naslov }}</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="select-wrapper">
+                                <select class="custom-select" v-model="selectedPolica" :value="selectedPolica">
+                                    <option v-for="polica in policeDodavanje" :value="polica" :key="polica.id">{{ polica.naziv }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="dugmeDodaj">
+                                <div class="dugme">
+                                    <button style="border: 1px solid black;background-color: aquamarine; padding: 8px 14px; text-decoration: none; cursor: pointer; border-radius: 8px; color: black; margin-top: 15px; margin-left: 30px;" @click.prevent="addKnjigaPolica(selectedKnjiga.id, selectedPolica.id)">Dodaj knjigu na policu</button>                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            </div>
     </main>
+    
 
     <footer>
         <p>&copy; 2023 BookBuddy. Sva prava zadržana.</p>
@@ -116,27 +180,35 @@ import Logout from '@/components/Logout.vue';
 import axios from 'axios';
 
 export default {
-    name: 'HomeAutorView',
+    name: 'HomeCitalacView',
     components: {
         Logout
     },
     data() {
-        return {
-            autorId: null,
-            police: [],
-            police2: [],
-        };
-    },
+    return {
+      autorId: null,
+      police: [],
+      police2: [],
+      policeDodavanje: [],
+      knjige: [],
+      stavkaPolice: [],
+      selectedPolica: null,
+      selectedKnjiga: null
+    };
+  },
     mounted() {
         this.autorId = this.$route.query.autorId;
         this.getPolice();
         this.getPolice2();
+        this.getPoliceDodavanje();
+        this.getKnjige();
+        this.police.forEach((polica) => { this.getStavkePolice(polica.policaId); });
     },
     methods: {
         getPolice() {
             const id = this.autorId;
             axios
-            .get(`http://localhost:9090/api/autor/${id}/police`, {
+            .get(`http://localhost:9090/api/citalac/${id}/police`, {
                 withCredentials: true,
                 headers: {
                     'Cache-Control': 'no-cache',
@@ -155,7 +227,7 @@ export default {
         getPolice2() {
             const id = this.autorId;
             axios
-            .get(`http://localhost:9090/api/autor/${id}/police/primarne`, {
+            .get(`http://localhost:9090/api/citalac/${id}/police/primarne`, {
                 withCredentials: true,
                 headers: {
                     'Cache-Control': 'no-cache',
@@ -171,6 +243,36 @@ export default {
                     alert("Failed to fetch primarne police");
                 });
         },
+        getPoliceDodavanje(){
+            const id = this.autorId;
+            axios
+            .get(`http://localhost:9090/api/citalac/${id}/police/all`, {
+                withCredentials: true,
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                },
+                })
+                .then((response) => {
+                    this.policeDodavanje = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert("Failed to fetch police for adding");
+                });
+        },
+        getKnjige() {
+            axios
+                .get("http://localhost:9090/api/knjige", { withCredentials: true })
+                .then((response) => {
+                    this.knjige = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert("Failed to fetch knjige");
+                });
+        },
         addPolica() {
             if (this.novaPolicaNaziv.trim() !== "") {
                 const novaPolica = { naziv: this.novaPolicaNaziv };
@@ -182,12 +284,13 @@ export default {
                         console.log(response);
                         this.getPolice(); // Osvježavanje podataka o policama
                         this.getPolice2(); // Osvježavanje podataka o primarnim policama
+                        this.getPoliceDodavanje();
                         console.log("Polica uspešno dodata");
                         this.novaPolicaNaziv = ''; // Resetiranje forme nakon dodavanja
                     })
                     .catch((error) => {
                         console.log(error);
-                        // Greška prilikom dodavanja police
+                        alert("Polica sa datim imenom vec postoji");
                     });
             }
         },
@@ -195,13 +298,64 @@ export default {
             axios
                 .delete(`http://localhost:9090/api/citalac/polica-remove/${policaId}`, { withCredentials: true })
                 .then((response) => {
-                    this.getPolice(); // Osvježavanje podataka o policama
-                    this.getPolice2(); // Osvježavanje podataka o primarnim policama
+                    this.getPolice(); // Osvežavanje podataka o policama
+                    this.getPolice2(); // Osvežavanje podataka o primarnim policama
                     console.log("Shelf deleted seccessfully");
                 })
                 .catch((error) => {
                     console.log(error);
                     alert("Failed to delete the shelf");
+                });
+        },
+        redirectToKnjigaPregled() {
+            if (this.selectedStavka) {
+            const knjigaId = this.selectedStavka.knjiga.id;
+            this.$router.push(`/knjigaPregled/${knjigaId}`);
+            }
+        },
+        getStavkePolice(policaId) {
+        axios
+            .get(`http://localhost:9090/api/citalac/polica/${policaId}`, {
+                withCredentials: true,
+                headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Expires': '0',
+                },
+                })
+                .then((response) => {
+                    this.stavkePolice = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert("Failed to fetch police stavke");
+                });
+        },
+
+        addKnjigaPolica(knjigaId, policaId) {
+            const recenzijaDto = {}; // Set your recenzijaDto object data if needed
+            const polica = this.selectedPolica;
+            const knjiga = this.selectedKnjiga;
+            const autor = this.autorId;
+            
+            axios
+                .post(`http://localhost:9090/api/citalac/${autor}/polica/${policaId}/knjiga/${knjiga}/knjiga-add-polica`, recenzijaDto)
+                .then((response) => {
+                // Handle the successful response from the backend
+                this.getPolice(); // Osvežavanje podataka o policama
+                this.getPolice2(); // Osvežavanje podataka o primarnim policama
+                this.getPoliceDodavanje();
+                this.getStavkePolice(policaId);
+                if(polica.naziv == "Read"){
+                    this.$router.push(`/recenzija/${knjiga}/${autor}/${policaId}`);
+                }
+                console.log(response.data);
+                // Update the necessary data in the Vue component or perform any other actions
+                })
+                .catch((error) => {
+                // Handle the error response from the backend
+                console.error(error);
+                // Display an error message to the user or perform any other error handling
                 });
         }
     }
@@ -380,10 +534,14 @@ a {
 table,
 th,
 td {
-    border-top: 2px solid black;;
-    border-left: 2px solid black;;
-    border-right: 2px solid black;;
-    border-bottom: 2px solid black;;
+    border-top: 2px solid black;
+    ;
+    border-left: 2px solid black;
+    ;
+    border-right: 2px solid black;
+    ;
+    border-bottom: 2px solid black;
+    ;
 }
 
 
@@ -405,7 +563,7 @@ label {
 .table2 th,
 .table2 td {
     padding: 8px;
-    text-align: ce;
+    text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
@@ -443,7 +601,7 @@ h3 {
     border-radius: 8px;
     color: black;
     margin-top: 15px;
-    margin-left: 30px;
+    margin-left: 5px;
 }
 
 .dugme2 button {
@@ -457,7 +615,7 @@ h3 {
     margin-left: 30px;
 }
 
-.table2 button{
+.table button {
     background-color: aquamarine;
     padding: 8px 14px;
     text-decoration: none;
@@ -466,6 +624,73 @@ h3 {
     color: black;
     margin-top: 15px;
     margin-left: 30px;
+
+}
+
+.table2 button {
+    background-color: aquamarine;
+    padding: 8px 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 8px;
+    color: black;
+    margin-top: 15px;
+    margin-left: 30px;
+}
+
+select {
+    height: 30px;
+    width: 230px;
+}
+
+
+.containerB .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerB .col-md-4 {
+    flex: 1;
+}
+
+.containerB .col-md-4:nth-child(2) {
+    display: block;
+    margin: 0 auto;
+}
+
+.containerB .custom-select {
+    width:fit-content;
+}
+
+.containerB button {
+    background-color: rgb(139, 216, 190);
+    padding: 8px 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 8px;
+    color: black;
+    margin-top: 15px;
+    margin-left: 30px;
+}
+
+.containerB .table3 {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+.containerB th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+    
+.containerB input[type="checkbox"] {
+      width: 50%;
+    }
+
+.form-group input{
+    margin-right: 20px;
 }
 
 footer {

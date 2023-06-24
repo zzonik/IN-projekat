@@ -153,8 +153,7 @@
                         <div class="col-md-4">
                             <div class="dugmeDodaj">
                                 <div class="dugme">
-                                    <button style="border: 1px solid black;background-color: aquamarine; padding: 8px 14px; text-decoration: none; cursor: pointer; border-radius: 8px; color: black; margin-top: 15px; margin-left: 30px;" @click.prevent="addKnjigaPolica(selectedKnjiga.id, selectedPolica.id)">Dodaj knjigu na policu</button>
-                                </div>
+                                    <button style="border: 1px solid black;background-color: aquamarine; padding: 8px 14px; text-decoration: none; cursor: pointer; border-radius: 8px; color: black; margin-top: 15px; margin-left: 30px;" @click.prevent="addKnjigaPolica(selectedKnjiga.id, selectedPolica.id)">Dodaj knjigu na policu</button>                                </div>
                             </div>
                         </div>
                     </div>
@@ -189,7 +188,8 @@ export default {
       knjige: [],
       stavkaPolice: [],
       selectedPolica: null,
-      selectedKnjiga: null
+      selectedKnjiga: null,
+      selectedStavka: null,
     };
   },
     mounted() {

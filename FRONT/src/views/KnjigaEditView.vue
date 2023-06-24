@@ -149,7 +149,7 @@ export default {
         naslov: this.updatedNaslov,
         isbn: this.updatedIsbn,
         brojStrana: this.updatedBrojStrana,
-        naslovnaFotografija: "knjigaId",
+        naslovnaFotografija: "slika.jpg",
         datumObjavljivanja: this.updatedDatumObjavljivanja,
         opis: this.updatedOpis,
         autorId: this.updatedAutor,

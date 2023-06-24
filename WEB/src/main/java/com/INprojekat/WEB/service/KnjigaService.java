@@ -133,7 +133,6 @@ public class KnjigaService {
     public Knjiga updateKnjigaAdmin(Long knjigaId, UpdateKnjigaDto updateKnjigaDto){
         Optional<Knjiga> knjiga = knjigaRepository.findById(knjigaId);
         knjiga.get().setNaslov(updateKnjigaDto.getNaslov());
-        knjiga.get().setNaslovnaFotografija(updateKnjigaDto.getNaslovnaFotografija());
 
         String updatedISBN = updateKnjigaDto.getIsbn();
         if (updatedISBN != null && !updatedISBN.isEmpty()) {

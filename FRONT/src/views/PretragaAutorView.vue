@@ -95,7 +95,9 @@
             <td>{{ knjiga.datumObjavljivanja }}</td>
             <td>{{ knjiga.opis }}</td>
             <td>{{ knjiga.ocena }}</td>
-            <td>{{ knjiga.zanr?.naziv }}</td>
+            <td>{{ knjiga.zanr?.naziv }}</td><td>
+                <button @click="seeMore(knjiga.id)">Vidi još</button>
+            </td>
           </tr>
         </tbody>
       </table>
