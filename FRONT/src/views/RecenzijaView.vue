@@ -16,7 +16,7 @@
                 <label for="tekst">Tekst:</label>
                 <textarea id="tekst" v-model="recenzija.tekst" required></textarea>
               </div>
-              <div class="dugme">
+              <div class="dugmeRecenzija">
                 <button type="submit">Postavite recenziju</button>
               </div>
             </form>
@@ -96,7 +96,7 @@ export default {
   height: 400px;
 }
 
-.dugme button{
+.dugmeRecenzija button{
     background-color: aquamarine;
     border: 5px solid green;
     color: black;

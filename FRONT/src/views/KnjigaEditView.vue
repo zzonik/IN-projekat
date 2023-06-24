@@ -50,7 +50,7 @@
             </select>
           </div>
           <div class="form-row">
-            <button class="dugme" @click="sacuvajIzmene">Sacuvaj izmene</button>
+            <button class="dugmeKnjiga" @click="sacuvajIzmene">Sacuvaj izmene</button>
           </div>
         </div>
       </div>
